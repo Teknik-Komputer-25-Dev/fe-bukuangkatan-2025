@@ -1,7 +1,7 @@
 # 🎓 Student Management Dashboard
 
 Sebuah aplikasi **frontend** sederhana untuk mengelola data mahasiswa, dibangun dengan **Vue 3**, **Vite**, dan **TailwindCSS**.  
-Proyek ini berfokus pada arsitektur yang bersih, maintainable, dan siap dikembangkan lebih lanjut.
+Proyek ini berfokus pada arsitektur yang bersih, maintainable, dan siap dikembangkan lebih lanjut. Bismillah dalam nama Allah yang maha pengasih dan maha penyayang
 
 ---
 
