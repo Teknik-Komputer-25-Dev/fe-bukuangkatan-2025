@@ -1,0 +1,10 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+@import "tailwindcss";
+
+/* Custom global styles */
+:root {
+  font-family: 'Poppins', system-ui, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+}
