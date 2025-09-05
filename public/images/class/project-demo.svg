@@ -1,0 +1,75 @@
+<!-- SVG Placeholder untuk Project Demo -->
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="url(#paint0_linear_3_1)"/>
+  
+  <!-- Presentation screen -->
+  <rect x="200" y="80" width="400" height="240" rx="10" fill="white" opacity="0.9"/>
+  <rect x="220" y="100" width="360" height="200" rx="5" fill="#1f2937"/>
+  
+  <!-- Content on screen -->
+  <rect x="240" y="120" width="100" height="60" rx="5" fill="#3b82f6"/>
+  <rect x="360" y="120" width="100" height="60" rx="5" fill="#ef4444"/>
+  <rect x="480" y="120" width="100" height="60" rx="5" fill="#10b981"/>
+  
+  <!-- Code/chart lines -->
+  <rect x="240" y="200" width="320" height="3" fill="#6b7280"/>
+  <rect x="240" y="210" width="280" height="3" fill="#6b7280"/>
+  <rect x="240" y="220" width="340" height="3" fill="#6b7280"/>
+  <rect x="240" y="230" width="200" height="3" fill="#6b7280"/>
+  
+  <!-- Graph -->
+  <polyline points="240,260 280,240 320,220 360,200 400,180 440,160" stroke="#10b981" stroke-width="3" fill="none"/>
+  <polyline points="240,280 280,270 320,250 360,240 400,220 440,200" stroke="#ef4444" stroke-width="3" fill="none"/>
+  
+  <!-- Presenter -->
+  <circle cx="120" cy="200" r="30" fill="white" opacity="0.9"/>
+  <rect x="90" y="230" width="60" height="80" rx="30" fill="white" opacity="0.9"/>
+  
+  <!-- Pointer/stick -->
+  <line x1="150" y1="250" x2="200" y2="200" stroke="white" stroke-width="3"/>
+  
+  <!-- Audience -->
+  <g opacity="0.8">
+    <!-- Row 1 -->
+    <circle cx="300" cy="380" r="20" fill="white"/>
+    <circle cx="350" cy="380" r="20" fill="white"/>
+    <circle cx="400" cy="380" r="20" fill="white"/>
+    <circle cx="450" cy="380" r="20" fill="white"/>
+    <circle cx="500" cy="380" r="20" fill="white"/>
+    
+    <!-- Row 2 -->
+    <circle cx="280" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="330" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="380" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="430" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="480" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="520" cy="420" r="18" fill="rgba(255,255,255,0.8)"/>
+  </g>
+  
+  <!-- Innovation icons -->
+  <circle cx="650" cy="100" r="25" fill="rgba(255,255,255,0.2)"/>
+  <text x="650" y="110" text-anchor="middle" font-family="Arial" font-size="20" fill="white">💡</text>
+  
+  <circle cx="700" cy="200" r="25" fill="rgba(255,255,255,0.2)"/>
+  <text x="700" y="210" text-anchor="middle" font-family="Arial" font-size="20" fill="white">🚀</text>
+  
+  <circle cx="80" cy="120" r="25" fill="rgba(255,255,255,0.2)"/>
+  <text x="80" y="130" text-anchor="middle" font-family="Arial" font-size="20" fill="white">⚙️</text>
+  
+  <!-- Title overlay -->
+  <rect x="0" y="400" width="800" height="100" fill="url(#paint1_linear_3_1)"/>
+  <text x="400" y="440" text-anchor="middle" font-family="Arial Black" font-size="32" fill="white">DEMO PROYEK</text>
+  <text x="400" y="470" text-anchor="middle" font-family="Arial" font-size="18" fill="rgba(255,255,255,0.8)">Oktober 2025</text>
+  
+  <defs>
+    <linearGradient id="paint0_linear_3_1" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dc2626"/>
+      <stop offset="0.5" stop-color="#ef4444"/>
+      <stop offset="1" stop-color="#f87171"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear_3_1" x1="0" y1="400" x2="0" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="transparent"/>
+      <stop offset="1" stop-color="rgba(0,0,0,0.7)"/>
+    </linearGradient>
+  </defs>
+</svg>
