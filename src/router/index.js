@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // Import views (lazy loading untuk performa yang lebih baik)
-const HomeView = () => import('../views/Home.vue')
-const AboutView = () => import('../views/AboutView.vue')
+const HomeView = () => import('../views/HomeView.vue')
+const AboutView = () => import('../views/IdentityView.vue')
 const ProfileView = () => import('../views/ProfileView.vue')
 
 const routes = [
@@ -12,8 +12,8 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/identity',
+    name: 'Identity',
     component: AboutView
   },
   {
