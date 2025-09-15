@@ -1,5 +1,7 @@
 <template>
-  <section class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-12">
+  <section class="min-h-screen relative w-full flex flex-col items-center justify-center px-4 py-12">
+    <div class="absolute top-0 right-0 h-full w-[102px] bg-gray-300"></div>
+    
     <!-- Visi -->
     <div class="max-w-4xl w-full mx-auto mb-20">
       <h2 class="text-5xl md:text-6xl font-bold text-gray-700 mb-8">Visi</h2>

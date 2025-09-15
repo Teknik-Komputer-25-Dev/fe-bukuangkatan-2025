@@ -5,7 +5,7 @@
     <!-- Konten utama -->
     <div class="relative flex flex-col items-start justify-center min-h-screen" style="margin-left:190px;">
       <div class="mb-10 text-left">
-        <span class="text-7xl font-bold">
+        <span class="text-7xl font-bold text-gray-700">
           About Us
         </span>
       </div>
