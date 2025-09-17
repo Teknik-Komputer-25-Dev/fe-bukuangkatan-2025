@@ -1,16 +1,14 @@
 <template>
   <div class="profile">
-    <h1>Profile Page</h1>
-    <p>This is the profile page - placeholder content</p>
-    
-    <div class="mt-4">
-      <RouterLink to="/" class="text-blue-500 hover:underline">Back to Home</RouterLink>
-    </div>
+    <SearchBar />
+    <ProfileCards />
   </div>
 </template>
 
 <script setup>
 // Profile page logic will go here
+import SearchBar from '../components/features/profile/SearchBar.vue';
+import ProfileCards from '../components/features/profile/ProfileCards.vue';
 </script>
 
 <style scoped>
