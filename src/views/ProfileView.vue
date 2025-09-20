@@ -1,14 +1,18 @@
 <template>
   <div class="profile">
-    <SearchBar />
-    <ProfileCards />
+    <!-- <SearchBar /> -->
+    <PageHeader />
+    <!-- <ProfileCards /> -->
+    <CardsSearch />
   </div>
 </template>
 
 <script setup>
 // Profile page logic will go here
 import SearchBar from '../components/features/profile/SearchBar.vue';
+import PageHeader from '../components/features/profile/PageHeader.vue';
 import ProfileCards from '../components/features/profile/ProfileCards.vue';
+import CardsSearch from '../components/features/profile/CardsSearch.vue';
 </script>
 
 <style scoped>
