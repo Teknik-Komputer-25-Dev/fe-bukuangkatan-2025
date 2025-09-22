@@ -1,0 +1,1 @@
+berisi layout web ny, navbar ama footer doang

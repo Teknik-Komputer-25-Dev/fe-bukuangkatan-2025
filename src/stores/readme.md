@@ -1,0 +1,1 @@
+ini nnti untuk logic data nya, buat state management

@@ -1,0 +1,61 @@
+<!-- SVG Placeholder untuk Study Group -->
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="url(#paint0_linear_2_1)"/>
+  
+  <!-- Table -->
+  <ellipse cx="400" cy="300" rx="200" ry="80" fill="rgba(255,255,255,0.3)"/>
+  
+  <!-- Books and laptops on table -->
+  <rect x="300" y="260" width="40" height="30" rx="5" fill="white" opacity="0.9"/>
+  <rect x="360" y="250" width="80" height="50" rx="8" fill="white" opacity="0.8"/>
+  <rect x="460" y="265" width="35" height="25" rx="3" fill="white" opacity="0.9"/>
+  
+  <!-- People around table -->
+  <g opacity="0.9">
+    <!-- Person 1 - Left -->
+    <circle cx="150" cy="220" r="25" fill="white"/>
+    <rect x="125" y="245" width="50" height="70" rx="25" fill="white"/>
+    
+    <!-- Person 2 - Top -->
+    <circle cx="400" cy="150" r="25" fill="white"/>
+    <rect x="375" y="175" width="50" height="70" rx="25" fill="white"/>
+    
+    <!-- Person 3 - Right -->
+    <circle cx="650" cy="220" r="25" fill="white"/>
+    <rect x="625" y="245" width="50" height="70" rx="25" fill="white"/>
+    
+    <!-- Person 4 - Bottom -->
+    <circle cx="400" cy="380" r="25" fill="white"/>
+    <rect x="375" y="405" width="50" height="70" rx="25" fill="white"/>
+  </g>
+  
+  <!-- Learning elements floating -->
+  <circle cx="100" cy="100" r="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="100" y="110" text-anchor="middle" font-family="Arial" font-size="24" fill="white">📚</text>
+  
+  <circle cx="700" cy="120" r="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="700" y="130" text-anchor="middle" font-family="Arial" font-size="24" fill="white">💻</text>
+  
+  <circle cx="150" cy="450" r="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="150" y="460" text-anchor="middle" font-family="Arial" font-size="24" fill="white">✏️</text>
+  
+  <circle cx="650" cy="420" r="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="650" y="430" text-anchor="middle" font-family="Arial" font-size="24" fill="white">🔬</text>
+  
+  <!-- Title overlay -->
+  <rect x="0" y="400" width="800" height="100" fill="url(#paint1_linear_2_1)"/>
+  <text x="400" y="440" text-anchor="middle" font-family="Arial Black" font-size="32" fill="white">BELAJAR BERSAMA</text>
+  <text x="400" y="470" text-anchor="middle" font-family="Arial" font-size="18" fill="rgba(255,255,255,0.8)">September 2025</text>
+  
+  <defs>
+    <linearGradient id="paint0_linear_2_1" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7c3aed"/>
+      <stop offset="0.5" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear_2_1" x1="0" y1="400" x2="0" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="transparent"/>
+      <stop offset="1" stop-color="rgba(0,0,0,0.7)"/>
+    </linearGradient>
+  </defs>
+</svg>
