@@ -3,19 +3,18 @@
     <!-- Header -->
     <div class="mb-10 text-center md:text-left">
       <h1 class="text-3xl md:text-4xl font-bold">TEKKOM 25.</h1>
-      <p class="text-gray-500 mt-2">
-        OUR GALLERY.
-      </p>
+      <p class="text-gray-500 mt-2">OUR GALLERY.</p>
     </div>
 
     <!-- Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
       <!-- Kiri -->
       <div class="flex flex-col gap-6 md:gap-12">
-        <!-- Card Besar (Landscape) -->
+        <!-- Card Besar Kiri-->
         <div
           v-if="gallery[0]"
-          class="relative bg-gray-300 rounded-lg aspect-[16/9] bg-cover bg-center cursor-pointer"
+          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+          :class="gallery[0].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
           :style="{ backgroundImage: `url(${gallery[0].image})` }"
           @click="openCard(gallery[0])"
         >
@@ -29,12 +28,13 @@
           </div>
         </div>
 
-        <!-- 2 Card Kecil (Portrait) -->
+        <!-- 2 Card Kecil -->
         <div class="grid grid-cols-2 gap-6 md:gap-12">
           <div
             v-for="(item, i) in gallery.slice(1, 3)"
             :key="i"
-            class="relative bg-gray-200 rounded-lg aspect-[3/4] bg-cover bg-center cursor-pointer"
+            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
             :style="{ backgroundImage: `url(${item.image})` }"
             @click="openCard(item)"
           >
@@ -52,12 +52,13 @@
 
       <!-- Kanan -->
       <div class="flex flex-col gap-6 md:gap-12">
-        <!-- 2 Card Kecil (Portrait) -->
+        <!-- 2 Card Kecil -->
         <div class="grid grid-cols-2 gap-6 md:gap-12">
           <div
             v-for="(item, i) in gallery.slice(3, 5)"
             :key="i"
-            class="relative bg-gray-200 rounded-lg aspect-[3/4] bg-cover bg-center cursor-pointer"
+            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
             :style="{ backgroundImage: `url(${item.image})` }"
             @click="openCard(item)"
           >
@@ -72,10 +73,11 @@
           </div>
         </div>
 
-        <!-- Card Besar (Landscape) -->
+        <!-- Card Besar -->
         <div
           v-if="gallery[5]"
-          class="relative bg-gray-300 rounded-lg aspect-[16/9] bg-cover bg-center cursor-pointer"
+          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+          :class="gallery[5].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
           :style="{ backgroundImage: `url(${gallery[5].image})` }"
           @click="openCard(gallery[5])"
         >
@@ -91,8 +93,7 @@
       </div>
     </div>
 
-    <!-- Modal -->
-    <CardModal
+    <Card
       v-if="selectedCard"
       :card="selectedCard"
       @close="selectedCard = null"
@@ -102,17 +103,65 @@
 
 <script setup>
 import { ref } from "vue";
-import CardModal from "./Card.vue";
+import Card from "./Card.vue";
 
 const selectedCard = ref(null);
 
 const gallery = ref([
-  { title: "TEKKOM 25", image: "https://www.hindustantimes.com/ht-img/img/2024/06/24/550x309/jujutsu-0_1706698004936_1719216182186.jpg", description: "Compile Sukses, No error, Running" },
-  { title: "TEKKOM 25", image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1", description: "Compile Sukses, No error, Running" },
-  { title: "TEKKOM 25", image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1", description: "Compile Sukses, No error, Running" },
-  { title: "TEKKOM 25", image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1", description: "Compile Sukses, No error, Running" },
-  { title: "TEKKOM 25", image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1", description: "Compile Sukses, No error, Running" },
-  { title: "TEKKOM 25", image: "https://www.hindustantimes.com/ht-img/img/2024/06/24/550x309/jujutsu-0_1706698004936_1719216182186.jpg", description: "Compile Sukses, No error, Running" },
+  {
+    title: "Landscape",
+    image: "https://www.hindustantimes.com/ht-img/img/2024/06/24/550x309/jujutsu-0_1706698004936_1719216182186.jpg",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Landscape."
+    ],
+    aspect: "landscape",
+  },
+  {
+    title: "Portrait",
+    image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Potrait."
+    ],
+    aspect: "portrait",
+  },
+  {
+    title: "Portrait 2",
+    image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Potrait."
+    ],
+    aspect: "portrait",
+  },
+  {
+    title: "Portrait 3",
+    image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Potrait."
+    ],
+    aspect: "portrait",
+  },
+  {
+    title: "Portrait 4",
+    image: "https://i0.wp.com/gkids.com/wp-content/uploads/2025/05/JJK_Poster_WEB_2025-04-30_scaled.jpg?fit=1000%2C1463&ssl=1",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Potrait."
+    ],
+    aspect: "portrait",
+  },
+  {
+    title: "Landscape 2",
+    image: "https://www.hindustantimes.com/ht-img/img/2024/06/24/550x309/jujutsu-0_1706698004936_1719216182186.jpg",
+    description: [
+      "Compile sukses, No Error, Running.",
+      "Contoh Gambar Landscape."
+    ],
+    aspect: "landscape",
+  },
 ]);
 
 function openCard(item) {
