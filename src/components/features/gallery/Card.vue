@@ -1,3 +1,14 @@
+<script setup>
+import { X } from "lucide-vue-next";
+
+defineProps({
+  card: {
+    type: Object,
+    required: true,
+  },
+});
+</script>
+
 <template>
   <transition
     enter-active-class="transition ease-out duration-300"
@@ -9,55 +20,76 @@
   >
     <div
       v-if="card"
-      class="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+      class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
     >
       <div
-        class="bg-white rounded-xl shadow-lg max-w-lg w-full p-6 relative max-h-[80vh] overflow-y-auto"
+        class="bg-white rounded-2xl shadow-xl w-full relative flex flex-col overflow-hidden"
+        :class="card.aspect === 'portrait' ? 'max-w-sm max-h-[85vh]' : 'max-w-4xl max-h-[90vh]'"
       >
-        <!-- Close -->
+        <!-- Tombol Close -->
         <button
-          class="absolute top-3 right-3 text-gray-500 hover:text-black"
+          class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 transition-transform transform hover:scale-110 z-10"
           @click="$emit('close')"
         >
-          ✕
+          <X class="w-6 h-6" />
         </button>
 
-        <!-- Image -->
-        <div
-          class="h-56 bg-cover bg-center rounded-lg mb-4"
-          :style="{ backgroundImage: `url(${card.image})` }"
-        ></div>
+        <!-- Konten Scroll -->
+        <div class="overflow-y-auto p-6 space-y-4 custom-scroll">
+          <!-- Gambar -->
+          <div
+            class="w-full bg-cover bg-center rounded-lg"
+            :class="card.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+            :style="{ backgroundImage: `url(${card.image})` }"
+          ></div>
 
-        <!-- Category -->
-        <p class="text-xs uppercase font-semibold text-gray-500">
-          Teknik Komputer 2025
-        </p>
+          <!-- Kategori -->
+          <p class="text-xs uppercase font-semibold text-gray-500">
+            Teknik Komputer 2025
+          </p>
 
-        <!-- Title -->
-        <h2 class="text-2xl font-bold mb-2">{{ card.title }}</h2>
+          <!-- Judul -->
+          <h2 class="text-2xl font-bold">{{ card.title }}</h2>
 
-        <!-- Description -->
-        <p class="text-gray-600 mb-4">
-          {{
-            card.description ||
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed tristique massa. Suspendisse potenti."
-          }}
-        </p>
+          <!-- Deskripsi Multi-Paragraf -->
+          <div class="text-gray-600 space-y-2">
+            <template v-if="Array.isArray(card.description)">
+              <p v-for="(para, index) in card.description" :key="index">{{ para }}</p>
+            </template>
+            <template v-else>
+              <p>
+                {{
+                  card.description ||
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed tristique massa. Suspendisse potenti."
+                }}
+              </p>
+            </template>
+          </div>
 
-        <!-- Button -->
-        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          More Information
-        </button>
+          <!-- Tombol -->
+          <button
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            More Information
+          </button>
+        </div>
       </div>
     </div>
   </transition>
 </template>
 
-<script setup>
-defineProps({
-  card: {
-    type: Object,
-    required: true,
-  },
-});
-</script>
+<style scoped>
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 9999px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+</style>
