@@ -25,8 +25,6 @@ const __dirname = path.dirname(__filename);
 // Konfigurasi Cloudinary
 cloudinary.config({
   cloud_name: 'dr5hcyo7i',
-  api_key: '744721611464878',
-  api_secret: 'KZ6GwjXCVlYkAEbboMNLmRlfusI'
 });
 
 /**
