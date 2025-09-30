@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "convert": "node convert.js"
+    "preview": "vite preview"
 
   },
   "dependencies": {
     "@vueuse/core": "^13.9.0",
+    "cloudinary": "^2.7.0",
     "lottie-web": "^5.13.0",
     "lucide-vue-next": "^0.542.0",
     "pinia": "^3.0.3",

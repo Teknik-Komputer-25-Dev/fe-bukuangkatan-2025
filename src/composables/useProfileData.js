@@ -1,5 +1,9 @@
 import { ref, computed, watch } from 'vue'
 
+// Constants
+const DEFAULT_AVATAR = "/images/default-avatar.svg"
+const SEARCH_DEBOUNCE_MS = 300
+
 export function useProfileData() {
   // State management
   const allProfiles = ref([])
@@ -12,6 +16,21 @@ export function useProfileData() {
   // Pagination state
   const currentPage = ref(1)
   const itemsPerPage = ref(20)
+
+  // Helper function to normalize profile data
+  const normalizeProfile = (profile) => ({
+    ...profile,
+    imageUrl: profile.formalphoto || DEFAULT_AVATAR,
+    imageLoaded: false
+  })
+
+  // Helper function to validate profile data
+  const isValidProfile = (profile) => {
+    return profile && 
+           typeof profile === 'object' && 
+           profile.studentId && 
+           profile.fullName
+  }
   
   // Load data from JSON
   const loadProfiles = async () => {
@@ -26,26 +45,15 @@ export function useProfileData() {
       }
       const data = await response.json()
       
-      // Transform data to include proper image URLs
-      allProfiles.value = data.map((profile) => {
-        // console.log("Profile full:", profile);
-        // console.log(
-        //   "formalphoto raw:",
-        //      profile.formalphoto
-        //     ? transformGoogleDriveUrl(profile.formalphoto)
-        //     : "/images/default-avatar.svg"
-        // );
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid data format: expected an array')
+      }
 
-        return {
-          ...profile,
-          imageUrl: profile.formalphoto
-            ? transformGoogleDriveUrl(profile.formalphoto)
-            : "/images/default-avatar.svg",
-        };
-      });
+      // Transform and validate profile data
+      allProfiles.value = data
+        .filter(isValidProfile)
+        .map(normalizeProfile)
 
-    
-    
       
     } catch (err) {
       error.value = `Failed to load profiles: ${err.message}`
@@ -53,21 +61,6 @@ export function useProfileData() {
     } finally {
       isLoading.value = false
     }
-  }
-  
-  const transformGoogleDriveUrl = (url) => {
-    if (!url) return '/images/default-avatar.svg'
-    
-    const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9-_]+)/) || url.match(/id=([a-zA-Z0-9-_]+)/)
-    
-    if (fileIdMatch && fileIdMatch[1]) {
-      
-      return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`
-
-    }
-    
-    return url
-    
   }
   
   const debouncedSearchQuery = ref('')
@@ -81,9 +74,25 @@ export function useProfileData() {
     searchTimeout = setTimeout(() => {
       debouncedSearchQuery.value = newQuery
       currentPage.value = 1 
-    }, 300) 
+    }, SEARCH_DEBOUNCE_MS) 
   })
   
+  // Helper function for search matching
+  const matchesSearchQuery = (profile, query) => {
+    const searchFields = [
+      profile.fullName,
+      profile.nickname,
+      profile.studentId,
+      profile.city,
+      profile.class,
+      profile.birthplace
+    ]
+    
+    return searchFields.some(field => 
+      field?.toLowerCase().includes(query)
+    )
+  }
+
   const filteredProfiles = computed(() => {
     if (!debouncedSearchQuery.value.trim()) {
       return allProfiles.value
@@ -91,16 +100,9 @@ export function useProfileData() {
     
     const query = debouncedSearchQuery.value.toLowerCase().trim()
     
-    return allProfiles.value.filter(profile => {
-      return (
-        profile.fullName?.toLowerCase().includes(query) ||
-        profile.nickname?.toLowerCase().includes(query) ||
-        profile.studentId?.toLowerCase().includes(query) ||
-        profile.city?.toLowerCase().includes(query) ||
-        profile.class?.toLowerCase().includes(query) ||
-        profile.birthplace?.toLowerCase().includes(query)
-      )
-    })
+    return allProfiles.value.filter(profile => 
+      matchesSearchQuery(profile, query)
+    )
   })
   
   const sortedProfiles = computed(() => {
