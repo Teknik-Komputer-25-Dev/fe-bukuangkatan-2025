@@ -4,18 +4,19 @@
     <RouterLink
       to="/"
       class="flex items-center gap-2 px-4 py-2 rounded-full transition font-semibold  hover:bg-[#d1f3ff] hover:text-[#26B0F0]"
+      :class="isActive('/') ? 'text-[#26B0F0] ' : ''"
     >
       <LaptopIcon class="w-6 h-6" />
-      <span>Logo</span>
+      <span>Home</span>
     </RouterLink>
     <!-- Home -->
-    <RouterLink
+    <!-- <RouterLink
       to="/"
       class="px-4 py-2 rounded-full font-medium transition  hover:bg-[#d1f3ff] hover:text-[#26B0F0]"
       :class="isActive('/') ? 'text-[#26B0F0] ' : ''"
     >
       Home
-    </RouterLink>
+    </RouterLink> -->
     <!-- Identity -->
     <RouterLink
       to="/identity"

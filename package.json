@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "convert": "node convert.js"
+
   },
   "dependencies": {
     "@vueuse/core": "^13.9.0",
@@ -25,6 +27,7 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/devtools": "^8.0.1",
     "@vue/test-utils": "^2.4.6",
+    "csvtojson": "^2.0.10",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.4.0",
