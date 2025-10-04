@@ -1,10 +1,14 @@
 <template>
   <div>
-    <!-- Search Bar -->
-    <SearchBar v-model="searchQuery" :current-sort="sortBy" :current-sort-order="sortOrder" @search="handleSearch"
-      @sort="handleSort" @toggle-sort="handleToggleSort" @clear="handleClear" />
+    <SearchBar 
+    v-model="searchQuery" 
+    :current-sort="sortBy" 
+    :current-sort-order="sortOrder" 
+    @search="handleSearch"
+    @sort="handleSort"
+    @toggle-sort="handleToggleSort"
+    @clear="handleClear" />
 
-    <!-- Loading State -->
     <div v-if="isLoading" class="min-h-screen bg-white">
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -13,7 +17,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="error" class="min-h-screen bg-white flex items-center justify-center">
       <div class="text-center p-8">
         <div class="text-red-500 text-lg mb-4">
@@ -32,7 +35,6 @@
       </div>
     </div>
 
-    <!-- No Results State -->
     <div v-else-if="totalResults === 0 && !isLoading" class="min-h-screen bg-white flex items-center justify-center">
       <div class="text-center p-8">
         <div class="text-gray-400 text-lg mb-4">
@@ -53,9 +55,7 @@
       </div>
     </div>
 
-    <!-- Profile Cards -->
     <div v-else class="min-h-screen bg-white">
-      <!-- Search Results Info -->
       <div v-if="debouncedSearchQuery" class="flex justify-center mt-6">
         <div class="text-sm text-gray-600 bg-blue-50 px-4 py-2 rounded-full">
           Found {{ totalResults }} result{{ totalResults !== 1 ? 's' : '' }} for "{{ debouncedSearchQuery }}"
@@ -71,12 +71,14 @@
             class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col items-start hover:shadow-md transition-shadow duration-200 group">
             <div class="w-full flex justify-center">
               <div class="relative">
-                <img :src="profile.imageUrl" :alt="`${profile.fullName} profile photo`"
-                  class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
-                  loading="lazy" 
-                  @load="handleImageLoad(profile)" 
-                  @error="handleImageError(profile, $event)" />
-                <!-- Loading placeholder for images -->
+                <img 
+                :src="profile.imageUrl" 
+                :alt="`${profile.fullName} profile photo`"
+                class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
+                loading="lazy"
+                @load="handleImageLoad(profile)"
+                @error="handleImageError(profile, $event)" />
+                
                 <div v-if="!profile.imageLoaded"
                   class="absolute inset-0 w-40 h-40 bg-gray-200 rounded-xl mb-4 animate-pulse flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24"

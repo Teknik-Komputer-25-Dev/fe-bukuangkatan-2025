@@ -7,7 +7,7 @@
             ref="searchInput"
             v-model="localQuery"
             type="text" 
-            placeholder="Search by name, NIM, city, or class..." 
+            placeholder="Search by name, NIM, city..." 
             class="flex-1 bg-transparent outline-none px-2 placeholder-gray-400 text-gray-700 w-30"
             @keyup.enter="handleSearch"
             @input="handleInput"
@@ -80,7 +80,7 @@
                       <path v-if="currentSortOrder === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                       <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
                     </svg>
-                    {{ currentSortOrder === 'asc' ? 'Ascending (A-Z)' : 'Descending (Z-A)' }}
+                    {{ getSortOrderText() }}
                   </span>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -121,7 +121,7 @@
     },
     currentSort: {
       type: String,
-      default: 'fullName'
+      default: 'nameLength'
     },
     currentSortOrder: {
       type: String,
@@ -136,11 +136,9 @@
   const showSortOptions = ref(false)
   
   const sortOptions = [
-    { value: 'fullName', label: 'Name' },
-    { value: 'studentId', label: 'Student ID' },
-    { value: 'city', label: 'City' },
-    { value: 'class', label: 'Class' },
-    { value: 'nickname', label: 'Nickname' }
+    { value: 'nameLength', label: 'Jumlah Huruf Nama' },
+    { value: 'height', label: 'Tinggi Badan' },
+    { value: 'city', label: 'Kota' }
   ]
 
   watch(() => props.modelValue, (newValue) => {
@@ -170,6 +168,21 @@
   const handleToggleSort = () => {
     emit('toggle-sort')
     showSortOptions.value = false
+  }
+
+  const getSortOrderText = () => {
+    const isAsc = props.currentSortOrder === 'asc'
+    
+    switch (props.currentSort) {
+      case 'nameLength':
+        return isAsc ? 'Nama Pendek → Panjang' : 'Nama Panjang → Pendek'
+      case 'height':
+        return isAsc ? 'Pendek → Tinggi' : 'Tinggi → Pendek'
+      case 'city':
+        return isAsc ? 'Kota A-Z' : 'Kota Z-A'
+      default:
+        return isAsc ? 'Ascending (A-Z)' : 'Descending (Z-A)'
+    }
   }
 
   const handleClickOutside = (event) => {

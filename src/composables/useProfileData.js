@@ -17,7 +17,7 @@ export function useProfileData() {
   const isLoading = ref(false)
   const error = ref(null)
   const searchQuery = ref('')
-  const sortBy = ref('fullName')
+  const sortBy = ref('nameLength') // Default to custom name length sorting
   const sortOrder = ref('asc')
   
   // Pagination state
@@ -28,7 +28,8 @@ export function useProfileData() {
   const normalizeProfile = (profile) => ({
     ...profile,
     imageUrl: profile.formalphoto || DEFAULT_AVATAR,
-    imageLoaded: false
+    imageLoaded: false,
+    height: profile.height || 165 // Default height 165cm if not provided
   })
 
   // Helper function to validate profile data
@@ -112,19 +113,58 @@ export function useProfileData() {
     )
   })
   
+  // Custom sorting functions
+  const getNameLength = (profile) => {
+    const name = profile.fullName || profile.nickname || ''
+    return name.replace(/\s/g, '').length // Remove spaces and count characters
+  }
+  
+  const getHeight = (profile) => {
+    return parseInt(profile.height) || 165 // Default to 165cm
+  }
+  
+  const customSort = (profiles, sortField, order) => {
+    return profiles.sort((a, b) => {
+      let comparison = 0
+      
+      switch (sortField) {
+        case 'nameLength':
+          const aLength = getNameLength(a)
+          const bLength = getNameLength(b)
+          
+          if (aLength === bLength) {
+            // If name lengths are equal, sort by height
+            const aHeight = getHeight(a)
+            const bHeight = getHeight(b)
+            comparison = aHeight - bHeight
+          } else {
+            comparison = aLength - bLength
+          }
+          break
+          
+        case 'height':
+          comparison = getHeight(a) - getHeight(b)
+          break
+          
+        case 'fullName':
+        case 'nickname':
+        case 'studentId':
+        case 'city':
+        case 'class':
+        default:
+          const aValue = a[sortField]?.toString().toLowerCase() || ''
+          const bValue = b[sortField]?.toString().toLowerCase() || ''
+          comparison = aValue.localeCompare(bValue)
+          break
+      }
+      
+      return order === 'desc' ? -comparison : comparison
+    })
+  }
+
   const sortedProfiles = computed(() => {
     const profiles = [...filteredProfiles.value]
-    
-    return profiles.sort((a, b) => {
-      const aValue = a[sortBy.value]?.toString().toLowerCase() || ''
-      const bValue = b[sortBy.value]?.toString().toLowerCase() || ''
-      
-      if (sortOrder.value === 'asc') {
-        return aValue.localeCompare(bValue)
-      } else {
-        return bValue.localeCompare(aValue)
-      }
-    })
+    return customSort(profiles, sortBy.value, sortOrder.value)
   })
   
   const paginatedProfiles = computed(() => {
@@ -182,11 +222,21 @@ export function useProfileData() {
   const setSorting = (field, order = 'asc') => {
     sortBy.value = field
     sortOrder.value = order
+    currentPage.value = 1 // Reset to first page when sorting changes
   }
   
   const toggleSortOrder = () => {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+    currentPage.value = 1 // Reset to first page when order changes
   }
+  
+  // Sorting presets for easy use
+  const sortByNameLength = (order = 'asc') => setSorting('nameLength', order)
+  const sortByHeight = (order = 'asc') => setSorting('height', order)
+  const sortByName = (order = 'asc') => setSorting('fullName', order)
+  const sortByNickname = (order = 'asc') => setSorting('nickname', order)
+  const sortByStudentId = (order = 'asc') => setSorting('studentId', order)
+  const sortByClass = (order = 'asc') => setSorting('class', order)
   
   return {
     // State
@@ -216,6 +266,18 @@ export function useProfileData() {
     toggleSortOrder,
     goToPage,
     nextPage,
-    prevPage
+    prevPage,
+    
+    // Custom sorting methods
+    sortByNameLength,
+    sortByHeight,
+    sortByName,
+    sortByNickname,
+    sortByStudentId,
+    sortByClass,
+    
+    // Helper methods
+    getNameLength,
+    getHeight
   }
 }
