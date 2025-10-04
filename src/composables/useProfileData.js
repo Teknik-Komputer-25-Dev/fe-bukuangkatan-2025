@@ -1,10 +1,17 @@
 import { ref, computed, watch } from 'vue'
+import { env, validateEnv, generateCloudinaryUrl } from '@/utils/env.js'
 
 // Constants
 const DEFAULT_AVATAR = "/images/default-avatar.svg"
 const SEARCH_DEBOUNCE_MS = 300
 
 export function useProfileData() {
+  // Validate environment on initialization
+  try {
+    validateEnv()
+  } catch (error) {
+    console.error('Environment validation failed:', error.message)
+  }
   // State management
   const allProfiles = ref([])
   const isLoading = ref(false)

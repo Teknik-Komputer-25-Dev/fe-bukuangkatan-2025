@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
-
+    "preview": "vite preview",
+    "list-photos": "node scripts/list-photos.js",
+    "update-photos": "node scripts/update-photos.js",
+    "photo-updater": "node scripts/photo-updater-cli.js"
   },
   "dependencies": {
     "@vueuse/core": "^13.9.0",
     "cloudinary": "^2.7.0",
+    "dotenv": "^17.2.3",
     "lottie-web": "^5.13.0",
     "lucide-vue-next": "^0.542.0",
     "pinia": "^3.0.3",
