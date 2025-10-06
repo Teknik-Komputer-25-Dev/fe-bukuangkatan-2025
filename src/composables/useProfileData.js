@@ -1,17 +1,44 @@
 import { ref, computed, watch } from 'vue'
+import { env, validateEnv, generateCloudinaryUrl } from '@/utils/env.js'
+
+// Constants
+const DEFAULT_AVATAR = "/images/default-avatar.svg"
+const SEARCH_DEBOUNCE_MS = 300
 
 export function useProfileData() {
+  // Validate environment on initialization
+  try {
+    validateEnv()
+  } catch (error) {
+    console.error('Environment validation failed:', error.message)
+  }
   // State management
   const allProfiles = ref([])
   const isLoading = ref(false)
   const error = ref(null)
   const searchQuery = ref('')
-  const sortBy = ref('fullName')
+  const sortBy = ref('nameLength') // Default to custom name length sorting
   const sortOrder = ref('asc')
   
   // Pagination state
   const currentPage = ref(1)
   const itemsPerPage = ref(20)
+
+  // Helper function to normalize profile data
+  const normalizeProfile = (profile) => ({
+    ...profile,
+    imageUrl: profile.formalphoto || DEFAULT_AVATAR,
+    imageLoaded: false,
+    height: profile.height || 165 // Default height 165cm if not provided
+  })
+
+  // Helper function to validate profile data
+  const isValidProfile = (profile) => {
+    return profile && 
+           typeof profile === 'object' && 
+           profile.studentId && 
+           profile.fullName
+  }
   
   // Load data from JSON
   const loadProfiles = async () => {
@@ -26,26 +53,15 @@ export function useProfileData() {
       }
       const data = await response.json()
       
-      // Transform data to include proper image URLs
-      allProfiles.value = data.map((profile) => {
-        // console.log("Profile full:", profile);
-        // console.log(
-        //   "formalphoto raw:",
-        //      profile.formalphoto
-        //     ? transformGoogleDriveUrl(profile.formalphoto)
-        //     : "/images/default-avatar.svg"
-        // );
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid data format: expected an array')
+      }
 
-        return {
-          ...profile,
-          imageUrl: profile.formalphoto
-            ? transformGoogleDriveUrl(profile.formalphoto)
-            : "/images/default-avatar.svg",
-        };
-      });
+      // Transform and validate profile data
+      allProfiles.value = data
+        .filter(isValidProfile)
+        .map(normalizeProfile)
 
-    
-    
       
     } catch (err) {
       error.value = `Failed to load profiles: ${err.message}`
@@ -53,21 +69,6 @@ export function useProfileData() {
     } finally {
       isLoading.value = false
     }
-  }
-  
-  const transformGoogleDriveUrl = (url) => {
-    if (!url) return '/images/default-avatar.svg'
-    
-    const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9-_]+)/) || url.match(/id=([a-zA-Z0-9-_]+)/)
-    
-    if (fileIdMatch && fileIdMatch[1]) {
-      
-      return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`
-
-    }
-    
-    return url
-    
   }
   
   const debouncedSearchQuery = ref('')
@@ -81,9 +82,25 @@ export function useProfileData() {
     searchTimeout = setTimeout(() => {
       debouncedSearchQuery.value = newQuery
       currentPage.value = 1 
-    }, 300) 
+    }, SEARCH_DEBOUNCE_MS) 
   })
   
+  // Helper function for search matching
+  const matchesSearchQuery = (profile, query) => {
+    const searchFields = [
+      profile.fullName,
+      profile.nickname,
+      profile.studentId,
+      profile.city,
+      profile.class,
+      profile.birthplace
+    ]
+    
+    return searchFields.some(field => 
+      field?.toLowerCase().includes(query)
+    )
+  }
+
   const filteredProfiles = computed(() => {
     if (!debouncedSearchQuery.value.trim()) {
       return allProfiles.value
@@ -91,31 +108,63 @@ export function useProfileData() {
     
     const query = debouncedSearchQuery.value.toLowerCase().trim()
     
-    return allProfiles.value.filter(profile => {
-      return (
-        profile.fullName?.toLowerCase().includes(query) ||
-        profile.nickname?.toLowerCase().includes(query) ||
-        profile.studentId?.toLowerCase().includes(query) ||
-        profile.city?.toLowerCase().includes(query) ||
-        profile.class?.toLowerCase().includes(query) ||
-        profile.birthplace?.toLowerCase().includes(query)
-      )
-    })
+    return allProfiles.value.filter(profile => 
+      matchesSearchQuery(profile, query)
+    )
   })
   
+  // Custom sorting functions
+  const getNameLength = (profile) => {
+    const name = profile.fullName || profile.nickname || ''
+    return name.replace(/\s/g, '').length // Remove spaces and count characters
+  }
+  
+  const getHeight = (profile) => {
+    return parseInt(profile.height) || 165 // Default to 165cm
+  }
+  
+  const customSort = (profiles, sortField, order) => {
+    return profiles.sort((a, b) => {
+      let comparison = 0
+      
+      switch (sortField) {
+        case 'nameLength':
+          const aLength = getNameLength(a)
+          const bLength = getNameLength(b)
+          
+          if (aLength === bLength) {
+            // If name lengths are equal, sort by height
+            const aHeight = getHeight(a)
+            const bHeight = getHeight(b)
+            comparison = aHeight - bHeight
+          } else {
+            comparison = aLength - bLength
+          }
+          break
+          
+        case 'height':
+          comparison = getHeight(a) - getHeight(b)
+          break
+          
+        case 'fullName':
+        case 'nickname':
+        case 'studentId':
+        case 'city':
+        case 'class':
+        default:
+          const aValue = a[sortField]?.toString().toLowerCase() || ''
+          const bValue = b[sortField]?.toString().toLowerCase() || ''
+          comparison = aValue.localeCompare(bValue)
+          break
+      }
+      
+      return order === 'desc' ? -comparison : comparison
+    })
+  }
+
   const sortedProfiles = computed(() => {
     const profiles = [...filteredProfiles.value]
-    
-    return profiles.sort((a, b) => {
-      const aValue = a[sortBy.value]?.toString().toLowerCase() || ''
-      const bValue = b[sortBy.value]?.toString().toLowerCase() || ''
-      
-      if (sortOrder.value === 'asc') {
-        return aValue.localeCompare(bValue)
-      } else {
-        return bValue.localeCompare(aValue)
-      }
-    })
+    return customSort(profiles, sortBy.value, sortOrder.value)
   })
   
   const paginatedProfiles = computed(() => {
@@ -173,11 +222,21 @@ export function useProfileData() {
   const setSorting = (field, order = 'asc') => {
     sortBy.value = field
     sortOrder.value = order
+    currentPage.value = 1 // Reset to first page when sorting changes
   }
   
   const toggleSortOrder = () => {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+    currentPage.value = 1 // Reset to first page when order changes
   }
+  
+  // Sorting presets for easy use
+  const sortByNameLength = (order = 'asc') => setSorting('nameLength', order)
+  const sortByHeight = (order = 'asc') => setSorting('height', order)
+  const sortByName = (order = 'asc') => setSorting('fullName', order)
+  const sortByNickname = (order = 'asc') => setSorting('nickname', order)
+  const sortByStudentId = (order = 'asc') => setSorting('studentId', order)
+  const sortByClass = (order = 'asc') => setSorting('class', order)
   
   return {
     // State
@@ -207,6 +266,18 @@ export function useProfileData() {
     toggleSortOrder,
     goToPage,
     nextPage,
-    prevPage
+    prevPage,
+    
+    // Custom sorting methods
+    sortByNameLength,
+    sortByHeight,
+    sortByName,
+    sortByNickname,
+    sortByStudentId,
+    sortByClass,
+    
+    // Helper methods
+    getNameLength,
+    getHeight
   }
 }
