@@ -67,8 +67,12 @@
 
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div v-for="(profile, index) in paginatedProfiles" :key="profile.studentId || index"
-            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col items-start hover:shadow-md transition-shadow duration-200 group">
+          <div 
+            v-for="(profile, index) in paginatedProfiles" 
+            :key="profile.studentId || index"
+            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col items-start hover:shadow-md transition-shadow duration-200 group cursor-pointer"
+            @click="openPhotoModal(profile)"
+          >
             <div class="w-full flex justify-center">
               <div class="relative">
                 <img 
@@ -78,6 +82,13 @@
                 loading="lazy"
                 @load="handleImageLoad(profile)"
                 @error="handleImageError(profile, $event)" />
+                
+                <!-- Hover Overlay -->
+                <div class="absolute inset-0 w-40 h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
                 
                 <div v-if="!profile.imageLoaded"
                   class="absolute inset-0 w-40 h-40 bg-gray-200 rounded-xl mb-4 animate-pulse flex items-center justify-center">
@@ -114,14 +125,22 @@
         :items-per-page="itemsPerPage" @go-to-page="goToPage" @next-page="nextPage" @prev-page="prevPage"
         @update-items-per-page="updateItemsPerPage" />
     </div>
+
+    <!-- Photo Modal -->
+    <PhotoModal 
+      :is-visible="isModalVisible"
+      :profile="selectedProfile"
+      @close="closePhotoModal"
+    />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import SearchBar from "./SearchBar.vue";
 import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
+import PhotoModal from "@/components/ui/PhotoModal.vue";
 import { useProfileData } from "@/composables/useProfileData.js";
 
 // Use the profile data composable
@@ -152,6 +171,25 @@ const {
   nextPage,
   prevPage
 } = useProfileData();
+
+// Modal state
+const isModalVisible = ref(false);
+const selectedProfile = ref(null);
+
+// Modal methods
+const openPhotoModal = (profile) => {
+  selectedProfile.value = profile;
+  isModalVisible.value = true;
+  // Prevent body scroll when modal is open
+  document.body.style.overflow = 'hidden';
+};
+
+const closePhotoModal = () => {
+  isModalVisible.value = false;
+  selectedProfile.value = null;
+  // Restore body scroll
+  document.body.style.overflow = 'unset';
+};
 
 // Handle search from SearchBar
 const handleSearch = (query) => {
