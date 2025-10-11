@@ -1,13 +1,14 @@
 <template>
   <div>
     <SearchBar 
-    v-model="searchQuery" 
-    :current-sort="sortBy" 
-    :current-sort-order="sortOrder" 
-    @search="handleSearch"
-    @sort="handleSort"
-    @toggle-sort="handleToggleSort"
-    @clear="handleClear" />
+      v-model="searchQuery" 
+      :current-sort="sortBy" 
+      :current-sort-order="sortOrder" 
+      @search="handleSearch"
+      @sort="handleSort"
+      @toggle-sort="handleToggleSort"
+      @clear="handleClear" 
+    />
 
     <div v-if="isLoading" class="min-h-screen bg-white">
       <div class="flex justify-center mt-3">
@@ -67,17 +68,23 @@
 
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div v-for="(profile, index) in paginatedProfiles" :key="profile.studentId || index"
-            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col items-start hover:shadow-md transition-shadow duration-200 group">
+          <div 
+            v-for="(profile, index) in paginatedProfiles" 
+            :key="profile.studentId || index"
+            @click="$emit('open-profile', profile)"
+            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col
+                   items-start hover:shadow-md transition-shadow duration-200 group cursor-pointer"
+          >
             <div class="w-full flex justify-center">
               <div class="relative">
                 <img 
-                :src="profile.imageUrl" 
-                :alt="`${profile.fullName} profile photo`"
-                class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
-                loading="lazy"
-                @load="handleImageLoad(profile)"
-                @error="handleImageError(profile, $event)" />
+                  :src="profile.imageUrl" 
+                  :alt="`${profile.fullName} profile photo`"
+                  class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
+                  loading="lazy"
+                  @load="handleImageLoad(profile)"
+                  @error="handleImageError(profile, $event)" 
+                />
                 
                 <div v-if="!profile.imageLoaded"
                   class="absolute inset-0 w-40 h-40 bg-gray-200 rounded-xl mb-4 animate-pulse flex items-center justify-center">
@@ -110,9 +117,16 @@
       </div>
 
       <!-- Pagination -->
-      <PaginationControls :current-page="currentPage" :total-pages="totalPages" :pagination-info="paginationInfo"
-        :items-per-page="itemsPerPage" @go-to-page="goToPage" @next-page="nextPage" @prev-page="prevPage"
-        @update-items-per-page="updateItemsPerPage" />
+      <PaginationControls 
+        :current-page="currentPage" 
+        :total-pages="totalPages" 
+        :pagination-info="paginationInfo"
+        :items-per-page="itemsPerPage" 
+        @go-to-page="goToPage" 
+        @next-page="nextPage" 
+        @prev-page="prevPage"
+        @update-items-per-page="updateItemsPerPage" 
+      />
     </div>
   </div>
 </template>
@@ -124,9 +138,7 @@ import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
 import { useProfileData } from "@/composables/useProfileData.js";
 
-// Use the profile data composable
 const {
-  // State
   isLoading,
   error,
   searchQuery,
@@ -136,13 +148,11 @@ const {
   currentPage,
   itemsPerPage,
 
-  // Computed
   paginatedProfiles,
   totalPages,
   totalResults,
   paginationInfo,
 
-  // Methods
   loadProfiles,
   setSearchQuery,
   clearSearch,
@@ -153,47 +163,21 @@ const {
   prevPage
 } = useProfileData();
 
-// Handle search from SearchBar
-const handleSearch = (query) => {
-  setSearchQuery(query);
-};
-
-// Handle sorting from SearchBar
-const handleSort = (sortField) => {
-  setSorting(sortField);
-};
-
-// Handle sort order toggle from SearchBar
-const handleToggleSort = () => {
-  toggleSortOrder();
-};
-
-// Handle clear search
-const handleClear = () => {
-  clearSearch();
-};
-
-// Handle items per page change
+const handleSearch = (query) => setSearchQuery(query);
+const handleSort = (sortField) => setSorting(sortField);
+const handleToggleSort = () => toggleSortOrder();
+const handleClear = () => clearSearch();
 const updateItemsPerPage = (newItemsPerPage) => {
   itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1; // Reset to first page
+  currentPage.value = 1;
 };
 
-// Handle image loading success
-const handleImageLoad = (profile) => {
-  // Set image as loaded for this profile
-  profile.imageLoaded = true;
-};
-
-// Handle image loading errors
+const handleImageLoad = (profile) => profile.imageLoaded = true;
 const handleImageError = (profile, event) => {
-  // Set fallback image
   event.target.src = '/images/default-avatar.svg';
-  // Mark as loaded even for error case to hide loading state
   profile.imageLoaded = true;
 };
 
-// Load profiles on component mount
 onMounted(() => {
   loadProfiles();
 });
