@@ -1,7 +1,7 @@
 <template>
   <div class="identity-view">
     <HeroSection />
-    <AboutUs />
+    <!-- <AboutUs /> -->
     <VisionMission />
     <ColourPalette />
     <LogoExplain />
