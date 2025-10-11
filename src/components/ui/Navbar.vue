@@ -28,6 +28,11 @@
       :class="isActive('/gallery') ? 'text-[#26B0F0] ' : ''">
       Gallery
     </RouterLink>
+    <RouterLink to="/games"
+      class="px-4 py-2 rounded-full font-medium transition  hover:bg-[#d1f3ff] hover:text-[#26B0F0]"
+      :class="isActive('/games') ? 'text-[#26B0F0] ' : ''">
+      Fun Game
+    </RouterLink>
   </nav>
 </template>
 
