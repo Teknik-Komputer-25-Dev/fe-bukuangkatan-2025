@@ -1,14 +1,7 @@
 <template>
   <div>
-    <SearchBar 
-      v-model="searchQuery" 
-      :current-sort="sortBy" 
-      :current-sort-order="sortOrder" 
-      @search="handleSearch"
-      @sort="handleSort"
-      @toggle-sort="handleToggleSort"
-      @clear="handleClear" 
-    />
+    <SearchBar v-model="searchQuery" :current-sort="sortBy" :current-sort-order="sortOrder" @search="handleSearch"
+      @sort="handleSort" @toggle-sort="handleToggleSort" @clear="handleClear" />
 
     <!-- Loading State -->
     <div v-if="isLoading" class="min-h-screen bg-white">
@@ -72,31 +65,25 @@
 
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <div 
-            v-for="(profile, index) in paginatedProfiles" 
-            :key="profile.studentId || index"
-            @click="openPhotoModal(profile)"
-            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col
-                   items-start hover:shadow-md transition-shadow duration-200 group cursor-pointer"
-          >
+          <div v-for="(profile, index) in paginatedProfiles" :key="profile.studentId || index"
+            @click="openProfileModal(profile)" class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col
+                   items-start hover:shadow-md transition-shadow duration-200 group cursor-pointer">
             <div class="w-full flex justify-center">
               <div class="relative">
-                <img 
-                  :src="profile.imageUrl" 
-                  :alt="`${profile.fullName} profile photo`"
+                <img :src="profile.imageUrl" :alt="`${profile.fullName} profile photo`"
                   class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
-                  loading="lazy"
-                  @load="handleImageLoad(profile)"
-                  @error="handleImageError(profile, $event)" 
-                />
-                
+                  loading="lazy" @load="handleImageLoad(profile)" @error="handleImageError(profile, $event)" />
+
                 <!-- Hover Overlay -->
-                <div class="absolute inset-0 w-40 h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <div
+                  class="absolute inset-0 w-40 h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                
+
                 <div v-if="!profile.imageLoaded"
                   class="absolute inset-0 w-40 h-40 bg-gray-200 rounded-xl mb-4 animate-pulse flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -128,24 +115,13 @@
       </div>
 
       <!-- Pagination -->
-      <PaginationControls 
-        :current-page="currentPage" 
-        :total-pages="totalPages" 
-        :pagination-info="paginationInfo"
-        :items-per-page="itemsPerPage" 
-        @go-to-page="goToPage" 
-        @next-page="nextPage" 
-        @prev-page="prevPage"
-        @update-items-per-page="updateItemsPerPage" 
-      />
+      <PaginationControls :current-page="currentPage" :total-pages="totalPages" :pagination-info="paginationInfo"
+        :items-per-page="itemsPerPage" @go-to-page="goToPage" @next-page="nextPage" @prev-page="prevPage"
+        @update-items-per-page="updateItemsPerPage" />
     </div>
 
-    <!-- Photo Modal -->
-    <PhotoModal 
-      :is-visible="isModalVisible"
-      :profile="selectedProfile"
-      @close="closePhotoModal"
-    />
+    <!-- Profile Modal -->
+    <ProfileModal :show="isModalVisible" :profile="selectedProfile" @close="closeProfileModal" />
   </div>
 </template>
 
@@ -154,7 +130,7 @@ import { onMounted, ref } from "vue";
 import SearchBar from "./SearchBar.vue";
 import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
-import PhotoModal from "@/components/ui/PhotoModal.vue";
+import ProfileModal from "@/components/ui/ProfileModal.vue";
 import { useProfileData } from "@/composables/useProfileData.js";
 
 const {
@@ -187,13 +163,13 @@ const isModalVisible = ref(false);
 const selectedProfile = ref(null);
 
 // Modal methods
-const openPhotoModal = (profile) => {
+const openProfileModal = (profile) => {
   selectedProfile.value = profile;
   isModalVisible.value = true;
   document.body.style.overflow = 'hidden';
 };
 
-const closePhotoModal = () => {
+const closeProfileModal = () => {
   isModalVisible.value = false;
   selectedProfile.value = null;
   document.body.style.overflow = 'unset';
