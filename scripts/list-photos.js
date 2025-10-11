@@ -1,20 +1,27 @@
 import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 
-// Konfigurasi Cloudinary
+dotenv.config();
+
 cloudinary.config({
-  cloud_name: 'dr5hcyo7i',
+  cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.VITE_CLOUDINARY_API_KEY,
+  api_secret: process.env.VITE_CLOUDINARY_API_SECRET
 });
 
-/**
- * Script untuk melihat daftar foto yang ada di Cloudinary
- */
+if (!process.env.VITE_CLOUDINARY_CLOUD_NAME) {
+  console.error('❌ Missing VITE_CLOUDINARY_CLOUD_NAME in environment variables');
+  console.error('Please check your .env file');
+  process.exit(1);
+}
+
 async function listCloudinaryPhotos() {
   try {
     console.log('🔍 Mengambil daftar foto dari Cloudinary...\n');
     
     const result = await cloudinary.api.resources({
       type: 'upload',
-      max_results: 200
+      max_results: 50
     });
 
     console.log(`📊 Total foto ditemukan: ${result.resources.length}\n`);
@@ -34,13 +41,11 @@ async function listCloudinaryPhotos() {
       console.log(`   📅 ${new Date(resource.created_at).toLocaleDateString()}\n`);
     });
     
-    // Generate manual mapping template
     console.log('📝 Template untuk manual mapping:');
     console.log('Copy paste ini ke getManualPhotoMapping() di cloudinary-browser.js:\n');
     
     result.resources.forEach(resource => {
       const filename = resource.public_id.split('/').pop();
-      // Coba extract NIM pattern (21120125xxxxxx)
       const nimMatch = filename.match(/21120125\d{6}/);
       if (nimMatch) {
         console.log(`      '${nimMatch[0]}': '${resource.public_id}',`);
@@ -54,5 +59,4 @@ async function listCloudinaryPhotos() {
   }
 }
 
-// Jalankan script
 listCloudinaryPhotos();
