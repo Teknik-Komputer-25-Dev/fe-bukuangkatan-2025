@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// Import views (pakai lazy loading untuk performa)
-const HomeView = () => import("../views/HomeView.vue");
-const AboutView = () => import("../views/IdentityView.vue");
-const ProfileView = () => import("../views/ProfileView.vue");
-const GalleryView = () => import("../views/GalleryView.vue");
+// Import views (lazy loading untuk performa yang lebih baik)
+const HomeView = () => import("@/views/HomeView.vue");
+const AboutView = () => import("@/views/IdentityView.vue");
+const ProfileView = () => import("@/views/ProfileView.vue");
+const GalleryView = () => import("@/views/GalleryView.vue");
+const GameView = () => import("@/views/GamesView.vue");
 
 const routes = [
   {
@@ -27,7 +28,12 @@ const routes = [
     name: "Gallery",
     component: GalleryView,
   },
-  // Catch-all route untuk 404 (sementara redirect ke home)
+  {
+    path: "/games",
+    name: "Games",
+    component: GameView,
+  },
+  // Catch-all route untuk 404 (redirect ke home untuk sekarang)
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",
