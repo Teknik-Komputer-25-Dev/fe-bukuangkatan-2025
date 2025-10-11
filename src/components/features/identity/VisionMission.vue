@@ -5,25 +5,54 @@
     <!-- Visi -->
     <div class="max-w-4xl w-full mx-auto mb-20">
       <h2 class="text-5xl md:text-6xl font-bold text-gray-700 mb-8">Visi</h2>
-      <p class="text-lg md:text-xl text-gray-400 text-center max-w-3xl mx-auto">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      <p class="text-lg md:text-xl text-gray-600 text-left max-w-3xl leading-relaxed">
+        Menjadi angkatan yang saling mengeratkan dan berkembang bersama, baik di bidang akademik maupun non-akademik. Sekaligus menjadi wadah yang memuaskan rasa ingin tahu serta tempat menemukan informasi, aspirasi, dan solusi.
       </p>
     </div>
     <!-- Misi -->
     <div class="max-w-4xl w-full mx-auto pb-32">
       <h2 class="text-5xl md:text-6xl font-bold text-gray-700 mb-10">Misi</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div v-for="i in 4" :key="i" class="bg-white rounded-xl p-6 flex gap-4 items-start min-h-[120px]">
-          <div class="w-24 h-12 rounded-lg bg-white shadow-md shadow-blue-200"></div>
+      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Misi 1 -->
+        <div class="bg-white rounded-xl p-6 flex gap-4 items-start shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #B47EDE, #311432);">
+            <span class="text-white font-bold text-lg">1</span>
+          </div>
           <div>
-            <div class="font-bold text-lg text-gray-700 mb-1">FIRST PROCESS</div>
-            <div class="text-gray-400 text-base">Lorem ipsum dolor sit amet incididunt do labore eiusmod tempor magna.
+            <div class="font-bold text-lg text-gray-700 mb-2">Kekeluargaan & Pengembangan</div>
+            <div class="text-gray-600 text-base leading-relaxed">
+              Melaksanakan kegiatan dengan penuh kekeluargaan dalam bidang pembelajaran, dan juga dalam bidang pengembangan minat dan bakat.
             </div>
           </div>
         </div>
+
+        <!-- Misi 2 -->
+        <div class="bg-white rounded-xl p-6 flex gap-4 items-start shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #EE7A13, #C21807);">
+            <span class="text-white font-bold text-lg">2</span>
+          </div>
+          <div>
+            <div class="font-bold text-lg text-gray-700 mb-2">Transformasi Kegagalan</div>
+            <div class="text-gray-600 text-base leading-relaxed">
+              Menggunakan setiap kegagalan sebagai motivasi untuk berkembang menjadi lebih baik kedepannya.
+            </div>
+          </div>
+        </div>
+
+        <!-- Misi 3 -->
+        <div class="bg-white rounded-xl p-6 flex gap-4 items-start shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-1 lg:col-span-2">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #311432, #B47EDE);">
+            <span class="text-white font-bold text-lg">3</span>
+          </div>
+          <div>
+            <div class="font-bold text-lg text-gray-700 mb-2">Semangat Saling Mendukung</div>
+            <div class="text-gray-600 text-base leading-relaxed">
+              Membangun semangat saling mendukung serta membantu, baik dalam hal akademik maupun non akademik.
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

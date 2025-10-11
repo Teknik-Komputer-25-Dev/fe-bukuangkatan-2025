@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import './style.css'
 import { createPinia } from 'pinia'
 import { validateEnv } from '@/utils/env.js'
+import { MotionPlugin } from '@vueuse/motion'
 
 import App from './App.vue'
 import router from './router'
@@ -18,4 +19,5 @@ try {
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
+app.use(MotionPlugin)
 app.mount("#app");

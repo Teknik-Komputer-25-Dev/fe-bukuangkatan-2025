@@ -1,14 +1,9 @@
 <template>
   <div>
-    <SearchBar 
-    v-model="searchQuery" 
-    :current-sort="sortBy" 
-    :current-sort-order="sortOrder" 
-    @search="handleSearch"
-    @sort="handleSort"
-    @toggle-sort="handleToggleSort"
-    @clear="handleClear" />
+    <SearchBar v-model="searchQuery" :current-sort="sortBy" :current-sort-order="sortOrder" @search="handleSearch"
+      @sort="handleSort" @toggle-sort="handleToggleSort" @clear="handleClear" />
 
+    <!-- Loading State -->
     <div v-if="isLoading" class="min-h-screen bg-white">
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -17,6 +12,7 @@
       </div>
     </div>
 
+    <!-- Error State -->
     <div v-else-if="error" class="min-h-screen bg-white flex items-center justify-center">
       <div class="text-center p-8">
         <div class="text-red-500 text-lg mb-4">
@@ -35,6 +31,7 @@
       </div>
     </div>
 
+    <!-- Empty State -->
     <div v-else-if="totalResults === 0 && !isLoading" class="min-h-screen bg-white flex items-center justify-center">
       <div class="text-center p-8">
         <div class="text-gray-400 text-lg mb-4">
@@ -55,6 +52,7 @@
       </div>
     </div>
 
+    <!-- Profiles Grid -->
     <div v-else class="min-h-screen bg-white">
       <div v-if="debouncedSearchQuery" class="flex justify-center mt-6">
         <div class="text-sm text-gray-600 bg-blue-50 px-4 py-2 rounded-full">
@@ -68,17 +66,24 @@
       <div class="flex justify-center mt-3">
         <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div v-for="(profile, index) in paginatedProfiles" :key="profile.studentId || index"
-            class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col items-start hover:shadow-md transition-shadow duration-200 group">
+            @click="openProfileModal(profile)" class="border border-[#d9d9d9] rounded-xl shadow-sm p-4 flex flex-col
+                   items-start hover:shadow-md transition-shadow duration-200 group cursor-pointer">
             <div class="w-full flex justify-center">
               <div class="relative">
-                <img 
-                :src="profile.imageUrl" 
-                :alt="`${profile.fullName} profile photo`"
-                class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
-                loading="lazy"
-                @load="handleImageLoad(profile)"
-                @error="handleImageError(profile, $event)" />
-                
+                <img :src="profile.imageUrl" :alt="`${profile.fullName} profile photo`"
+                  class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
+                  loading="lazy" @load="handleImageLoad(profile)" @error="handleImageError(profile, $event)" />
+
+                <!-- Hover Overlay -->
+                <div
+                  class="absolute inset-0 w-40 h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+
                 <div v-if="!profile.imageLoaded"
                   class="absolute inset-0 w-40 h-40 bg-gray-200 rounded-xl mb-4 animate-pulse flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -114,19 +119,21 @@
         :items-per-page="itemsPerPage" @go-to-page="goToPage" @next-page="nextPage" @prev-page="prevPage"
         @update-items-per-page="updateItemsPerPage" />
     </div>
+
+    <!-- Profile Modal -->
+    <ProfileModal :show="isModalVisible" :profile="selectedProfile" @close="closeProfileModal" />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import SearchBar from "./SearchBar.vue";
 import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
+import ProfileModal from "@/components/ui/ProfileModal.vue";
 import { useProfileData } from "@/composables/useProfileData.js";
 
-// Use the profile data composable
 const {
-  // State
   isLoading,
   error,
   searchQuery,
@@ -136,13 +143,11 @@ const {
   currentPage,
   itemsPerPage,
 
-  // Computed
   paginatedProfiles,
   totalPages,
   totalResults,
   paginationInfo,
 
-  // Methods
   loadProfiles,
   setSearchQuery,
   clearSearch,
@@ -153,47 +158,40 @@ const {
   prevPage
 } = useProfileData();
 
-// Handle search from SearchBar
-const handleSearch = (query) => {
-  setSearchQuery(query);
+// Modal state
+const isModalVisible = ref(false);
+const selectedProfile = ref(null);
+
+// Modal methods
+const openProfileModal = (profile) => {
+  selectedProfile.value = profile;
+  isModalVisible.value = true;
+  document.body.style.overflow = 'hidden';
 };
 
-// Handle sorting from SearchBar
-const handleSort = (sortField) => {
-  setSorting(sortField);
+const closeProfileModal = () => {
+  isModalVisible.value = false;
+  selectedProfile.value = null;
+  document.body.style.overflow = 'unset';
 };
 
-// Handle sort order toggle from SearchBar
-const handleToggleSort = () => {
-  toggleSortOrder();
-};
+// SearchBar handlers
+const handleSearch = (query) => setSearchQuery(query);
+const handleSort = (sortField) => setSorting(sortField);
+const handleToggleSort = () => toggleSortOrder();
+const handleClear = () => clearSearch();
 
-// Handle clear search
-const handleClear = () => {
-  clearSearch();
-};
-
-// Handle items per page change
 const updateItemsPerPage = (newItemsPerPage) => {
   itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1; // Reset to first page
+  currentPage.value = 1;
 };
 
-// Handle image loading success
-const handleImageLoad = (profile) => {
-  // Set image as loaded for this profile
-  profile.imageLoaded = true;
-};
-
-// Handle image loading errors
+const handleImageLoad = (profile) => profile.imageLoaded = true;
 const handleImageError = (profile, event) => {
-  // Set fallback image
   event.target.src = '/images/default-avatar.svg';
-  // Mark as loaded even for error case to hide loading state
   profile.imageLoaded = true;
 };
 
-// Load profiles on component mount
 onMounted(() => {
   loadProfiles();
 });
