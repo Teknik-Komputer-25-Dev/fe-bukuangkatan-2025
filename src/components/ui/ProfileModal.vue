@@ -34,7 +34,7 @@
         <!-- FOTO -->
         <div class="flex justify-center md:block">
           <img
-            :src="profile?.formalphoto || '/images/default-avatar.svg'"
+            :src="profile?.generalphoto || '/images/default-avatar.svg'"
             alt="Profile photo"
             class="w-64 h-[370px] object-cover rounded-2xl border-[5px] border-[#311432]
                    shadow-[0_10px_30px_rgba(49,20,50,0.35)] hover:scale-105 hover:brightness-105 transition"
