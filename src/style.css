@@ -35,3 +35,38 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Custom animations for GameLayout */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtleFloat {
+  0% {
+    transform: translateX(0px) translateY(0px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-10px) translateY(-5px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+    opacity: 0.3;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-subtleFloat {
+  animation: subtleFloat 30s linear infinite;
+}
