@@ -82,6 +82,7 @@ async function getGeneralPhotosFromCloudinary() {
                 url: resource.secure_url,
                 filename: path.basename(resource.public_id),
                 nim: extractNIMFromFilename(resource.public_id),
+                extractedName: extractNameFromFilename(resource.public_id),
                 folder: folderName
             }));
             
@@ -104,6 +105,7 @@ async function getGeneralPhotosFromCloudinary() {
                 url: resource.secure_url,
                 filename: path.basename(resource.public_id),
                 nim: extractNIMFromFilename(resource.public_id),
+                extractedName: extractNameFromFilename(resource.public_id),
                 folder: 'T-25-nonFormal'
             }));
         }
@@ -133,6 +135,71 @@ function extractNIMFromFilename(publicId) {
     return null;
 }
 
+function extractNameFromFilename(publicId) {
+    // Extract filename from public_id and remove extension
+    const filename = path.basename(publicId);
+    const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|gif|webp|heic)$/i, '');
+    
+    // Remove cloudinary suffix (after last underscore)
+    const nameWithoutSuffix = nameWithoutExt.replace(/_[a-z0-9]+$/i, '');
+    
+    // Remove common prefixes and clean up
+    let cleanName = nameWithoutSuffix
+        // Remove common image prefixes
+        .replace(/^(IMG[-_]?|DSC[-_]?|Photo[-_]?|Image[-_]?)\d*[-_]?/i, '')
+        // Remove WhatsApp patterns
+        .replace(/^IMG-\d{8}-WA\d{4}[-_]?/i, '')
+        // Remove screenshot patterns
+        .replace(/^Screenshot[-_]\d+[-_]\d+[-_].+?[-_]/i, '')
+        // Remove dates
+        .replace(/^\d{8}[-_]/i, '')
+        .replace(/^\d{4}[-_]\d{2}[-_]\d{2}[-_]/i, '')
+        // Remove NIM if it's at the beginning
+        .replace(/^21120125\d{6}[-_]?/i, '')
+        // Replace underscores and dashes with spaces
+        .replace(/[-_]+/g, ' ')
+        // Remove extra whitespace
+        .trim();
+    
+    // Split into words and clean each word
+    const words = cleanName.split(/\s+/).filter(word => 
+        word.length > 1 && // Remove single characters
+        !/^\d+$/.test(word) && // Remove pure numbers
+        !/^[a-z0-9]{6,}$/i.test(word) // Remove likely cloudinary IDs
+    );
+    
+    return words.join(' ').toLowerCase();
+}
+
+function normalizeString(str) {
+    return str.toLowerCase()
+        .replace(/[^\w\s]/g, '') // Remove punctuation
+        .replace(/\s+/g, ' ') // Normalize whitespace
+        .trim();
+}
+
+function calculateNameSimilarity(name1, name2) {
+    const normalized1 = normalizeString(name1);
+    const normalized2 = normalizeString(name2);
+    
+    const words1 = normalized1.split(' ');
+    const words2 = normalized2.split(' ');
+    
+    // Check if name2 is a subset of name1 (for cases like "sulthan hanif" vs "sulthan hanif aulia")
+    const matchedWords = words2.filter(word2 => 
+        words1.some(word1 => word1.includes(word2) || word2.includes(word1))
+    );
+    
+    // Calculate similarity score
+    const similarity = matchedWords.length / Math.max(words1.length, words2.length);
+    
+    return {
+        similarity: similarity,
+        matchedWords: matchedWords,
+        isPartialMatch: matchedWords.length >= Math.min(2, words2.length) && similarity >= 0.5
+    };
+}
+
 async function loadStudentData() {
     try {
         log('📖 Membaca data mahasiswa...');
@@ -153,7 +220,8 @@ async function matchPhotosWithStudents(photos, students) {
     log('🔗 Mencocokkan foto dengan data mahasiswa...');
     
     const matches = {};
-    let matchedCount = 0;
+    let nimMatchedCount = 0;
+    let nameMatchedCount = 0;
     
     // Create a mapping from NIM to student for faster lookup
     const studentByNIM = {};
@@ -164,26 +232,111 @@ async function matchPhotosWithStudents(photos, students) {
         }
     });
     
-    // Match photos with students
+    // First pass: Match by NIM
+    const unmatchedPhotos = [];
     photos.forEach(photo => {
         if (photo.nim && studentByNIM[photo.nim]) {
             matches[photo.nim] = {
                 url: photo.url,
                 student: studentByNIM[photo.nim],
-                photo: photo
+                photo: photo,
+                matchType: 'NIM'
             };
-            matchedCount++;
+            nimMatchedCount++;
+        } else {
+            unmatchedPhotos.push(photo);
         }
     });
     
-    log(`✅ Berhasil mencocokkan ${matchedCount} foto dari ${photos.length} foto yang tersedia`, 'success');
+    log(`✅ Matched by NIM: ${nimMatchedCount} foto`, 'success');
     
-    // Show unmatched photos for debugging
-    const unmatchedPhotos = photos.filter(photo => !photo.nim || !studentByNIM[photo.nim]);
+    // Second pass: Match unmatched photos by name
     if (unmatchedPhotos.length > 0) {
-        log(`⚠️ ${unmatchedPhotos.length} foto tidak cocok dengan data mahasiswa:`, 'warning');
+        log(`🔍 Mencoba matching ${unmatchedPhotos.length} foto berdasarkan nama...`);
+        
+        const nameMatches = [];
+        
         unmatchedPhotos.forEach(photo => {
-            console.log(`   📸 ${photo.filename} (NIM extracted: ${photo.nim || 'tidak ditemukan'})`);
+            const extractedName = extractNameFromFilename(photo.public_id);
+            
+            if (extractedName && extractedName.length > 2) {
+                let bestMatch = null;
+                let bestScore = 0;
+                
+                // Compare with all students
+                students.forEach(student => {
+                    const fullName = student.fullName || student.name || '';
+                    const similarityResult = calculateNameSimilarity(fullName, extractedName);
+                    
+                    if (similarityResult.isPartialMatch && similarityResult.similarity > bestScore) {
+                        bestMatch = {
+                            student: student,
+                            similarity: similarityResult.similarity,
+                            matchedWords: similarityResult.matchedWords,
+                            extractedName: extractedName
+                        };
+                        bestScore = similarityResult.similarity;
+                    }
+                });
+                
+                if (bestMatch && bestScore >= 0.5) { // Minimum 50% similarity
+                    const nim = bestMatch.student.nim || bestMatch.student.studentId;
+                    
+                    // Check if this student doesn't already have a photo matched
+                    if (!matches[nim]) {
+                        matches[nim] = {
+                            url: photo.url,
+                            student: bestMatch.student,
+                            photo: photo,
+                            matchType: 'NAME',
+                            similarity: bestMatch.similarity,
+                            extractedName: bestMatch.extractedName,
+                            matchedWords: bestMatch.matchedWords
+                        };
+                        nameMatches.push({
+                            photo: photo,
+                            match: bestMatch,
+                            nim: nim
+                        });
+                        nameMatchedCount++;
+                    }
+                }
+            }
+        });
+        
+        if (nameMatches.length > 0) {
+            log(`✅ Matched by name: ${nameMatchedCount} foto`, 'success');
+            
+            console.log(`\n${colors.cyan}=== NAME MATCHING RESULTS ===${colors.reset}`);
+            nameMatches.forEach((match, index) => {
+                console.log(`${colors.white}${index + 1}. ${match.photo.filename}${colors.reset}`);
+                console.log(`   👤 Matched: ${match.match.student.fullName || match.match.student.name} (${match.nim})`);
+                console.log(`   🔍 Extracted: "${match.match.extractedName}"`);
+                console.log(`   📊 Similarity: ${(match.match.similarity * 100).toFixed(1)}%`);
+                console.log(`   🎯 Matched words: ${match.match.matchedWords.join(', ')}`);
+                console.log();
+            });
+        }
+    }
+    
+    const totalMatched = nimMatchedCount + nameMatchedCount;
+    log(`✅ Total berhasil mencocokkan ${totalMatched} foto dari ${photos.length} foto (${nimMatchedCount} by NIM, ${nameMatchedCount} by name)`, 'success');
+    
+    // Show remaining unmatched photos
+    const finalUnmatched = photos.filter(photo => {
+        const nim = photo.nim;
+        const hasNimMatch = nim && studentByNIM[nim];
+        const hasNameMatch = Object.values(matches).some(match => match.photo.public_id === photo.public_id);
+        return !hasNimMatch && !hasNameMatch;
+    });
+    
+    if (finalUnmatched.length > 0) {
+        log(`⚠️ ${finalUnmatched.length} foto masih belum cocok:`, 'warning');
+        finalUnmatched.forEach(photo => {
+            const extractedName = extractNameFromFilename(photo.public_id);
+            console.log(`   📸 ${photo.filename}`);
+            console.log(`      NIM: ${photo.nim || 'tidak ditemukan'}`);
+            console.log(`      Name: "${extractedName || 'tidak dapat diekstrak'}"`);
         });
     }
     
