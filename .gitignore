@@ -32,3 +32,6 @@ dist-ssr
 *.sw?
 
 .devcontainer/*
+
+# Local Netlify folder
+.netlify
