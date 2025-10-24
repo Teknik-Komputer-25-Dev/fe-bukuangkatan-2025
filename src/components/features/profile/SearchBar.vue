@@ -106,7 +106,7 @@
       <!-- Heading Section -->
       <div class="text-center mt-10">
         <h1 class="text-4xl font-medium">Profile Teknik Komputer 25</h1>
-        <p class="text-xl text-gray-700 mt-5 font-medium">Teman teman yang kece dan keren!</p>
+        <p class="text-xl text-gray-700 mt-5 font-medium">Temui para bintang Venco!</p>
       </div>
     </div>
   </template>
