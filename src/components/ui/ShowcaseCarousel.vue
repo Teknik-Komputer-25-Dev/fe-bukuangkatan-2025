@@ -26,10 +26,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <!-- Kiri: Teks -->
         <div class="transition-all duration-500 ease-in-out">
-          <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 transition-all duration-500 ease-in-out opacity-100">
+          <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 transition-all duration-500 ease-in-out">
             {{ items[active].title }}
           </h2>
-          <p class="text-lg mb-6 text-gray-200 transition-all duration-500 ease-in-out opacity-100">
+          <p class="text-lg mb-6 text-gray-200 transition-all duration-500 ease-in-out">
             {{ items[active].desc }}
           </p>
         </div>
@@ -39,7 +39,7 @@
             <img 
               :src="items[active].imgText" 
               :alt="items[active].title"
-              class="w-full h-full object-contain transition-all duration-500 ease-in-out transform opacity-100 scale-100"
+              class="w-full h-full object-contain transition-all duration-500 ease-in-out"
               :key="`img-${active}`"
             />
           </div>
@@ -48,7 +48,7 @@
     </div>
 
     <!-- Dots Indicator -->
-    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
       <button
         v-for="(item, index) in items"
         :key="index"

@@ -196,13 +196,12 @@ const nextCharacteristic = () => {
   setTimeout(() => {
     if (currentCharacteristic.value >= realCharacteristicCount + duplicateCount) {
       // Temporarily disable transition for seamless jump
-      const container = characteristicsContainer.value
-      if (container) {
-        container.style.transition = 'none'
+      if (characteristicsContainer.value) {
+        characteristicsContainer.value.style.transition = 'none'
         currentCharacteristic.value = duplicateCount
         // Re-enable transition after jump
         setTimeout(() => {
-          container.style.transition = 'transform 500ms ease-in-out'
+          characteristicsContainer.value.style.transition = 'transform 500ms ease-in-out'
         }, 50)
       }
     }
@@ -219,13 +218,12 @@ const prevCharacteristic = () => {
   setTimeout(() => {
     if (currentCharacteristic.value < duplicateCount) {
       // Temporarily disable transition for seamless jump
-      const container = characteristicsContainer.value
-      if (container) {
-        container.style.transition = 'none'
+      if (characteristicsContainer.value) {
+        characteristicsContainer.value.style.transition = 'none'
         currentCharacteristic.value = realCharacteristicCount + duplicateCount - 1
         // Re-enable transition after jump
         setTimeout(() => {
-          container.style.transition = 'transform 500ms ease-in-out'
+          characteristicsContainer.value.style.transition = 'transform 500ms ease-in-out'
         }, 50)
       }
     }

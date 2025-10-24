@@ -214,13 +214,12 @@ const nextSlide = () => {
       if (currentSlide.value >= realSlideCount + duplicateCount) {
         isTransitioning.value = false
         // Temporarily disable transition for seamless jump
-        const container = document.querySelector('.slides-container')
-        if (container) {
-          container.style.transition = 'none'
+        if (slidesContainer.value) {
+          slidesContainer.value.style.transition = 'none'
           currentSlide.value = duplicateCount
           // Re-enable transition after jump
           setTimeout(() => {
-            container.style.transition = 'transform 500ms ease-in-out'
+            slidesContainer.value.style.transition = 'transform 500ms ease-in-out'
           }, 50)
         }
       } else {
@@ -244,13 +243,12 @@ const prevSlide = () => {
       if (currentSlide.value < duplicateCount) {
         isTransitioning.value = false
         // Temporarily disable transition for seamless jump
-        const container = document.querySelector('.slides-container')
-        if (container) {
-          container.style.transition = 'none'
+        if (slidesContainer.value) {
+          slidesContainer.value.style.transition = 'none'
           currentSlide.value = realSlideCount + duplicateCount - 1
           // Re-enable transition after jump
           setTimeout(() => {
-            container.style.transition = 'transform 500ms ease-in-out'
+            slidesContainer.value.style.transition = 'transform 500ms ease-in-out'
           }, 50)
         }
       } else {
