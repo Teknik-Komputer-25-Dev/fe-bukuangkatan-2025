@@ -14,7 +14,7 @@
     />
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="min-h-screen">
+    <div v-if="isLoading" class="pb-10">
       <div class="flex justify-center mt-3">
         <div
           class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
@@ -27,7 +27,7 @@
     <!-- Error State -->
     <div
       v-else-if="error"
-      class="min-h-screen flex items-center justify-center"
+      class="flex items-center justify-center py-20"
     >
       <div class="text-center p-8 bg-white/80 rounded-xl shadow-lg">
         <div class="text-red-500 text-lg mb-4">
@@ -62,7 +62,7 @@
     <!-- Empty State -->
     <div
       v-else-if="totalResults === 0 && !isLoading"
-      class="min-h-screen flex items-center justify-center"
+      class="flex items-center justify-center py-20"
     >
       <div class="text-center p-8 bg-white/80 rounded-xl shadow-lg">
         <div class="text-gray-400 text-lg mb-4">
@@ -102,10 +102,10 @@
     </div>
 
     <!-- Profiles Grid -->
-    <div v-else class="min-h-screen">
+    <div v-else class="pb-10">
       <div v-if="debouncedSearchQuery" class="flex justify-center mt-6">
         <div
-          class="text-sm text-gray-100 bg-white/10 px-4 py-2 rounded-full shadow-sm border border-white/30"
+          class="text-sm text-gray-100 bg-white/80 px-4 py-2 rounded-full shadow-sm border border-white/30"
         >
           Found {{ totalResults }} result{{
             totalResults !== 1 ? "s" : ""

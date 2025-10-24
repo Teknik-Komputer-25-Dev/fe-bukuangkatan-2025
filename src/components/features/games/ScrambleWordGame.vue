@@ -39,7 +39,7 @@
           id="answer"
           v-model="userAnswer"
           type="text"
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-center text-lg font-semibold"
+          class="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-center text-lg font-semibold"
           placeholder="Ketik jawaban di sini..."
           :disabled="showResult"
         />
