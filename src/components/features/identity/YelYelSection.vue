@@ -38,12 +38,12 @@
                 <div class="text-purple-900 leading-relaxed">
                   <p class="mb-4">This is for Venco ( Vencol )</p>
                   <p class="mb-4">We are super ( Super )</p>
-                  <p class="mb-4">There are no error ( Error )</p>
+                  <p class="mb-4">There are no error ( No Error )</p>
                   <p class="mb-6 font-bold">Louder! Stronger!</p>
                   
                   <p class="mb-4">This is for Venco ( Vencol )</p>
                   <p class="mb-4">We are super ( Super )</p>
-                  <p class="mb-4">There are no error ( Error )</p>
+                  <p class="mb-4">There are no error ( No Error )</p>
                 </div>
               </div>
 
@@ -51,14 +51,15 @@
               <div class="space-y-6">
                 <div class="text-purple-900 leading-relaxed">
                   <p class="mb-4">Kekuatan kita kan beri kita mahkota</p>
-                  <p class="mb-4">sekuat 25 di sini kan menangkan</p>
+                  <p class="mb-4">Tekkom 25 di sini kan merangkulmu</p>
                   <p class="mb-4">Jiwa bergejolak menjalar penuh semangat</p>
-                  <p class="mb-6">Kami Venco akan kena jaya</p>
+                  <p class="mb-6 mt-3">Kami Venco akan terus jaya</p>
                   
                   <p class="mb-4">We go higher! ( Higher! )</p>
                   <p class="mb-4">Higher! Higher! ( Higher! )</p>
                   <p class="mb-4">Still going higher! ( Higher! )</p>
-                  <p class="mb-4">Venco in struggle still together</p>
+                  <p class="mb-4">Venco! in struggle, still together</p>
+                  <p class="mb-4">Venco! United by Code, Solid by Bolt!</p>
                 </div>
               </div>
             </div>
