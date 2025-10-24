@@ -1,6 +1,5 @@
 <template>
-    <section class="flex flex-col md:flex-row items-center justify-center min-h-screen"
-            style="background: linear-gradient(to top, #3F0368 0%, #3F0368 20%, #3F036833 90%, #3F036800 100%);"
+    <section class="flex flex-col md:flex-row items-center justify-center min-h-screen bg-transparent"
     >
       <!-- Placeholder Image -->
       <div class="flex flex-col items-center justify-center">
@@ -12,9 +11,9 @@
             />
         </router-link>
 
-        <h1 class="text-[#FFFFFF] text-3xl max-w-xs sm:max-w-5xl sm:text-5xl lg:text-5xl font-semibold leading-normal mb-6">✨Maskot Cobo✨</h1>
+        <h1 class="text-3xl max-w-xs sm:max-w-5xl sm:text-5xl lg:text-5xl font-semibold leading-normal mb-6">✨Maskot Cobo✨</h1>
 
-        <p class="px-20 text-lg md:text-xl xl:text-2xl text-white bg-[#3F0368] 2xl:w-300 text-center bg-transparent">
+        <p class="px-20 text-lg md:text-xl xl:text-2xl bg-[#3F0368] 2xl:w-300 text-center bg-transparent">
         ‘Cobo’ adalah maskot angkatan ‘25 yang mencerminkan kecerdasan, rasa ingin tahu, 
         serta keterbukaan dalam berbagai informasi dan solusi. Nama ’Cobo’ diambil dari nama angkatan 25, yaitu VEN(COBO)LT.
         </p>
