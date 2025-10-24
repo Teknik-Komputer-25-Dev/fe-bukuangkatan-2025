@@ -8,32 +8,32 @@
       isNavbarVisible ? 'scale-100' : 'scale-95'
     ]">
     <RouterLink to="/"
-      class="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full transition font-semibold text-white text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
-      :class="isActive('/') ? 'text-[rgb(255,231,135)]' : ''">
+      class="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full transition font-semibold text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
+      :class="isActive('/') ? 'bg-white/20 text-[#FFE787]' : 'text-white'">
       <span class="hidden sm:inline">Home</span>
       <span class="sm:hidden">🏠</span>
     </RouterLink>
     <RouterLink to="/identity"
-      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-white text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
-      :class="isActive('/identity') ? 'text-[#FFE787]' : ''">
+      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
+      :class="isActive('/identity') ? 'bg-white/20 text-[#FFE787]' : 'text-white'">
       <span class="hidden sm:inline">Identity</span>
       <span class="sm:hidden">🆔</span>
     </RouterLink>
     <RouterLink to="/profile"
-      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-white text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
-      :class="isActive('/profile') ? 'text-[#FFE787]' : ''">
+      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
+      :class="isActive('/profile') ? 'bg-white/20 text-[#FFE787]' : 'text-white'">
       <span class="hidden sm:inline">Profile</span>
       <span class="sm:hidden">👤</span>
     </RouterLink>
     <RouterLink to="/gallery"
-      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-white text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
-      :class="isActive('/gallery') ? 'text-[#FFE787]' : ''">
+      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
+      :class="isActive('/gallery') ? 'bg-white/20 text-[#FFE787]' : 'text-white'">
       <span class="hidden sm:inline">Gallery</span>
       <span class="sm:hidden">🖼️</span>
     </RouterLink>
     <RouterLink to="/games"
-      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-white text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
-      :class="isActive('/games') ? 'text-[#FFE787]' : ''">
+      class="px-2 md:px-4 py-1 md:py-2 rounded-full font-medium transition text-sm md:text-base whitespace-nowrap hover:bg-white/20 hover:text-[#FFE787]"
+      :class="isActive('/games') ? 'bg-white/20 text-[#FFE787]' : 'text-white'">
       <span class="hidden sm:inline">Fun Game</span>
       <span class="sm:hidden">🎮</span>
     </RouterLink>

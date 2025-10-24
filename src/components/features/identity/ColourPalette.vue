@@ -176,29 +176,29 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // Color data with meanings
 const colors = ref([
   {
-    hex: '#FFFADD',
-    name: 'Putih Kejinggaan',
-    description: 'Melambangkan kebersamaan dan persatuan dalam keberagaman yang menjadi fondasi kuat Angkatan 2025.'
+    hex: '#B47EDE',
+    name: 'Lavender (floral)',
+    description: 'melambangkan ketahanan angkatan 25 dalam menghadapi berbagai tantangan'
   },
   {
-    hex: '#B47EDE', 
-    name: 'Ungu Muda',
-    description: 'Melambangkan kreativitas dan rasa ingin tahu yang mendorong inovasi dan pembelajaran berkelanjutan.'
+    hex: '#E9E1FE', 
+    name: 'Lavender (web)',
+    description: 'melambangkan fleksibilitas angkatan 25'
   },
   {
-    hex: '#311432',
-    name: 'Ungu Tua', 
-    description: 'Melambangkan kegigihan dan pantang menyerah dalam menghadapi segala tantangan akademik dan kehidupan.'
+    hex: '#3F0368',
+    name: 'Indigo', 
+    description: 'menumbuhkan kedalaman kreativitas dan inspirasi dengan suasana tenang'
   },
   {
     hex: '#EE7A13',
-    name: 'Jingga',
-    description: 'Melambangkan semangat dan energi positif yang menjadi ciri khas Angkatan 25 dalam setiap aktivitas.'
+    name: 'Safety Orange',
+    description: 'melambangkan semangat solidaritas angkatan 25 yang andal dan saling menjaga'
   },
   {
     hex: '#C21807',
-    name: 'Merah',
-    description: 'Melambangkan keberanian dan determinasi untuk menjadi pemimpin masa depan yang berintegritas.'
+    name: 'Engineering Orange',
+    description: 'melambangkan keberanian angkatan 25 untuk berinovasi dan menciptakan solusi'
   }
 ])
 
@@ -261,7 +261,7 @@ const handleKeyDown = (event) => {
 
 // Get text color based on background
 const getTextColor = (bgColor, isSecondary = false) => {
-  const darkColors = ['#311432', '#C21807']
+  const darkColors = ['#3F0368', '#C21807']
   const isDark = darkColors.includes(bgColor)
   
   if (isSecondary) {
