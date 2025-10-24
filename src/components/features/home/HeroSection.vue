@@ -11,12 +11,13 @@
         </div>
   
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white font-extrabold leading-tight">
-          DIGITAL BOOK <span class="bg-gradient-to-r from-[#B47EDE] to-[#8e65ad] bg-clip-text text-transparent">COMPUTER </span>
-          <span class="bg-gradient-to-r from-[#EE7A13] to-[#de7212] bg-clip-text text-transparent">ENGINEERING</span> ’25<br></br>
+          BUKU DIGITAL <span class="bg-gradient-to-r from-[#B47EDE] to-[#8e65ad] bg-clip-text text-transparent">TEKNIK </span>
+          <span class="bg-gradient-to-r from-[#EE7A13] to-[#de7212] bg-clip-text text-transparent">KOMPUTER</span> ’25<br></br>
         </h1>
   
         <p class="max-w-3xl text-sm sm:text-l md:text-xl lg:text-2xl text-white font-medium mt-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Satu nama, ribuan cerita. VencoBolt adalah cerminan semangat, kebersamaan, persatuan dan perjalanan kami sebagai satu angkatan bahkan keluarga.
+            Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
         </p>
       </div>
   
