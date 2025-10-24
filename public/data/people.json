@@ -59,7 +59,7 @@
     "studentId": "21120125140170",
     "city": "Jakarta Timur/Bandung",
     "birthplace": "Bandung",
-    "birthdate": "",
+    "birthdate": "12/05/2007",
     "address": "Jln. Gondang Raya gang Patlot II No.1 RT 03 RW 01 Kel. Tembalang, Kec. Tembalang, Kota Semarang (Rumah pertama pagar hijau)",
     "religion": "Islam",
     "phone": "08111919107",
@@ -70,7 +70,7 @@
     "organization": "-",
     "link1": "",
     "class": "",
-    "formalphoto": "",
+    "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761306020/21120125140170_p82kmt.jpg",
     "signature": "",
     "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760268970/21120125140150_Muhammad_Antares_Lazuardi_bjnnul.jpg",
     "_cloudinary_info": {
@@ -340,7 +340,7 @@
     "organization": "-",
     "link1": "",
     "class": "C",
-    "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760269395/Kevin_Nafeeza_Daffa_21120125140124_gcxwjg.jpg",
+    "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1759556919/quality_restoration_20250828215438019_-_Kelvin_Anthony_jlb0a5.jpg",
     "signature": "https://drive.google.com/open?id=1Cv9FUyBaZRJAkrp9KITb3CplN9pYA0rr",
     "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760268942/21120125130102_-_Kelvin_Anthony_zamml3.jpg",
     "skillRahasia": "bisa makan banyak",
@@ -1082,7 +1082,7 @@
     "class": "D",
     "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1759556966/DSC_0289_3x4_-_Ayesha_Al_Siddiqa_up4fz5.jpg",
     "signature": "https://drive.google.com/open?id=1OByps9VlxmALYW0AORFX0UlrtAO5J-GZ",
-    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760268979/21120125140157_-_Ayesha_Al_Siddiqa_wynum1.heic",
+    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761118465/21120125140157_-_Ayesha_Al_Siddiqa_nhvcg0.png",
     "skillRahasia": "",
     "tinggiBadan": ""
   },
@@ -4013,7 +4013,7 @@
     "class": "C",
     "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/21120125140127_-_Aliyyah_putri_ufufz8?_a=BAMAK+WO0",
     "signature": "https://drive.google.com/open?id=1EPXA8-eAD4X-bhXCLOGaxxbrkIlSymmQ",
-    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760268946/21120125140127_rezuel_-_Rezuel_Marpaung_brsc4w.jpg",
+    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761118464/21120125140127_-_Aliyyah_putri_rrk5py.png",
     "_cloudinary_info": {
       "public_id": "21120125140127_-_Aliyyah_putri_rl4zqz",
       "transformations": "w_400,h_400,c_fill,q_auto"
@@ -5296,5 +5296,28 @@
     },
     "skillRahasia": "Salto :D",
     "tinggiBadan": "159"
+  },
+  {
+    "fullName": "Bimoseno Marcello Saint",
+    "nickname": "Bimo",
+    "studentId": "21120125140196",
+    "city": "Depok",
+    "birthplace": "Depok",
+    "birthdate": "25/05/2006",
+    "address": "Jl. Gondang Tim. V No.15 A, Bulusan, Kec. Tembalang, Kota Semarang, Jawa Tengah",
+    "religion": "Islam",
+    "phone": "08889762551",
+    "lineid": "-",
+    "instagram": "@mrcllosaint",
+    "motto": "tidak ada mimpi yang gagal, yang ada hanyalah mimpi yang tertunda cuma sekiranya kalau temen-temen merasa gagal dalam mencapai mimpi jangan khawatir mimpi mimpi lain bisa di ciptakan",
+    "reason": "karena saya mempunyai basic di bidang it dan tertarik mempelajari teknologi lebih dalam lagi",
+    "organization": "-",
+    "link1": "https://drive.google.com/open?id=1YfCYlWxdjvT-t6a2e4T7QvtNshQo-TWL",
+    "class": "A",
+    "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761306059/21120125140196_oxrmdb.jpg",
+    "signature": "",
+    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761306157/21120125140196_ptz0qk.jpg",
+    "skillRahasia": "pargoy sambil naik motor",
+    "tinggiBadan": "172"
   }
 ]
