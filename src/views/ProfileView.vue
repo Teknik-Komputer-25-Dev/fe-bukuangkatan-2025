@@ -1,5 +1,8 @@
 <template>
-  <div class="relative min-h-screen bg-white">
+  <div
+    class="relative min-h-screen bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/images/Desktop - 8.png');"
+  >
     <!-- Komponen pencarian & grid kartu -->
     <CardsSearch />
   </div>
