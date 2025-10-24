@@ -36,12 +36,12 @@
               <!-- Left Column -->
               <div class="space-y-6">
                 <div class="text-purple-900 leading-relaxed">
-                  <p class="mb-4">This is for Venco ( Vencol )</p>
+                  <p class="mb-4">This is for Venco ( Venco! )</p>
                   <p class="mb-4">We are super ( Super )</p>
                   <p class="mb-4">There are no error ( No Error )</p>
                   <p class="mb-6 font-bold">Louder! Stronger!</p>
                   
-                  <p class="mb-4">This is for Venco ( Vencol )</p>
+                  <p class="mb-4">This is for Venco ( Venco! )</p>
                   <p class="mb-4">We are super ( Super )</p>
                   <p class="mb-4">There are no error ( No Error )</p>
                 </div>

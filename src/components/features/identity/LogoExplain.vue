@@ -124,7 +124,7 @@ const characteristics = ref([
   },
   {
     title: "Embedded Systems",
-    description: "Chip melambangkan penjurusan Embedded Systems di Teknik Komputer.",
+    description: "8 circuit node yang berarti 8 byte serta melambangkan penjurusan Embedded di Teknik Komputer.",
     image: "/images/Logo/embedded.png",
     imageAlt: "Penjurusan Embedded Systems"
   },
