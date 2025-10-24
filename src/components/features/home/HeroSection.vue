@@ -16,8 +16,9 @@
         </h1>
   
         <p class="max-w-3xl text-sm sm:text-l md:text-xl lg:text-2xl text-white font-medium mt-5">
+            ✨ Welcome to VencoBolt page ✨<br>
             Satu nama, ribuan cerita. VencoBolt adalah cerminan semangat, kebersamaan, persatuan dan perjalanan kami sebagai satu angkatan bahkan keluarga.
-            Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
+            Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
         </p>
       </div>
   
