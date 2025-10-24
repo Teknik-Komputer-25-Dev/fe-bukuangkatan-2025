@@ -7,7 +7,7 @@ import { useCarousel } from '@/composables/useCarousel';
 import { classPhotosData } from '@/data/classPhotos';
 
 // Use navigation composable for clean routing
-const { goToProfile } = useNavigation();
+const { goToGallery } = useNavigation();
 
 // Use carousel configuration composable
 const { singleSlideConfig } = useCarousel();
@@ -17,16 +17,13 @@ const classPhotos = classPhotosData;
 </script>
 
 <template>
-    <section class="py-10 sm:py-16 md:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <section class="py-10 sm:py-16 md:py-20 bg-[#3F0368] from-gray-50 to-blue-50">
         <div class="container mx-auto px-4 sm:px-6 md:px-8">
             <div class="text-center mb-8 sm:mb-12 md:mb-16">
-                <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">
-                    Momen Berharga
-                    <span class="block sm:inline text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
-                        Bersama
-                    </span>
-                </h3>
-                <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+                <h1 class="text-[#FFFFFF] text-3xl max-w-xs sm:max-w-5xl sm:text-5xl lg:text-5xl font-semibold leading-normal mb-6 mx-auto">
+                    Looking Back at <span class="bg-gradient-to-r from-[#EE7A13] to-[#B47EDE] bg-clip-text text-transparent">Tekkom ’25</span>
+                </h1>
+                <p class="text-base sm:text-lg text-white max-w-2xl mx-auto px-4">
                     Koleksi foto-foto terbaik dari berbagai kegiatan dan acara yang telah kita lalui bersama.
                 </p>
             </div>
@@ -34,11 +31,11 @@ const classPhotos = classPhotosData;
             <!-- Custom Carousel dengan Swiper -->
             <BaseCarousel :items="classPhotos" 
                 v-bind="singleSlideConfig"
-                class="max-w-6xl mx-auto">
+                class="max-w-9xl mx-auto">
                 <template #default="{ item }">
                     <div class="relative group cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl mx-2 sm:mx-0">
                         <LazyImage :src="item.image" :alt="item.title"
-                            class="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-110" />
+                            class="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[1000px] object-cover transition-transform duration-700 group-hover:scale-110" />
 
                         <!-- Overlay Content -->
                         <div
@@ -50,10 +47,14 @@ const classPhotos = classPhotosData;
 
                                 <!-- Button di dalam carousel -->
                                 <div class="mt-3 sm:mt-4 text-center">
-                                    <BaseButton rounded="full" variant="light" size="xl"
-                                        @click.stop="goToProfile"
+                                    <BaseButton rounded="full" size="xl"
+                                        @click.stop="goToGallery"
                                         class="text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3"
-                                        style="box-shadow: 0 0 20px #56CCF280;">
+                                        variant="gradient"
+                                        :style="{
+                                          backgroundImage: 'linear-gradient(to left, #EE7A13, #3F0368)',
+                                          boxShadow: '0 0 20px #EE7A1355'
+                                        }">
                                         Explore Us!
                                     </BaseButton>
                                 </div>
