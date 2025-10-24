@@ -16,6 +16,7 @@
 
 html, body {
   overflow-x: hidden;
+  color: #FFFADD; /* Default text color for entire website */
 }
 
 /* Smooth scrolling */
