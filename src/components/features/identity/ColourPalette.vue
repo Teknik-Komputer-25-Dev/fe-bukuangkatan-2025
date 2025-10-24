@@ -1,11 +1,11 @@
 <template>
-  <section class="relative min-h-screen w-full flex items-center justify-center bg-gray-50">
+  <section class="relative min-h-screen w-full flex items-center justify-center ">
     <div class="w-full max-w-6xl mx-auto px-4">
       
       <!-- Title Section -->
       <div class="text-center mb-12">
         <h2 
-          class="text-4xl md:text-6xl font-bold text-gray-800 mb-4"
+          class="text-4xl md:text-6xl font-bold  mb-4"
           v-motion
           :initial="{ opacity: 0, y: -50 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 800 } }"
@@ -13,7 +13,7 @@
           COLOR PALETTE
         </h2>
         <p 
-          class="text-lg text-gray-600 max-w-2xl mx-auto"
+          class="text-lg max-w-2xl mx-auto"
           v-motion
           :initial="{ opacity: 0, y: 30 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 800, delay: 200 } }"
@@ -126,7 +126,7 @@
         :initial="{ opacity: 0 }"
         :enter="{ opacity: 1, transition: { duration: 800, delay: 1200 } }"
       >
-        <p class="text-gray-500 text-sm">
+        <p class=" text-sm">
           Klik pada setiap warna untuk melihat makna dan filosofinya
         </p>
         

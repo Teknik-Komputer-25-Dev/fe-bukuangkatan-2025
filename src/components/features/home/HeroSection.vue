@@ -9,9 +9,10 @@
             </h1>
 
             <!-- Description -->
-            <p class="text-base sm:text-lg md:text-xl font-normal text-gray-600 leading-relaxed text-center lg:text-left">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p class="text-base sm:text-lg md:text-xl font-normal leading-relaxed text-center lg:text-left">
+                ✨ Welcome to VencoBolt page ✨<br>
+                Satu nama, ribuan cerita. VencoBolt adalah cerminan semangat, kebersamaan, persatuan dan perjalanan kami sebagai satu angkatan bahkan keluarga.<br>
+                Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
             </p>
         </div>
 
