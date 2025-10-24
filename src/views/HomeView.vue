@@ -1,15 +1,19 @@
 <template>
     <div class="home-view">
         <HeroSection />
-        <LogoIntro />
+        <WelcomeSection />
+        <AboutUs />
+        <MascottPreview />
         <PhotoCarousel />
     </div>
 </template>
 
 <script setup>
-import LogoIntro from '../components/features/home/LogoIntro.vue';
 import HeroSection from '@/components/features/home/HeroSection.vue';
 import PhotoCarousel from '@/components/features/home/PhotoCarousel.vue';
+import WelcomeSection from '../components/features/home/WelcomeSection.vue';
+import AboutUs from '../components/features/home/AboutUs.vue';
+import MascottPreview from '../components/features/home/MascottPreview.vue';
 </script>
 
 <style scoped>
