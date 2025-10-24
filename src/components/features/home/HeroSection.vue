@@ -4,20 +4,21 @@
     >
       <!-- Left Text Content -->
       <div class="mt-13 sm:mt-0 md:ml-8 lg:ml-10 xl:ml-20 2xl:ml-30 max-w-6xl space-y-3 ">
-        <div class="inline-flex items-center rounded-md px-3 py-2 font-semibold text-sm sm:text-l md:text-xl lg:text-2xl text-white"
+        <div class="inline-flex items-center rounded-md px-3 py-2 font-semibold text-sm sm:text-l md:text-xl lg:text-2xl"
           style="background: linear-gradient(to left, #EE7A13, #3F0368);"
         >
           👋 Hello All
         </div>
   
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white font-extrabold leading-tight">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight">
           BUKU DIGITAL <span class="bg-gradient-to-r from-[#B47EDE] to-[#8e65ad] bg-clip-text text-transparent">TEKNIK </span>
           <span class="bg-gradient-to-r from-[#EE7A13] to-[#de7212] bg-clip-text text-transparent">KOMPUTER</span> ’25<br></br>
         </h1>
   
-        <p class="max-w-3xl text-sm sm:text-l md:text-xl lg:text-2xl text-white font-medium mt-5">
+        <p class="max-w-3xl text-sm sm:text-l md:text-xl lg:text-2xl font-medium mt-5">
+            ✨ Welcome to VencoBolt page ✨<br>
             Satu nama, ribuan cerita. VencoBolt adalah cerminan semangat, kebersamaan, persatuan dan perjalanan kami sebagai satu angkatan bahkan keluarga.
-            Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
+            Stay tune untuk identitas, kenangan, dan keseruan yang membentuk siapa kami hari ini.
         </p>
       </div>
   
