@@ -8,6 +8,7 @@
     <LogoExplain />
     <KeyCharacteristicsSection />
     <MaskotOverview />
+    <YelYelSection />
     <!-- <MascottExplain /> -->
   </div>
 
@@ -22,5 +23,6 @@ import MaskotOverview from '../components/features/identity/MaskotOverview.vue';
 import VencoboltCarousel from '../components/features/identity/VencoboltCarousel.vue';
 import KeyCharacteristicsSection from '../components/features/identity/KeyCharacteristicsSection.vue';
 import LogoExplain from '../components/features/identity/LogoExplain.vue';
+import YelYelSection from '../components/features/identity/YelYelSection.vue';
 
 </script>
