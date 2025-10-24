@@ -22,9 +22,7 @@ import ShowcaseCarousel from '../../ui/ShowcaseCarousel.vue';
 
             </div>
 
-            <div>
-                <ShowcaseCarousel />
-            </div>
+            
         </div>
 
 

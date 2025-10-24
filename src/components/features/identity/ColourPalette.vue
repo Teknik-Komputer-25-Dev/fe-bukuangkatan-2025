@@ -1,11 +1,11 @@
 <template>
-  <section class="relative min-h-screen w-full flex items-center justify-center bg-gray-50">
+  <section class="relative min-h-screen w-full flex items-center justify-center ">
     <div class="w-full max-w-6xl mx-auto px-4">
       
       <!-- Title Section -->
       <div class="text-center mb-12">
         <h2 
-          class="text-4xl md:text-6xl font-bold text-gray-800 mb-4"
+          class="text-4xl md:text-6xl font-bold  mb-4"
           v-motion
           :initial="{ opacity: 0, y: -50 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 800 } }"
@@ -13,7 +13,7 @@
           COLOR PALETTE
         </h2>
         <p 
-          class="text-lg text-gray-600 max-w-2xl mx-auto"
+          class="text-lg max-w-2xl mx-auto"
           v-motion
           :initial="{ opacity: 0, y: 30 }"
           :enter="{ opacity: 1, y: 0, transition: { duration: 800, delay: 200 } }"
@@ -126,7 +126,7 @@
         :initial="{ opacity: 0 }"
         :enter="{ opacity: 1, transition: { duration: 800, delay: 1200 } }"
       >
-        <p class="text-gray-500 text-sm">
+        <p class=" text-sm">
           Klik pada setiap warna untuk melihat makna dan filosofinya
         </p>
         
@@ -176,29 +176,29 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // Color data with meanings
 const colors = ref([
   {
-    hex: '#FFFADD',
-    name: 'Putih Kejinggaan',
-    description: 'Melambangkan kebersamaan dan persatuan dalam keberagaman yang menjadi fondasi kuat Angkatan 2025.'
+    hex: '#B47EDE',
+    name: 'Lavender (floral)',
+    description: 'melambangkan ketahanan angkatan 25 dalam menghadapi berbagai tantangan'
   },
   {
-    hex: '#B47EDE', 
-    name: 'Ungu Muda',
-    description: 'Melambangkan kreativitas dan rasa ingin tahu yang mendorong inovasi dan pembelajaran berkelanjutan.'
+    hex: '#E9E1FE', 
+    name: 'Lavender (web)',
+    description: 'melambangkan fleksibilitas angkatan 25'
   },
   {
-    hex: '#311432',
-    name: 'Ungu Tua', 
-    description: 'Melambangkan kegigihan dan pantang menyerah dalam menghadapi segala tantangan akademik dan kehidupan.'
+    hex: '#3F0368',
+    name: 'Indigo', 
+    description: 'menumbuhkan kedalaman kreativitas dan inspirasi dengan suasana tenang'
   },
   {
     hex: '#EE7A13',
-    name: 'Jingga',
-    description: 'Melambangkan semangat dan energi positif yang menjadi ciri khas Angkatan 25 dalam setiap aktivitas.'
+    name: 'Safety Orange',
+    description: 'melambangkan semangat solidaritas angkatan 25 yang andal dan saling menjaga'
   },
   {
     hex: '#C21807',
-    name: 'Merah',
-    description: 'Melambangkan keberanian dan determinasi untuk menjadi pemimpin masa depan yang berintegritas.'
+    name: 'Engineering Orange',
+    description: 'melambangkan keberanian angkatan 25 untuk berinovasi dan menciptakan solusi'
   }
 ])
 
@@ -261,7 +261,7 @@ const handleKeyDown = (event) => {
 
 // Get text color based on background
 const getTextColor = (bgColor, isSecondary = false) => {
-  const darkColors = ['#311432', '#C21807']
+  const darkColors = ['#3F0368', '#C21807']
   const isDark = darkColors.includes(bgColor)
   
   if (isSecondary) {

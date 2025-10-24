@@ -1,31 +1,32 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { X } from "lucide-vue-next";
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { X } from "lucide-vue-next"
+import bgImage from '@/assets/images/bg-gallery.png'
 
 const props = defineProps({
   card: {
     type: Object,
     required: true,
   },
-});
+})
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 const handleClose = () => {
-  emit('close');
-};
+  emit('close')
+}
 
 // ESC key handler
 const handleEsc = (e) => {
-  if (e.key === "Escape") handleClose();
-};
+  if (e.key === "Escape") handleClose()
+}
 
 const handleBackdropClick = (e) => {
-  if (e.target === e.currentTarget) handleClose();
-};
+  if (e.target === e.currentTarget) handleClose()
+}
 
-onMounted(() => window.addEventListener("keydown", handleEsc));
-onBeforeUnmount(() => window.removeEventListener("keydown", handleEsc));
+onMounted(() => window.addEventListener("keydown", handleEsc))
+onBeforeUnmount(() => window.removeEventListener("keydown", handleEsc))
 </script>
 
 <template>
@@ -43,14 +44,15 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleEsc));
       @click="handleBackdropClick"
     >
       <div
-        class="bg-white rounded-2xl shadow-xl w-full relative overflow-hidden"
+        class="rounded-2xl shadow-xl w-full relative overflow-hidden bg-cover bg-center"
         :class="card.aspect === 'portrait' 
           ? 'max-w-5xl max-h-[95vh] flex' 
           : 'max-w-4xl max-h-[90vh] flex flex-col'"
+        :style="{ backgroundImage: `url(${bgImage})` }"
       >
         <!-- Tombol Close -->
         <button
-          class="close-button absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 transition-colors duration-200 z-10 bg-white/90 rounded-full p-1.5 shadow-lg"
+          class="close-button absolute top-2 right-2 sm:top-3 sm:right-3 text-white hover:text-white transition-all duration-200 z-10 rounded-full p-1.5 shadow-lg bg-gradient-to-br from-[#EE7A13] to-[#C21807]"
           @click="handleClose"
         >
           <X class="w-5 h-5 sm:w-6 sm:h-6" />
@@ -58,21 +60,28 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleEsc));
 
         <!-- Layout Portrait -->
         <template v-if="card.aspect === 'portrait'">
-          <div class="w-5/12 sm:w-2/5 flex-shrink-0 bg-gray-100 flex items-center justify-center p-2 sm:p-4 md:p-6">
+          <div class="w-[50%] sm:w-[55%] flex-shrink-0 flex items-center justify-center p-2 sm:p-4 md:p-6">
             <img 
               :src="card.image" 
               :alt="card.title"
-              class="w-full h-full object-contain rounded-lg"
+              class="w-full h-full object-cover rounded-lg"
+              style="max-height: 85vh;"
             />
           </div>
 
-          <div class="w-7/12 sm:w-3/5 overflow-y-auto p-3 sm:p-6 md:p-8 space-y-2 sm:space-y-4 custom-scroll">
-            <p class="text-[10px] sm:text-xs md:text-sm uppercase font-semibold text-gray-500">
+          <div class="w-[50%] sm:w-[45%] overflow-y-auto p-3 sm:p-6 md:p-8 space-y-2 sm:space-y-4 custom-scroll flex flex-col justify-center">
+            <p class="text-[10px] sm:text-sm uppercase font-semibold text-white/90 leading-tight">
               Teknik Komputer 2025
             </p>
-            <h2 class="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold leading-tight">{{ card.title }}</h2>
 
-            <div class="text-gray-600 space-y-2 sm:space-y-3 text-xs sm:text-sm md:text-base">
+            <!-- Title dengan gradasi ungu → oranye -->
+            <h2
+              class="text-sm sm:text-xl md:text-2xl lg:text-3xl font-bold leading-tight bg-gradient-to-b from-[#E9E1FE] to-[#EE7A13] text-transparent bg-clip-text"
+            >
+              {{ card.title }}
+            </h2>
+
+            <div class="space-y-2 sm:space-y-3 text-[11px] sm:text-sm md:text-base leading-relaxed" style="color: #E9E1FE;">
               <template v-if="Array.isArray(card.description)">
                 <p v-for="(para, index) in card.description" :key="index">{{ para }}</p>
               </template>
@@ -90,12 +99,18 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleEsc));
               class="w-full bg-cover bg-center rounded-lg aspect-[16/9]"
               :style="{ backgroundImage: `url(${card.image})` }"
             ></div>
-            <p class="text-[10px] sm:text-xs md:text-sm uppercase font-semibold text-gray-500">
+            <p class="text-xs sm:text-sm uppercase font-semibold text-white/90">
               Teknik Komputer 2025
             </p>
-            <h2 class="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold">{{ card.title }}</h2>
 
-            <div class="text-gray-600 space-y-2 sm:space-y-3 text-xs sm:text-sm md:text-base">
+            <!-- Title dengan gradasi ungu → oranye -->
+            <h2
+              class="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-b from-[#E9E1FE] to-[#EE7A13] text-transparent bg-clip-text"
+            >
+              {{ card.title }}
+            </h2>
+
+            <div class="space-y-3 text-xs sm:text-sm md:text-base leading-relaxed" style="color: #E9E1FE;">
               <template v-if="Array.isArray(card.description)">
                 <p v-for="(para, index) in card.description" :key="index">{{ para }}</p>
               </template>

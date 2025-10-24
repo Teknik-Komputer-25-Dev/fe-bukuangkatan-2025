@@ -1,23 +1,23 @@
 <template>
     <section class=" h-screen grid lg:grid-cols-2 overflow-hidden items-center">
-        <!-- Kolom Kiri - Content -->
         <div class="px-8 lg:px-16 space-y-6">
-            <!-- Title -->
             <h1 class="text-6xl font-semibold leading-tight">
-                Buku Digital<br>
-                Teknik Komputer
+                Buku <span
+                    class="bg-gradient-to-r from-[#EE7A13] to-[#FFB370] bg-clip-text text-transparent">Digital</span>
+                <br>
+                <span class="bg-gradient-to-r from-[#EE7A13] to-[#FFB370] bg-clip-text text-transparent">Teknik</span>
+                Komputer
             </h1>
 
-            <!-- Description -->
-            <p class="text-xl font-normal text-gray-600 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p class="text-xl font-normal leading-relaxed">
+                Inilah identitas kami, Venco. Kami bukan cuma sekadar angkatan, tapi teman, partner, dan keluarga dalam
+                satu perjalanan penuh tawa dan pengalaman.
+                Yuk, kenalan dengan identitas kami lebih dekat✨
             </p>
         </div>
 
-        <!-- Kolom Kanan -->
-        <div class="relative h-screen">
-            <img src="@/assets/images/hero-bg.png" alt="Hero Image" class="w-full h-full object-cover" />
+        <div class="relative h-screen flex items-center justify-center p-8">
+            <img src="/images/mascott.png" alt="Hero Image" class="max-w-full max-h-full object-contain animate-float" />
         </div>
 
     </section>
@@ -25,3 +25,21 @@
 
 <script setup>
 </script>
+
+<style scoped>
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+</style>

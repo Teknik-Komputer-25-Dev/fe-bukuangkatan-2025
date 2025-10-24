@@ -1,17 +1,17 @@
 <template>
   <div class="flex flex-col items-center space-y-4 mt-8 mb-8">
     <!-- Results Info -->
-    <div class="text-sm text-gray-600">
+    <div class="text-sm ">
       Showing {{ paginationInfo.start }}-{{ paginationInfo.end }} of {{ paginationInfo.total }} results
     </div>
 
     <!-- Pagination Controls -->
-    <div class="flex items-center border border-gray-300 rounded-xl gap-12 space-x-1">
+    <div class="flex items-center border border-purple-600 rounded-xl gap-12 space-x-1">
       <!-- Previous Button -->
       <button
         @click="$emit('prev-page')"
         :disabled="currentPage === 1"
-        class="pl-5  text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-md flex items-center"
+        class="pl-5 text-sm font-medium  hover:bg-purple-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-md flex items-center"
         :class="{ 'cursor-not-allowed opacity-50': currentPage === 1 }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,13 +26,13 @@
         <button
           v-if="startPage > 1"
           @click="$emit('go-to-page', 1)"
-          class="w-8 h-8 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors rounded-full flex items-center justify-center"
+          class="w-8 h-8 text-sm font-medium  hover:bg-purple-500 hover:text-white transition-colors rounded-full flex items-center justify-center"
         >
           1
         </button>
 
         <!-- Ellipsis before -->
-        <span v-if="startPage > 2" class="px-2 text-sm text-gray-400">...</span>
+        <span v-if="startPage > 2" class="px-2 text-sm ">...</span>
 
         <!-- Page range -->
         <button
@@ -41,20 +41,20 @@
           @click="$emit('go-to-page', page)"
           class="w-8 h-8 text-sm font-medium transition-colors rounded-full flex items-center justify-center"
           :class="page === currentPage 
-            ? 'text-gray-800 bg-gray-200' 
-            : 'text-gray-600 hover:bg-gray-100'"
+            ? 'text-white bg-purple-500' 
+            : ' hover:bg-purple-500 hover:text-white'"
         >
           {{ page }}
         </button>
 
         <!-- Ellipsis after -->
-        <span v-if="endPage < totalPages - 1" class="px-2 text-sm text-gray-400">...</span>
+        <span v-if="endPage < totalPages - 1" class="px-2 text-sm ">...</span>
 
         <!-- Last page -->
         <button
           v-if="endPage < totalPages"
           @click="$emit('go-to-page', totalPages)"
-          class="w-8 h-8 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors rounded-full flex items-center justify-center"
+          class="w-8 h-8 text-sm font-medium  hover:bg-purple-500 hover:text-white transition-colors rounded-full flex items-center justify-center"
         >
           {{ totalPages }}
         </button>
@@ -64,7 +64,7 @@
       <button
         @click="$emit('next-page')"
         :disabled="currentPage === totalPages"
-        class="pr-5 text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-md flex items-center"
+        class="pr-5 text-sm font-medium  hover:bg-purple-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-md flex items-center"
         :class="{ 'cursor-not-allowed opacity-50': currentPage === totalPages }"
       >
         Next
@@ -76,16 +76,16 @@
 
     <!-- Items per page selector -->
     <div class="flex items-center space-x-2 text-sm">
-      <span class="text-gray-600">Items per page:</span>
+      <span class="">Items per page:</span>
       <select
         :value="itemsPerPage"
         @change="$emit('update-items-per-page', parseInt($event.target.value))"
-        class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="bg-purple-500 text-white border border-purple-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500  transition-colors cursor-pointer"
       >
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
+        <option value="10" class="bg-purple-500 text-white hover:bg-orange-500">10</option>
+        <option value="20" class="bg-purple-500 text-white hover:bg-orange-500">20</option>
+        <option value="50" class="bg-purple-500 text-white hover:bg-orange-500">50</option>
+        <option value="100" class="bg-purple-500 text-white hover:bg-orange-500">100</option>
       </select>
     </div>
   </div>

@@ -1,166 +1,166 @@
 <template>
-  <div class="p-4 md:p-10">
-    <!-- Header -->
-    <div class="mb-10 text-center md:text-left">
-      <h1 class="text-3xl md:text-4xl font-bold">TEKKOM 25.</h1>
-      <p class="text-gray-500 mt-2">OUR GALLERY.</p>
-    </div>
 
-    <!-- Card 0-5 -->
-    <!-- Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-      <!-- Kiri -->
-      <div class="flex flex-col gap-6 md:gap-12">
-        <!-- Card Besar Kiri-->
-        <div
-          v-if="gallery[0]"
-          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
-          :class="gallery[0].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-          :style="{ backgroundImage: `url(${gallery[0].image})` }"
-          @click="openCard(gallery[0])"
-        >
-          <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="text-xs uppercase">Teknik Komputer 2025</p>
-            <h2 class="text-xl font-bold">{{ gallery[0].title }}</h2>
-          </div>
-        </div>
-
-        <!-- 2 Card Kecil -->
-        <div class="grid grid-cols-2 gap-6 md:gap-12">
-          <div
-            v-for="(item, i) in gallery.slice(1, 3)"
-            :key="i"
-            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
-            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-            :style="{ backgroundImage: `url(${item.image})` }"
-            @click="openCard(item)"
-          >
-            <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
-            <div class="absolute bottom-3 left-3 text-white">
-              <p class="text-xs uppercase">Teknik Komputer 2025</p>
-              <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-            </div>
-          </div>
-        </div>
+    <!-- konten utama -->
+    <div class="relative p-4 md:p-10">
+      <!-- Header -->
+      <div class="mb-10 text-center md:text-left text-white">
+        <h1 class="text-3xl md:text-4xl font-bold">TEKKOM 25.</h1>
+        <p class="text-gray-300 mt-2">OUR GALLERY.</p>
       </div>
 
-      <!-- Kanan -->
-      <div class="flex flex-col gap-6 md:gap-12">
-        <!-- 2 Card Kecil -->
-        <div class="grid grid-cols-2 gap-6 md:gap-12">
-          <div
-            v-for="(item, i) in gallery.slice(3, 5)"
-            :key="i"
-            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
-            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-            :style="{ backgroundImage: `url(${item.image})` }"
-            @click="openCard(item)"
-          >
-            <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
-            <div class="absolute bottom-3 left-3 text-white">
-              <p class="text-xs uppercase">Teknik Komputer 2025</p>
-              <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Besar -->
-        <div
-          v-if="gallery[5]"
-          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
-          :class="gallery[5].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-          :style="{ backgroundImage: `url(${gallery[5].image})` }"
-          @click="openCard(gallery[5])"
-        >
-          <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="text-xs uppercase">Teknik Komputer 2025</p>
-            <h2 class="text-xl font-bold">{{ gallery[5].title }}</h2>
-          </div>
-        </div>
-      </div>
-      <!-- Card 6-12 -->
-
+      <!-- Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+        <!-- Kiri -->
         <div class="flex flex-col gap-6 md:gap-12">
-        <!-- Card Besar Kiri-->
-        <div
-          v-if="gallery[6]"
-          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
-          :class="gallery[6].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-          :style="{ backgroundImage: `url(${gallery[6].image})` }"
-          @click="openCard(gallery[6])"
-        >
-          <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="text-xs uppercase">Teknik Komputer 2025</p>
-            <h2 class="text-xl font-bold">{{ gallery[6].title }}</h2>
+          <!-- Card Besar Kiri-->
+          <div
+            v-if="gallery[0]"
+            class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="gallery[0].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+            :style="{ backgroundImage: `url(${gallery[0].image})` }"
+            @click="openCard(gallery[0])"
+          >
+            <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <p class="text-xs uppercase">Teknik Komputer 2025</p>
+              <h2 class="text-xl font-bold">{{ gallery[0].title }}</h2>
+            </div>
+          </div>
+
+          <!-- 2 Card Kecil -->
+          <div class="grid grid-cols-2 gap-6 md:gap-12">
+            <div
+              v-for="(item, i) in gallery.slice(1, 3)"
+              :key="i"
+              class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+              :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+              :style="{ backgroundImage: `url(${item.image})` }"
+              @click="openCard(item)"
+            >
+              <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
+              <div class="absolute bottom-3 left-3 text-white">
+                <p class="text-xs uppercase">Teknik Komputer 2025</p>
+                <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 2 Card Kecil -->
-        <div class="grid grid-cols-2 gap-6 md:gap-12">
+        <!-- Kanan -->
+        <div class="flex flex-col gap-6 md:gap-12">
+          <!-- 2 Card Kecil -->
+          <div class="grid grid-cols-2 gap-6 md:gap-12">
+            <div
+              v-for="(item, i) in gallery.slice(3, 5)"
+              :key="i"
+              class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+              :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+              :style="{ backgroundImage: `url(${item.image})` }"
+              @click="openCard(item)"
+            >
+              <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
+              <div class="absolute bottom-3 left-3 text-white">
+                <p class="text-xs uppercase">Teknik Komputer 2025</p>
+                <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Besar -->
           <div
-            v-for="(item, i) in gallery.slice(7, 9)"
-            :key="i"
-            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
-            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-            :style="{ backgroundImage: `url(${item.image})` }"
-            @click="openCard(item)"
+            v-if="gallery[5]"
+            class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="gallery[5].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+            :style="{ backgroundImage: `url(${gallery[5].image})` }"
+            @click="openCard(gallery[5])"
           >
-            <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
-            <div class="absolute bottom-3 left-3 text-white">
+            <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
+            <div class="absolute bottom-4 left-4 text-white">
               <p class="text-xs uppercase">Teknik Komputer 2025</p>
-              <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+              <h2 class="text-xl font-bold">{{ gallery[5].title }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6-12 -->
+        <div class="flex flex-col gap-6 md:gap-12">
+          <!-- Card Besar Kiri-->
+          <div
+            v-if="gallery[6]"
+            class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="gallery[6].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+            :style="{ backgroundImage: `url(${gallery[6].image})` }"
+            @click="openCard(gallery[6])"
+          >
+            <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <p class="text-xs uppercase">Teknik Komputer 2025</p>
+              <h2 class="text-xl font-bold">{{ gallery[6].title }}</h2>
+            </div>
+          </div>
+
+          <!-- 2 Card Kecil -->
+          <div class="grid grid-cols-2 gap-6 md:gap-12">
+            <div
+              v-for="(item, i) in gallery.slice(7, 9)"
+              :key="i"
+              class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+              :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+              :style="{ backgroundImage: `url(${item.image})` }"
+              @click="openCard(item)"
+            >
+              <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
+              <div class="absolute bottom-3 left-3 text-white">
+                <p class="text-xs uppercase">Teknik Komputer 2025</p>
+                <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kanan -->
+        <div class="flex flex-col gap-6 md:gap-12">
+          <!-- 2 Card Kecil -->
+          <div class="grid grid-cols-2 gap-6 md:gap-12">
+            <div
+              v-for="(item, i) in gallery.slice(9, 11)"
+              :key="i"
+              class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
+              :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+              :style="{ backgroundImage: `url(${item.image})` }"
+              @click="openCard(item)"
+            >
+              <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
+              <div class="absolute bottom-3 left-3 text-white">
+                <p class="text-xs uppercase">Teknik Komputer 2025</p>
+                <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Besar -->
+          <div
+            v-if="gallery[11]"
+            class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
+            :class="gallery[11].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
+            :style="{ backgroundImage: `url(${gallery[11].image})` }"
+            @click="openCard(gallery[11])"
+          >
+            <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <p class="text-xs uppercase">Teknik Komputer 2025</p>
+              <h2 class="text-xl font-bold">{{ gallery[11].title }}</h2>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Kanan -->
-      <div class="flex flex-col gap-6 md:gap-12">
-        <!-- 2 Card Kecil -->
-        <div class="grid grid-cols-2 gap-6 md:gap-12">
-          <div
-            v-for="(item, i) in gallery.slice(9, 11)"
-            :key="i"
-            class="relative bg-gray-200 rounded-lg bg-cover bg-center cursor-pointer"
-            :class="item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-            :style="{ backgroundImage: `url(${item.image})` }"
-            @click="openCard(item)"
-          >
-            <div class="absolute inset-0 bg-black/20 rounded-lg"></div>
-            <div class="absolute bottom-3 left-3 text-white">
-              <p class="text-xs uppercase">Teknik Komputer 2025</p>
-              <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Besar -->
-        <div
-          v-if="gallery[11]"
-          class="relative bg-gray-300 rounded-lg bg-cover bg-center cursor-pointer"
-          :class="gallery[11].aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9]'"
-          :style="{ backgroundImage: `url(${gallery[11].image})` }"
-          @click="openCard(gallery[11])"
-        >
-          <div class="absolute inset-0 bg-black/30 rounded-lg"></div>
-          <div class="absolute bottom-4 left-4 text-white">
-            <p class="text-xs uppercase">Teknik Komputer 2025</p>
-            <h2 class="text-xl font-bold">{{ gallery[11].title }}</h2>
-          </div>
-        </div>
-      </div>
-
+      <Card
+        v-if="selectedCard"
+        :card="selectedCard"
+        @close="selectedCard = null"
+      />
     </div>
-
-    <Card
-      v-if="selectedCard"
-      :card="selectedCard"
-      @close="selectedCard = null"
-    />
-  </div>
 </template>
 
 <script setup>
@@ -170,7 +170,6 @@ import Card from "./Card.vue";
 const selectedCard = ref(null);
 
 const gallery = ref([
-  //card 0-5
   {
     title: "Foto Angkatan",
     image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168884/foto-angkatan_lzfhqq.jpg",
@@ -222,7 +221,6 @@ const gallery = ref([
     ],
     aspect: "landscape",
   },
-  //card 6-11
   {
     title: "Kumpul Angkatan",
     image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168656/kumpang_orrj2d.jpg",
