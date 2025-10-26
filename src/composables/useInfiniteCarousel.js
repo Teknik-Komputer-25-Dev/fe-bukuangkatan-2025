@@ -6,14 +6,21 @@
 import { ref, computed } from 'vue'
 import { carouselConfig } from '@/data/vencoboltCarousel.js'
 
-export function useInfiniteCarousel(slides) {
+export function useInfiniteCarousel(slides, slidesContainerRef = null) {
   const extendedSlides = ref([])
   const currentSlide = ref(carouselConfig.duplicateCount)
   const isTransitioning = ref(false)
-  const slidesContainer = ref(null)
   
   const realSlideCount = computed(() => slides.value.length)
   const { duplicateCount } = carouselConfig
+
+  // Get the actual DOM element for seamless transitions
+  const getSlidesContainerElement = () => {
+    if (slidesContainerRef?.value?.$refs?.slidesContainer) {
+      return slidesContainerRef.value.$refs.slidesContainer
+    }
+    return null
+  }
 
   // Initialize extended slides array for infinite loop
   const initializeExtendedSlides = () => {
@@ -45,15 +52,19 @@ export function useInfiniteCarousel(slides) {
       // If we've moved past the last real slide, jump to the first real slide
       setTimeout(() => {
         if (currentSlide.value >= realSlideCount.value + duplicateCount) {
-          isTransitioning.value = false
           // Temporarily disable transition for seamless jump
-          if (slidesContainer.value) {
-            slidesContainer.value.style.transition = 'none'
+          const containerElement = getSlidesContainerElement()
+          if (containerElement) {
+            containerElement.style.transition = 'none'
             currentSlide.value = duplicateCount
             // Re-enable transition after jump
             setTimeout(() => {
-              slidesContainer.value.style.transition = `transform ${carouselConfig.transitionDuration}ms ease-in-out`
+              containerElement.style.transition = `transform ${carouselConfig.transitionDuration}ms ease-in-out`
+              isTransitioning.value = false
             }, 50)
+          } else {
+            currentSlide.value = duplicateCount
+            isTransitioning.value = false
           }
         } else {
           isTransitioning.value = false
@@ -74,15 +85,19 @@ export function useInfiniteCarousel(slides) {
       // If we've moved before the first real slide, jump to the last real slide
       setTimeout(() => {
         if (currentSlide.value < duplicateCount) {
-          isTransitioning.value = false
           // Temporarily disable transition for seamless jump
-          if (slidesContainer.value) {
-            slidesContainer.value.style.transition = 'none'
+          const containerElement = getSlidesContainerElement()
+          if (containerElement) {
+            containerElement.style.transition = 'none'
             currentSlide.value = realSlideCount.value + duplicateCount - 1
             // Re-enable transition after jump
             setTimeout(() => {
-              slidesContainer.value.style.transition = `transform ${carouselConfig.transitionDuration}ms ease-in-out`
+              containerElement.style.transition = `transform ${carouselConfig.transitionDuration}ms ease-in-out`
+              isTransitioning.value = false
             }, 50)
+          } else {
+            currentSlide.value = realSlideCount.value + duplicateCount - 1
+            isTransitioning.value = false
           }
         } else {
           isTransitioning.value = false
@@ -111,7 +126,6 @@ export function useInfiniteCarousel(slides) {
     extendedSlides,
     currentSlide,
     isTransitioning,
-    slidesContainer,
     getCurrentSlideIndex,
     nextSlide,
     prevSlide,

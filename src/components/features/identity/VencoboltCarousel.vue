@@ -18,7 +18,7 @@
       
       <!-- Slides Container -->
       <SlidesContainer
-        ref="slidesContainer"
+        ref="slidesContainerComponent"
         :extended-slides="extendedSlides"
         :current-slide="currentSlide"
         :is-transitioning="isTransitioning"
@@ -35,10 +35,10 @@
         @go-to-slide="goToSlide"
       />
 
-      <MobileNavigationControls
+      <!-- <MobileNavigationControls
         @prev-slide="prevSlide"
         @next-slide="nextSlide"
-      />
+      /> -->
       
     </div>
   </section>
@@ -58,19 +58,19 @@ import { useKeyboardNavigation } from '@/composables/useKeyboardNavigation.js'
 
 // Data
 const slides = ref(vencoboltCarouselData)
+const slidesContainerComponent = ref(null)
 
 // Composables
 const {
   extendedSlides,
   currentSlide,
   isTransitioning,
-  slidesContainer,
   getCurrentSlideIndex,
   nextSlide,
   prevSlide,
   goToSlide,
   initializeExtendedSlides
-} = useInfiniteCarousel(slides)
+} = useInfiniteCarousel(slides, slidesContainerComponent)
 
 const {
   startDrag

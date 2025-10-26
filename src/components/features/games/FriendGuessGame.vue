@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
-        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🧑‍🤝‍🧑 Tebak Teman!</h2>
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🎂 Tebak Ulang Tahun Teman!</h2>
 
         <!-- Loading State -->
         <div v-if="loading" class="text-center py-12">
@@ -24,6 +24,10 @@
         <div v-else>
             <!-- Photo Display -->
             <div class="text-center mb-6">
+                <div class="mb-4">
+                    <p class="text-lg font-semibold text-gray-700 mb-2">🎂 Kapan ulang tahun orang ini?</p>
+                    <p class="text-sm text-gray-500">Tebak nama panggilan dan tanggal ulang tahunnya!</p>
+                </div>
                 <div
                     class="relative mx-auto w-48 h-48 rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
                     <img v-if="currentPerson" :src="currentPerson.formalphoto" :alt="currentPerson.fullName"
@@ -32,8 +36,6 @@
                     <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center animate-pulse">
                         <span class="text-gray-500">Loading...</span>
                     </div>
-
-                    
                 </div>
             </div>
 
@@ -51,18 +53,41 @@
 
                 <!-- Birthdate Input -->
                 <div>
-                    <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-2">
-                        Tanggal Lahir
+                    <label for="birthday" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tanggal Ulang Tahun (DD/MM)
                     </label>
-                    <input id="birthdate" v-model="userBirthdate" type="date"
-                        class="w-full px-4 text-black py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                        :disabled="showResult" />
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Day Input -->
+                        <div>
+                            <label for="day" class="block text-xs text-gray-500 mb-1">Tanggal</label>
+                            <select id="day" v-model="userDay" 
+                                class="w-full px-3 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                :disabled="showResult">
+                                <option value="">DD</option>
+                                <option v-for="day in 31" :key="day" :value="day.toString().padStart(2, '0')">
+                                    {{ day.toString().padStart(2, '0') }}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- Month Input -->
+                        <div>
+                            <label for="month" class="block text-xs text-gray-500 mb-1">Bulan</label>
+                            <select id="month" v-model="userMonth" 
+                                class="w-full px-3 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                :disabled="showResult">
+                                <option value="">MM</option>
+                                <option v-for="(month, index) in months" :key="index" :value="(index + 1).toString().padStart(2, '0')">
+                                    {{ (index + 1).toString().padStart(2, '0') }} - {{ month }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Submit Button -->
                 <button v-if="!showResult" type="submit"
                     class="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-purple-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
-                    :disabled="!userNickname || !userBirthdate">
+                    :disabled="!userNickname || !userDay || !userMonth">
                     Submit Jawaban
                 </button>
             </form>
@@ -79,23 +104,32 @@
                         </span>
                     </div>
 
+                    <div v-if="isCorrect && currentPerson" class="mt-2 text-sm">
+                        <p class="text-green-600 font-medium">🎉 Hebat! Kamu mengenal teman dengan baik!</p>
+                        <p class="text-xs mt-1">{{ currentPerson.nickname }} ulang tahun {{ formatBirthday(currentPerson.birthdate) }}</p>
+                    </div>
+
                     <div v-if="!isCorrect && currentPerson" class="mt-2 text-sm">
                         <p>Jawaban yang benar:</p>
                         <p><strong>Nama:</strong> {{ currentPerson.nickname }}</p>
-                        <p><strong>Tanggal Lahir:</strong> {{ formatDate(currentPerson.birthdate) }}</p>
+                        <p><strong>Ulang Tahun:</strong> {{ formatBirthday(currentPerson.birthdate) }}</p>
+                        <p class="text-xs mt-2 italic">💡 Ingat tanggal ini untuk ucapan ulang tahun!</p>
                     </div>
                 </div>
 
                 <!-- Next Friend Button -->
                 <button @click="nextFriend"
                     class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    Teman Selanjutnya 🎯
+                    🎂 Teman Selanjutnya
                 </button>
             </div>
 
             <!-- Score Display -->
             <div class="mt-6 text-center text-sm text-gray-600">
-                <p>Skor: {{ score.correct }} benar dari {{ score.total }} pertanyaan</p>
+                <p>🏆 Skor Ulang Tahun: {{ score.correct }} benar dari {{ score.total }} pertanyaan</p>
+                <p v-if="score.total > 0" class="text-xs mt-1">
+                    Akurasi: {{ Math.round((score.correct / score.total) * 100) }}%
+                </p>
             </div>
         </div>
     </div>
@@ -105,8 +139,6 @@
 import { ref, onMounted } from 'vue'
 import {
     handleImageError,
-    formatDisplayDate,
-    convertToInputDate,
     normalizeString,
     getRandomElement
 } from '@/utils/gameHelpers.js'
@@ -115,12 +147,19 @@ import {
 const peopleData = ref([])
 const currentPerson = ref(null)
 const userNickname = ref('')
-const userBirthdate = ref('')
+const userDay = ref('')
+const userMonth = ref('')
 const showResult = ref(false)
 const isCorrect = ref(false)
 const score = ref({ correct: 0, total: 0 })
 const loading = ref(true)
 const error = ref('')
+
+// Months array for dropdown
+const months = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+]
 
 // Load people data
 const loadPeopleData = async () => {
@@ -161,19 +200,65 @@ const selectRandomPerson = () => {
     }
 }
 
+// Extract day and month from birthdate string
+const extractDayMonth = (birthdateString) => {
+    if (!birthdateString) return { day: '', month: '' }
+    
+    // Handle different date formats
+    let date
+    if (birthdateString.includes('-')) {
+        // Format: YYYY-MM-DD or DD-MM-YYYY
+        const parts = birthdateString.split('-')
+        if (parts[0].length === 4) {
+            // YYYY-MM-DD
+            date = new Date(birthdateString)
+        } else {
+            // DD-MM-YYYY
+            date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+        }
+    } else if (birthdateString.includes('/')) {
+        // Format: DD/MM/YYYY or MM/DD/YYYY
+        const parts = birthdateString.split('/')
+        // Assume DD/MM/YYYY format
+        date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+    } else {
+        date = new Date(birthdateString)
+    }
+    
+    if (isNaN(date.getTime())) {
+        return { day: '', month: '' }
+    }
+    
+    return {
+        day: (date.getDate()).toString().padStart(2, '0'),
+        month: (date.getMonth() + 1).toString().padStart(2, '0')
+    }
+}
+
+// Format birthday for display (DD/MM format)
+const formatBirthday = (birthdateString) => {
+    const { day, month } = extractDayMonth(birthdateString)
+    if (!day || !month) return 'Format tanggal tidak valid'
+    
+    const monthName = months[parseInt(month) - 1] || month
+    return `${day} ${monthName}`
+}
+
 // Check answer
 const checkAnswer = () => {
     if (!currentPerson.value) return
 
     const correctNickname = normalizeString(currentPerson.value.nickname)
-    const correctBirthdate = convertToInputDate(currentPerson.value.birthdate)
+    const { day: correctDay, month: correctMonth } = extractDayMonth(currentPerson.value.birthdate)
 
     const userNicknameClean = normalizeString(userNickname.value)
-    const userBirthdateClean = userBirthdate.value.trim()
+    const userDayClean = userDay.value.trim()
+    const userMonthClean = userMonth.value.trim()
 
     isCorrect.value = (
         correctNickname === userNicknameClean &&
-        correctBirthdate === userBirthdateClean
+        correctDay === userDayClean &&
+        correctMonth === userMonthClean
     )
 
     showResult.value = true
@@ -187,7 +272,8 @@ const checkAnswer = () => {
 // Next friend
 const nextFriend = () => {
     userNickname.value = ''
-    userBirthdate.value = ''
+    userDay.value = ''
+    userMonth.value = ''
     showResult.value = false
     isCorrect.value = false
     selectRandomPerson()
@@ -196,11 +282,6 @@ const nextFriend = () => {
 // Handle image error with helper
 const onImageError = (event) => {
     handleImageError(event, '/images/profiles/placeholder.jpg')
-}
-
-// Format date for display with helper
-const formatDate = (dateString) => {
-    return formatDisplayDate(dateString)
 }
 
 // Initialize

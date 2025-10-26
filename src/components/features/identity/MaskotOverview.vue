@@ -1,9 +1,8 @@
 <template>
   <section class="pt-20 md:pt-24 lg:pt-32">
     <div class="text-center px-4 md:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6" 
-          v-motion :initial="{ opacity: 0, y: -50 }"
-          :enter="{ opacity: 1, y: 0, transition: { duration: 800 } }">
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6" v-motion
+        :initial="{ opacity: 0, y: -50 }" :enter="{ opacity: 1, y: 0, transition: { duration: 800 } }">
         MASKOT
       </h2>
     </div>
@@ -12,11 +11,7 @@
 
       <!-- Mascot Image Section -->
       <div class="relative h-80 lg:h-screen flex items-center justify-center p-6 lg:p-8 order-1 lg:order-1">
-        <img 
-          src="/images/mascott.png" 
-          alt="Mascot COBO" 
-          class="max-w-full max-h-full object-contain animate-float"
-        />
+        <img src="/images/mascott.png" alt="Mascot COBO" class="max-w-full max-h-full object-contain animate-float" />
       </div>
 
       <!-- Content Section -->
@@ -32,10 +27,15 @@
         </div>
 
         <!-- Description -->
-        <p class="text-base md:text-lg lg:text-xl font-normal leading-relaxed text-gray-300 lg:max-w-2xl">
-          Inilah identitas kami, Venco. Kami bukan cuma sekadar angkatan, tapi teman, partner, dan keluarga dalam satu
-          perjalanan penuh tawa dan pengalaman.
-          Yuk, kenalan dengan identitas kami lebih dekat✨
+        <p class="text-base md:text-lg lg:text-xl font-normal leading-relaxed  lg:max-w-2xl">
+          ‘Cobo’ adalah maskot angkatan ‘25 yang mencerminkan kecerdasan, rasa ingin tahu, serta keterbukaan dalam
+          berbagai informasi dan solusi. Nama ’Cobo’ diambil dari nama angkatan 25, yaitu VEN(COBO)LT.
+
+          
+        </p>
+        <p class="text-base md:text-lg lg:text-xl font-normal leading-relaxed  lg:max-w-2xl">
+          Nama ‘Cobo’ juga dalam bahasa Jawa berarti mencoba yang selaras dengan visi kami yang ingin tahu dan mencoba
+          hal-hal baru yang positif.
         </p>
       </div>
     </div>
@@ -55,6 +55,7 @@ import ShowcaseCarousel from '../../ui/ShowcaseCarousel.vue';
 
 <style scoped>
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
