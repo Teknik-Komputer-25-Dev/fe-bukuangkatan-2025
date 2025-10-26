@@ -1,150 +1,189 @@
 [
   {
     "question": "colotnbve",
-    "answer": "vencobolt"
+    "answer": "vencobolt",
+    "hint": "Nama angkatan 25 yang merupakan gabungan dari VENCO dan BOLT",
+    "explanation": "VENCOBOLT adalah nama resmi angkatan 25 Teknik Komputer yang menggabungkan konsep VENCO (Venti Cinco) dan BOLT (Bytes Optimized for Learning & Teamwork)"
   },
   {
     "question": "tokmke",
-    "answer": "tekkom"
+    "answer": "tekkom",
+    "hint": "Singkatan dari program studi kita",
+    "explanation": "TEKKOM adalah singkatan dari Teknik Komputer, program studi yang kita geluti"
   },
   {
     "question": "roptntumkikkee",
-    "answer": "teknikkomputer"
+    "answer": "teknikkomputer",
+    "hint": "Nama lengkap program studi kita",
+    "explanation": "Teknik Komputer adalah program studi yang mempelajari desain dan pengembangan sistem komputer"
   },
   {
     "question": "tniiveccon",
-    "answer": "venticinco"
+    "answer": "venticinco",
+    "hint": "Bahasa Spanyol untuk angka 25",
+    "explanation": "Venti Cinco berasal dari bahasa Spanyol yang artinya 25, menandakan angkatan 25"
   },
   {
     "question": "evonc",
-    "answer": "venco"
+    "answer": "venco",
+    "hint": "Singkatan dari Venti Cinco dan juga berarti Visionary Engineers in Networking & Computers",
+    "explanation": "VENCO memiliki makna ganda: singkatan dari Venti Cinco dan Visionary Engineers in Networking & Computers"
   },
   {
     "question": "obco",
-    "answer": "cobo"
+    "answer": "cobo",
+    "hint": "Nama maskot kita",
+    "explanation": "COBO adalah identitas kami, Venco.  bukan cuma sekadar angkatan, tapi teman, partner, dan keluarga"
   },
   {
     "question": "isvi",
-    "answer": "visi"
+    "answer": "visi",
+    "hint": "Pandangan jauh ke depan tentang tujuan yang ingin dicapai",
+    "explanation": "Visi adalah pernyataan tentang gambaran masa depan yang diinginkan"
   },
   {
-    "question": "simi",
-    "answer": "misi"
+    "question": "msii",
+    "answer": "misi",
+    "hint": "Langkah-langkah konkret untuk mencapai visi",
+    "explanation": "Misi adalah pernyataan tentang tindakan yang dilakukan untuk mencapai visi"
+  },
+  {
+    "question": "tlob",
+    "answer": "bolt",
+    "hint": "Bytes Optimized for Learning & Teamwork - bagian kedua dari nama maskot",
+    "explanation": "BOLT melambangkan individu angkatan 25 yang dibentuk untuk berkembang dan belajar bersama"
   },
   {
     "question": "dlaisoratsi",
-    "answer": "solidaritas"
+    "answer": "solidaritas",
+    "hint": "Sikap setia kawan dan kebersamaan dalam menghadapi tantangan",
+    "explanation": "Solidaritas adalah nilai penting yang menguatkan persatuan angkatan 25"
   },
   {
     "question": "ytebsooptmiedzforlearningteamwork",
-    "answer": "bytesoptimizedforlearningteamwork"
+    "answer": "bytesoptimizedforlearningteamwork",
+    "hint": "Kepanjangan dari BOLT yang menggambarkan filosofi angkatan 25",
+    "explanation": "Bytes Optimized for Learning & Teamwork menggambarkan individu angkatan yang dibentuk untuk berkembang bersama"
   },
   {
-    "question": "dcoilsyboed",
-    "answer": "solidbycode"
+    "question": "dbooilsyblt",
+    "answer": "solidbybolt",
+    "hint": "Bagian dari jargon angkatan 25: United by Code, ... by Bolt",
+    "explanation": "Solid by Bolt menggambarkan kekuatan yang didapat dari keahlian programming"
   },
   {
-    "question": "iuenblbytdot",
-    "answer": "unitedbybolt"
+    "question": "iuencodbytdoe",
+    "answer": "unitedbycode",
+    "hint": "Bagian pertama dari jargon angkatan 25: ... by Code, Solid by Bolt",
+    "explanation": "United by Code menggambarkan persatuan yang kuat seperti baut yang mengikat"
   },
   {
     "question": "akmeberseaan",
-    "answer": "kebersamaan"
+    "answer": "kebersamaan",
+    "hint": "Nilai persatuan dan kekompakan dalam angkatan",
+    "explanation": "Kebersamaan adalah fondasi kuat yang membangun solidaritas angkatan 25"
   },
-  {
-    "question": "guglnu",
-    "answer": "unggul"
-  },
+
   {
     "question": "ranlgein",
-    "answer": "learning"
+    "answer": "learning",
+    "hint": "Proses berkelanjutan yang menjadi bagian dari filosofi BOLT",
+    "explanation": "Learning adalah bagian penting dari 'Bytes Optimized for Learning & Teamwork'"
   },
   {
     "question": "mrowteak",
-    "answer": "teamwork"
+    "answer": "teamwork",
+    "hint": "Kerja sama tim yang menjadi kunci sukses angkatan 25",
+    "explanation": "Teamwork adalah bagian dari filosofi BOLT yang menekankan kolaborasi"
   },
   {
     "question": "suetdnts",
-    "answer": "students"
+    "answer": "students",
+    "hint": "Sebutan untuk kita semua yang sedang menuntut ilmu",
+    "explanation": "Students atau mahasiswa adalah identitas kita sebagai pembelajar"
   },
   {
     "question": "ereinsgnyorivnaein",
-    "answer": "visionaryengineers"
+    "answer": "visionaryengineers",
+    "hint": "Kepanjangan dari bagian pertama VENCO",
+    "explanation": "Visionary Engineers menggambarkan mahasiswa Teknik Komputer yang berwawasan maju"
   },
   {
     "question": "wkringteno",
-    "answer": "networking"
+    "answer": "networking",
+    "hint": "Bidang jaringan komputer dan juga berarti membangun relasi",
+    "explanation": "Networking memiliki makna ganda: jaringan komputer dan membangun hubungan sosial"
   },
   {
     "question": "mlduaetinmi",
-    "answer": "multimedia"
+    "answer": "multimedia",
+    "hint": "Bidang yang menggabungkan teks, audio, video, dan grafik",
+    "explanation": "Multimedia adalah salah satu bidang yang dipelajari dalam Teknik Komputer"
   },
   {
     "question": "debdemde",
-    "answer": "embedded"
+    "answer": "embedded",
+    "hint": "Sistem komputer yang terintegrasi dalam perangkat lain",
+    "explanation": "Melambangkan penjurusan Embedded di Teknik Komputer."
   },
   {
     "question": "apemgad",
-    "answer": "gamepad"
+    "answer": "gamepad",
+    "hint": "Alat kontrol untuk bermain game",
+    "explanation": "Gamepad melambangkan penjurusan Multimedia di Teknik Komputer."
   },
   {
     "question": "nентаaat", 
-    "answer": "antenna"
+    "answer": "antena",
+    "hint": "Perangkat untuk mengirim dan menerima sinyal radio",
+    "explanation": "Antena melambangkan penjurusan Networking di Teknik Komputer."
   },
   {
     "question": "ctiucri",
-    "answer": "circuit"
-  },
-  {
-    "question": "jbauhweb",
-    "answer": "jubahweb"
-  },
-  {
-    "question": "kltawikatel",
-    "answer": "walkietalkie"
+    "answer": "circuit",
+    "hint": "Jalur listrik yang menghubungkan komponen elektronik",
+    "explanation": "Circuit atau rangkaian listrik adalah dasar dari semua perangkat elektronik"
   },
   {
     "question": "pasiarsi",
-    "answer": "aspirasi"
+    "answer": "aspirasi",
+    "hint": "Cita-cita dan harapan yang ingin dicapai angkatan 25",
+    "explanation": "Aspirasi adalah impian dan tujuan yang mendorong angkatan 25 untuk maju"
   },
   {
     "question": "tbol",
-    "answer": "bolt"
+    "answer": "bolt",
+    "hint": "Bytes Optimized for Learning & Teamwork",
+    "explanation": "Bytes melambangkan individu angkatan ‘25 yang dibentuk (Optimized) untuk berkembang (Learning) bersama (Teamwork)"
   },
   {
     "question": "cavierte",
-    "answer": "creative"
+    "answer": "creative",
+    "hint": "Sifat inovatif yang harus dimiliki engineer masa depan",
+    "explanation": "Creative thinking adalah kunci untuk menciptakan solusi teknologi inovatif"
   },
   {
     "question": "rhgowt",
-    "answer": "growth"
+    "answer": "growth",
+    "hint": "Perkembangan dan kemajuan yang diinginkan angkatan 25",
+    "explanation": "Growth atau pertumbuhan adalah tujuan berkelanjutan untuk terus berkembang"
   },
   {
     "question": "mnuocnitagocmi",
-    "answer": "communicating"
+    "answer": "communicating",
+    "hint": "Kemampuan menyampaikan ide dan berkolaborasi",
+    "explanation": "Communicating adalah skill penting untuk bekerja dalam tim teknologi"
   },
   {
     "question": "lehgnaclle",
-    "answer": "challenge"
-  },
-  {
-    "question": "hreig",
-    "answer": "higher"
-  },
-  {
-    "question": "yrenge",
-    "answer": "energy"
+    "answer": "challenge",
+    "hint": "Tantangan yang dihadapi dalam perjalanan akademik",
+    "explanation": "Challenge atau tantangan adalah kesempatan untuk tumbuh dan belajar"
   },
   {
     "question": "atrms",
-    "answer": "smart"
-  },
-  {
-    "question": "pures",
-    "answer": "super"
-  },
-  {
-    "question": "rrore",
-    "answer": "error"
+    "answer": "smart",
+    "hint": "Sifat cerdas yang harus dimiliki mahasiswa teknik",
+    "explanation": "Smart thinking adalah kemampuan untuk memecahkan masalah dengan efisien"
   }
 ]
