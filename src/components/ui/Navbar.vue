@@ -1,12 +1,29 @@
 <template>
+  <!-- Desktop Navbar - Top -->
   <nav
     ref="navbarRef"
-    class="fixed top-2 md:top-6 left-1/2 z-50 flex items-center px-2 md:px-4 py-1 md:py-2 rounded-full drop-shadow-lg shadow-gray-400 gap-1 md:gap-4 transition-all duration-300 ease-in-out max-w-[95vw] md:max-w-none overflow-x-auto scrollbar-hide"
+    class="hidden md:flex fixed top-6 left-1/2 z-50 items-center px-4 py-2 rounded-full drop-shadow-lg shadow-gray-400 gap-4 transition-all duration-300 ease-in-out"
     :class="navbarClasses"
   >
     <NavLink
       v-for="navItem in navigationItems"
-      :key="navItem.path"
+      :key="`desktop-${navItem.path}`"
+      :to="navItem.path"
+      :label="navItem.label"
+      :icon="navItem.icon"
+      :is-active="isActive(navItem.path)"
+    />
+  </nav>
+
+  <!-- Mobile Navbar - Bottom -->
+  <nav
+    ref="mobileNavbarRef"
+    class="flex md:hidden fixed bottom-3 left-1/2 z-50 items-center px-4 py-3 rounded-full drop-shadow-lg shadow-gray-400 gap-3 transition-all duration-300 ease-in-out max-w-[95vw] overflow-x-auto scrollbar-hide pb-safe"
+    :class="mobileNavbarClasses"
+  >
+    <NavLink
+      v-for="navItem in navigationItems"
+      :key="`mobile-${navItem.path}`"
       :to="navItem.path"
       :label="navItem.label"
       :icon="navItem.icon"
@@ -19,10 +36,18 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useScrollNavbar } from '@/composables/useScrollNavbar.js'
+import { 
+  Home, 
+  Bot , 
+  Users, 
+  Images, 
+  Gamepad2 
+} from 'lucide-vue-next'
 import NavLink from './NavLink.vue'
 
 // Refs
 const navbarRef = ref(null)
+const mobileNavbarRef = ref(null)
 const route = useRoute()
 
 // Navigation items configuration
@@ -30,27 +55,27 @@ const navigationItems = [
   {
     path: '/',
     label: 'Home',
-    icon: '🏠'
+    icon: Home
   },
   {
     path: '/identity',
     label: 'Identity',
-    icon: '🆔'
+    icon: Bot 
   },
   {
     path: '/profile',
     label: 'Profile',
-    icon: '👤'
+    icon: Users
   },
   {
     path: '/gallery',
     label: 'Gallery',
-    icon: '🖼️'
+    icon: Images
   },
   {
     path: '/games',
     label: 'Fun Game',
-    icon: '🎮'
+    icon: Gamepad2
   }
 ]
 
@@ -67,8 +92,9 @@ const {
 // Computed properties
 const isActive = (path) => route.path === path
 
+// Desktop navbar classes (top)
 const navbarClasses = computed(() => [
-  // Transform and visibility
+  // Transform and visibility for desktop top navbar
   isNavbarVisible.value 
     ? 'translate-x-[-50%] translate-y-0 opacity-100 scale-100' 
     : 'translate-x-[-50%] -translate-y-20 opacity-0 scale-95',
@@ -79,9 +105,23 @@ const navbarClasses = computed(() => [
     : 'bg-[#C21807]/95 backdrop-blur-md'
 ])
 
-// Expose navbar ref for external access (e.g., modal scrollbar compensation)
+// Mobile navbar classes (bottom)
+const mobileNavbarClasses = computed(() => [
+  // Transform and visibility for mobile bottom navbar
+  isNavbarVisible.value 
+    ? 'translate-x-[-50%] translate-y-0 opacity-100 scale-100' 
+    : 'translate-x-[-50%] translate-y-20 opacity-0 scale-95',
+  
+  // Background based on scroll position
+  isAtTop.value 
+    ? 'bg-[#C21807]' 
+    : 'bg-[#C21807]/95 backdrop-blur-md'
+])
+
+// Expose navbar refs for external access (e.g., modal scrollbar compensation)
 defineExpose({
-  navbarRef
+  navbarRef,
+  mobileNavbarRef
 })
 </script>
 
@@ -94,5 +134,18 @@ defineExpose({
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Mobile navbar at bottom improvements */
+@media (max-width: 768px) {
+  /* Target only mobile navbar */
+  nav[class*="bottom-3"] {
+    /* Add safe area for devices with home indicator */
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    /* Better shadow for bottom navbar */
+    box-shadow: 0 -6px 10px -2px rgba(0, 0, 0, 0.1), 0 -4px 6px -1px rgba(0, 0, 0, 0.06);
+    /* Minimum height for better touch targets */
+    min-height: 4rem;
+  }
 }
 </style>

@@ -1,19 +1,23 @@
 <template>
   <RouterLink
     :to="to"
-    class="px-2 md:px-4 py-1 md:py-2 rounded-full text-sm md:text-base whitespace-nowrap transition-all duration-200 flex items-center gap-1 md:gap-2 relative focus:outline-none focus:ring-2 focus:ring-[#FFE787]/50 focus:ring-offset-2 focus:ring-offset-transparent group"
+    class="px-3 md:px-4 py-3 md:py-2 rounded-full text-sm md:text-base whitespace-nowrap transition-all duration-200 flex items-center gap-1 md:gap-2 relative focus:outline-none focus:ring-2 focus:ring-[#FFE787]/50 focus:ring-offset-2 focus:ring-offset-transparent group"
     :class="linkClasses"
   >
-    <!-- Desktop text -->
-    <span class="hidden sm:inline">{{ label }}</span>
+    <!-- Desktop: Show text -->
+    <span class="hidden md:inline">{{ label }}</span>
     
-    <!-- Mobile icon -->
-    <span class="sm:hidden" v-if="icon">{{ icon }}</span>
+    <!-- Mobile: Show icon -->
+    <component 
+      v-if="icon"
+      :is="icon" 
+      class="md:hidden w-6 h-6" 
+    />
     
-    <!-- Active indicator -->
+    <!-- Active indicator for desktop -->
     <span 
       v-if="isActive"
-      class="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-5 h-0.5 bg-[#FFE787] rounded-full animate-slideIn hidden sm:block"
+      class="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-5 h-0.5 bg-[#FFE787] rounded-full animate-slideIn hidden md:block"
     ></span>
   </RouterLink>
 </template>
@@ -33,8 +37,8 @@ const props = defineProps({
     required: true
   },
   icon: {
-    type: String,
-    default: ''
+    type: [String, Object],
+    default: null
   },
   isActive: {
     type: Boolean,
@@ -74,7 +78,8 @@ const linkClasses = computed(() => [
 /* Mobile specific adjustments for very small screens */
 @media (max-width: 640px) {
   .RouterLink {
-    min-width: 2.5rem;
+    min-width: 3.5rem;
+    min-height: 3.5rem;
     justify-content: center;
   }
 }
