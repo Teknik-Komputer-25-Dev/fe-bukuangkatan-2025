@@ -22,7 +22,7 @@
           :enter="{ opacity: 1, scale: 1, transition: { duration: 1000, delay: 300 } }"
         >
           <!-- Frame Header -->
-          <div class="bg-blue-500 text-white px-3 md:px-4 py-2 rounded-t-xl flex items-center">
+          <div class="bg-purple-600 text-white px-3 md:px-4 py-2 rounded-t-xl flex items-center">
             <div class="flex space-x-1 mr-3">
               <div class="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full"></div>
               <div class="w-2 h-2 md:w-3 md:h-3 bg-yellow-500 rounded-full"></div>
