@@ -4,9 +4,9 @@
     <button 
       @click="prev" 
       :disabled="isTransitioning"
-      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm bg-white/10 hover:bg-white/20 hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </button>
@@ -14,9 +14,9 @@
     <button 
       @click="next" 
       :disabled="isTransitioning"
-      class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm bg-white/10 hover:bg-white/20 hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
@@ -25,7 +25,7 @@
     <div class="container mx-auto px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <!-- Kiri: Teks -->
-        <div class="transition-all duration-500 ease-in-out">
+        <div class="transition-all duration-500 ease-in-out md:pl-16">
           <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 transition-all duration-500 ease-in-out">
             {{ items[active].title }}
           </h2>
@@ -53,7 +53,7 @@
         v-for="(item, index) in items"
         :key="index"
         @click="goToSlide(index)"
-        :class="[
+        :class="[ 
           'w-3 h-3 rounded-full transition-all duration-300',
           active === index 
             ? 'bg-white scale-125 shadow-lg' 
