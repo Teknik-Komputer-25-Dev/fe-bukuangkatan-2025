@@ -1,5 +1,5 @@
 <template>
-  <section class="relative rounded-xl overflow-hidden my-8" @mouseenter="stopAutoPlay" @mouseleave="startAutoPlay">
+  <section class="relative rounded-xl overflow-hidden my-8">
     <!-- Carousel Navigation -->
     <button 
       @click="prev" 
@@ -22,7 +22,7 @@
     </button>
 
     <!-- Carousel Content -->
-    <div class="container mx-auto px-6 py-12">
+    <div class="container mx-auto px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <!-- Kiri: Teks -->
         <div class="transition-all duration-500 ease-in-out">
@@ -113,7 +113,6 @@ const items = [
 
 const active = ref(0)
 const isTransitioning = ref(false)
-let autoPlayInterval = null
 
 function prev() {
   if (isTransitioning.value) return
@@ -148,24 +147,21 @@ function goToSlide(index) {
   }, 500)
 }
 
-function startAutoPlay() {
-  autoPlayInterval = setInterval(() => {
+function handleKeydown(event) {
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault()
+    prev()
+  } else if (event.key === 'ArrowRight') {
+    event.preventDefault()
     next()
-  }, 4000) // Auto slide setiap 4 detik
-}
-
-function stopAutoPlay() {
-  if (autoPlayInterval) {
-    clearInterval(autoPlayInterval)
-    autoPlayInterval = null
   }
 }
 
 onMounted(() => {
-  startAutoPlay()
+  window.addEventListener('keydown', handleKeydown)
 })
 
 onUnmounted(() => {
-  stopAutoPlay()
+  window.removeEventListener('keydown', handleKeydown)
 })
 </script>
