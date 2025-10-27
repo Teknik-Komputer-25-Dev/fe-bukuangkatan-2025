@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-transparent">
-      <div class="flex justify-center mt-20">
+    <div class="bg-transparent pt-14 md:pt-28 lg:pt-32">
+      <div class="flex justify-center ">
         <div class="flex items-center bg-[#e8e8e8] rounded-full px-4 py-2 w-90 relative">
           <!-- Search Input -->
           <input 
@@ -61,7 +61,7 @@
                   class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors flex items-center justify-between"
                   :class="{ 'bg-blue-50 text-blue-700 font-medium': currentSort === option.value }"
                 >
-                  <span>{{ option.label }}</span>
+                  <span class="text-black">{{ option.label }}</span>
                   <svg v-if="currentSort === option.value" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
@@ -80,7 +80,9 @@
                       <path v-if="currentSortOrder === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                       <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
                     </svg>
-                    {{ getSortOrderText() }}
+                   <span class="text-black">
+                     {{ getSortOrderText() }}
+                   </span> 
                   </span>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -106,7 +108,7 @@
       <!-- Heading Section -->
       <div class="text-center mt-10">
         <h1 class="text-4xl font-medium">Profile Teknik Komputer 25</h1>
-        <p class="text-xl text-gray-700 mt-5 font-medium">Teman teman yang kece dan keren!</p>
+        <p class="text-xl  mt-5 font-medium">Temui para bintang Venco!</p>
       </div>
     </div>
   </template>
