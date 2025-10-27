@@ -5265,7 +5265,8 @@
     },
     "skillRahasia": "Salto :D",
     "tinggiBadan": "159"
-  },
+  }
+  ,
   {
     "fullName": "Bimoseno Marcello Saint",
     "nickname": "Bimo",
@@ -5288,5 +5289,28 @@
     "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761306157/21120125140196_ptz0qk.jpg",
     "skillRahasia": "pargoy sambil naik motor",
     "tinggiBadan": "172"
+  },
+  {
+    "fullName": "Sifia Engga Fahsyenka",
+    "nickname": "Sifia",
+    "studentId": "21120125130057",
+    "city": "Semarang",
+    "birthplace": "Semarang",
+    "birthdate": "04/03/2005",
+    "address": "Bangetayu Kulon, Genuk, Kota semarang",
+    "religion": "Islam",
+    "phone": "087862766934",
+    "lineid": "crimson_clover",
+    "instagram": "-",
+    "motto": "Lebih baik mencoba sedikit daripada menunggu sempurna selamanya.",
+    "reason": "Motivasi ini saya pilih karena saya adalah tipe orang yang selalu menunda-nunda karena bingung harus mulai dari mana",
+    "organization": "-",
+    "link1": "https://drive.google.com/open?id=1YfCYlWxdjvT-t6a2e4T7QvtNshQo-TWL",
+    "class": "A",
+    "formalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761547048/21120125130057_llw94g.jpg",
+    "signature": "",
+    "generalphoto": "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1761547046/21120125130057_kjps3y.jpg",
+    "skillRahasia": "bisa baca 4 novel dalam sehari",
+    "tinggiBadan": "166"
   }
 ]
