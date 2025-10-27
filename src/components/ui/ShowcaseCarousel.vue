@@ -35,7 +35,7 @@
         </div>
         <!-- Kanan: Gambar -->
         <div class="flex justify-center">
-          <div class="relative w-full bg-[#FFFADD]/70 backdrop-blur-sm max-w-md h-64 md:h-80 overflow-hidden rounded-2xl">
+          <div class="relative w-full bg-[#FFFADD]/70 backdrop-blur-md bg-white/10 border border-white/20 max-w-md h-64 md:h-80 overflow-hidden rounded-2xl">
             <img 
               :src="items[active].imgText" 
               :alt="items[active].title"
