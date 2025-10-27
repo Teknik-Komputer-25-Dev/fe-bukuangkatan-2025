@@ -14,10 +14,10 @@
     />
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="pb-10">
+    <div v-if="isLoading" class="pb-6 md:pb-10">
       <div class="flex justify-center mt-3">
         <div
-          class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          class="p-3 md:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6"
         >
           <ProfileCardSkeleton v-for="n in itemsPerPage" :key="n" />
         </div>
@@ -27,13 +27,13 @@
     <!-- Error State -->
     <div
       v-else-if="error"
-      class="flex items-center justify-center py-20"
+      class="flex items-center justify-center py-12 md:py-20 px-4"
     >
-      <div class="text-center p-8 bg-white/80 rounded-xl shadow-lg">
+      <div class="text-center p-6 md:p-8 bg-white/80 rounded-xl shadow-lg max-w-md w-full">
         <div class="text-red-500 text-lg mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-16 w-16 mx-auto mb-4"
+            class="h-12 w-12 md:h-16 md:w-16 mx-auto mb-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -46,13 +46,13 @@
             />
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
+        <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2">
           Error Loading Profiles
         </h3>
-        <p class="text-gray-600 mb-4">{{ error }}</p>
+        <p class="text-sm md:text-base text-gray-600 mb-4">{{ error }}</p>
         <button
           @click="loadProfiles"
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          class="px-4 py-2 bg-blue-600     rounded-md hover:bg-blue-700 transition-colors text-sm md:text-base"
         >
           Try Again
         </button>
@@ -62,13 +62,13 @@
     <!-- Empty State -->
     <div
       v-else-if="totalResults === 0 && !isLoading"
-      class="flex items-center justify-center py-20"
+      class="flex items-center justify-center py-12 md:py-20 px-4"
     >
-      <div class="text-center p-8 bg-white/80 rounded-xl shadow-lg">
+      <div class="text-center p-6 md:p-8 bg-white/80 rounded-xl shadow-lg max-w-md w-full">
         <div class="text-gray-400 text-lg mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-16 w-16 mx-auto mb-4"
+            class="h-12 w-12 md:h-16 md:w-16 mx-auto mb-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -81,10 +81,10 @@
             />
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">
+        <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2">
           No profiles found
         </h3>
-        <p class="text-gray-600 mb-4">
+        <p class="text-sm md:text-base text-gray-600 mb-4">
           {{
             debouncedSearchQuery
               ? `No results for "${debouncedSearchQuery}"`
@@ -94,7 +94,7 @@
         <button
           v-if="debouncedSearchQuery"
           @click="clearSearch"
-          class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+          class="px-4 py-2 bg-gray-600     rounded-md hover:bg-gray-700 transition-colors text-sm md:text-base"
         >
           Clear Search
         </button>
@@ -102,10 +102,10 @@
     </div>
 
     <!-- Profiles Grid -->
-    <div v-else class="pb-10">
-      <div v-if="debouncedSearchQuery" class="flex justify-center mt-6">
+    <div v-else class="pb-6 md:pb-10">
+      <div v-if="debouncedSearchQuery" class="flex justify-center mt-4 md:mt-6 px-4">
         <div
-          class="text-sm text-gray-100 bg-white/80 px-4 py-2 rounded-full shadow-sm border border-white/30"
+          class="text-xs md:text-sm text-gray-100 bg-purple-500/60 px-3 md:px-4 py-2 rounded-full shadow-sm border border-white/30 max-w-md text-center"
         >
           Found {{ totalResults }} result{{
             totalResults !== 1 ? "s" : ""
@@ -122,20 +122,20 @@
 
       <div class="flex justify-center mt-3">
         <div
-          class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          class="p-3 md:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6"
         >
           <div
             v-for="(profile, index) in paginatedProfiles"
             :key="profile.studentId || index"
             @click="openProfileModal(profile)"
-            class="border border-white/30 bg-white/10 backdrop-blur-md rounded-xl shadow-md p-4 flex flex-col items-start hover:shadow-lg transition-all duration-200 group cursor-pointer"
+            class="border border-white/30 bg-white/10 backdrop-blur-md rounded-xl shadow-md p-3 md:p-4 flex flex-col items-start hover:shadow-lg transition-all duration-200 group cursor-pointer"
           >
             <div class="w-full flex justify-center">
               <div class="relative">
                 <img
                   :src="profile.imageUrl"
                   :alt="`${profile.fullName} profile photo`"
-                  class="w-40 h-40 object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-200"
+                  class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-xl mb-3 md:mb-4 group-hover:scale-105 transition-transform duration-200"
                   loading="lazy"
                   @load="handleImageLoad(profile)"
                   @error="handleImageError(profile, $event)"
@@ -143,11 +143,11 @@
 
                 <!-- Hover Overlay -->
                 <div
-                  class="absolute inset-0 w-40 h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                  class="absolute inset-0 w-32 h-32 md:w-40 md:h-40 bg-black/0 group-hover:bg-black/20 rounded-xl mb-3 md:mb-4 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-8 w-8 text-white"
+                    class="h-6 w-6 md:h-8 md:w-8    "
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -166,24 +166,24 @@
             <!-- Text Section -->
             <div class="w-full">
               <h2
-                class="font-medium text-sm text-left mb-1 text-white/90"
+                class="font-medium text-xs md:text-sm text-left mb-1    /90"
               >
                 {{ profile.nickname || profile.fullName }}
               </h2>
               <p
-                class="text-xs text-white text-left mb-1 font-medium"
+                class="text-xs     text-left mb-1 font-medium"
               >
                 {{ profile.fullName }}
               </p>
-              <p class="text-xs text-white text-left mb-1">
+              <p class="text-xs     text-left mb-1">
                 {{ profile.studentId }}
               </p>
               <div class="flex items-center justify-between text-xs">
-                <span class="text-white font-medium">
+                <span class="    font-medium">
                   {{ profile.city }}
                 </span>
                 <span
-                  class="px-2 py-1 rounded-full border border-white text-white font-semibold bg-transparent"
+                  class="px-2 py-1 rounded-full border border-white     font-semibold bg-transparent text-xs"
                 >
                   {{ profile.class }}
                 </span>
@@ -194,7 +194,7 @@
       </div>
 
       <!-- Pagination -->
-      <div class="flex justify-center mt-10 mb-10">
+      <div class="flex justify-center mt-6 md:mt-10 mb-6 md:mb-10 px-4">
         <PaginationControls
           :current-page="currentPage"
           :total-pages="totalPages"
@@ -254,13 +254,29 @@ const selectedProfile = ref(null);
 const openProfileModal = (profile) => {
   selectedProfile.value = profile;
   isModalVisible.value = true;
+  // Get scrollbar width to prevent layout shift
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
   document.body.style.overflow = "hidden";
+  document.body.style.paddingRight = `${scrollbarWidth}px`;
+  
+  // Also apply to any fixed positioned elements that might shift
+  const navbar = document.querySelector('nav');
+  if (navbar) {
+    navbar.style.paddingRight = `${scrollbarWidth}px`;
+  }
 };
 
 const closeProfileModal = () => {
   isModalVisible.value = false;
   selectedProfile.value = null;
   document.body.style.overflow = "unset";
+  document.body.style.paddingRight = "0px";
+  
+  // Reset navbar padding
+  const navbar = document.querySelector('nav');
+  if (navbar) {
+    navbar.style.paddingRight = "0px";
+  }
 };
 
 const handleSearch = (query) => setSearchQuery(query);
