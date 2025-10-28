@@ -4,8 +4,8 @@
     <div class="relative p-4 md:p-10">
       <!-- Header -->
       <div class="mb-10 text-center md:text-left text-white">
-        <h1 class="text-3xl md:text-4xl font-bold">TEKKOM 25.</h1>
-        <p class="text-gray-300 mt-2">OUR GALLERY.</p>
+        <h1 class="text-3xl md:text-4xl font-bold">TEKKOM 25</h1>
+        <p class="text-gray-300 mt-2">OUR GALLERY</p>
       </div>
 
       <!-- Layout -->
@@ -214,7 +214,7 @@ const gallery = ref([
     aspect: "portrait",
   },
   {
-    title: "Foto Angkatan",
+    title: "Foto Setelah PKKMB",
     image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168629/foto-angkatan-1_jivta7.jpg",
     description: [
       "Keluarga besar Teknik Komputer Undip. Berbeda latar, satu tujuan, berkembang bersama sama. Momen ini bukan sekadar foto, tapi bukti awal perjalanan kami sebagai satu angkatan."
