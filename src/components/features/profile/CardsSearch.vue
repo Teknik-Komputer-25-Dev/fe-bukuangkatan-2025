@@ -178,12 +178,12 @@
               <p class="text-xs     text-left mb-1">
                 {{ profile.studentId }}
               </p>
-              <div class="flex items-center justify-between text-xs">
-                <span class="    font-medium">
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="    font-medium truncate flex-1">
                   {{ profile.city }}
                 </span>
                 <span
-                  class="px-2 py-1 rounded-full border border-white     font-semibold bg-transparent text-xs"
+                  class="px-2 py-1 rounded-full border border-white     font-semibold bg-transparent text-xs flex-shrink-0"
                 >
                   {{ profile.class }}
                 </span>

@@ -66,7 +66,7 @@
           >
             <ProfileField label="Asal" :value="profile?.city" />
             <ProfileField label="TTL" :value="`${profile?.birthplace || '-'}, ${profile?.birthdate || '-'}`" />
-            <ProfileField label="Alamat" :value="profile?.address" />
+            <ProfileField label="Alamat saat ini" :value="profile?.address" />
             <ProfileField label="Agama" :value="profile?.religion" />
             <ProfileField label="No HP" :value="profile?.phone" />
             <ProfileField label="ID Line" :value="profile?.lineid" />
