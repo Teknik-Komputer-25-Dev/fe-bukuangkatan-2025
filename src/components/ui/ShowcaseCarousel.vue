@@ -26,7 +26,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <!-- Kiri: Teks -->
         <div class="transition-all duration-500 ease-in-out md:pl-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 transition-all duration-500 ease-in-out">
+          <h2 class="text-4xl md:text-5xl font-bold  mb-4 transition-all duration-500 ease-in-out">
             {{ items[active].title }}
           </h2>
           <p class="text-lg mb-6 text-gray-200 transition-all duration-500 ease-in-out">
@@ -35,7 +35,7 @@
         </div>
         <!-- Kanan: Gambar -->
         <div class="flex justify-center">
-          <div class="relative w-full bg-[#FFFADD]/70 backdrop-blur-md bg-white/10 border border-white/20 max-w-md h-64 md:h-80 overflow-hidden rounded-2xl">
+          <div class="relative w-full  backdrop-blur-md bg-white/10 border border-white/20 max-w-md h-64 md:h-80 overflow-hidden rounded-2xl">
             <img 
               :src="items[active].imgText" 
               :alt="items[active].title"

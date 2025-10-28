@@ -1,7 +1,7 @@
 <template>
   <section class="pt-20 md:pt-24 lg:pt-32">
     <div class="text-center px-4 md:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6" v-motion
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold  mb-4 md:mb-6" v-motion
         :initial="{ opacity: 0, y: -50 }" :enter="{ opacity: 1, y: 0, transition: { duration: 800 } }">
         MASKOT
       </h2>
@@ -18,7 +18,7 @@
       <div class="px-6 lg:px-16 space-y-6 flex flex-col justify-center order-2 lg:order-2">
         <!-- Title COBO -->
         <div class="space-y-4">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight text-white">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight ">
             COBO <span class="text-2xl md:text-3xl lg:text-4xl font-normal text-gray-300">(Ko.bo)</span>
           </h1>
 
