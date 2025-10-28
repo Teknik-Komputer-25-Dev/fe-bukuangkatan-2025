@@ -22,7 +22,7 @@
           :enter="{ opacity: 1, scale: 1, transition: { duration: 1000, delay: 300 } }"
         >
           <!-- Frame Header -->
-          <div class="bg-blue-500 text-white px-3 md:px-4 py-2 rounded-t-xl flex items-center">
+          <div class="bg-purple-600  px-3 md:px-4 py-2 rounded-t-xl flex items-center">
             <div class="flex space-x-1 mr-3">
               <div class="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full"></div>
               <div class="w-2 h-2 md:w-3 md:h-3 bg-yellow-500 rounded-full"></div>
@@ -35,7 +35,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
               <!-- Left Column -->
               <div class="space-y-4 lg:space-y-6">
-                <div class="text-purple-900 leading-relaxed text-sm md:text-base">
+                <div class="text-purple-950 font-semibold leading-relaxed text-sm md:text-base yel-yel-text">
                   <p class="mb-3 md:mb-4">This is for Venco ( Venco! )</p>
                   <p class="mb-3 md:mb-4">We are super ( Super )</p>
                   <p class="mb-3 md:mb-4">There are no error ( No Error )</p>
@@ -49,7 +49,7 @@
 
               <!-- Right Column -->
               <div class="space-y-4 lg:space-y-6">
-                <div class="text-purple-900 leading-relaxed text-sm md:text-base">
+                <div class="text-purple-950 font-semibold leading-relaxed text-sm md:text-base yel-yel-text">
                   <p class="mb-3 md:mb-4">Kekuatan kita kan beri kita mahkota</p>
                   <p class="mb-3 md:mb-4">Tekkom 25 di sini kan merangkulmu</p>
                   <p class="mb-3 md:mb-4">Jiwa bergejolak menjalar penuh semangat</p>
@@ -81,6 +81,11 @@
 /* Glassmorphism effect enhancement */
 .backdrop-blur-md {
   backdrop-filter: blur(16px);
+}
+
+/* Text shadow for better contrast */
+.yel-yel-text {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 /* Animation for floating effect */

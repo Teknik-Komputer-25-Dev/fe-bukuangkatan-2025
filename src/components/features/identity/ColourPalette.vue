@@ -133,15 +133,6 @@
         <!-- Color Navigation Dots -->
         <div class="flex justify-center items-center space-x-4 mt-4">
           
-          <!-- Auto-play Control -->
-          <button
-            @click="autoPlay = !autoPlay; autoPlay ? startAutoPlay() : stopAutoPlay()"
-            class="flex items-center space-x-2 px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors text-xs text-gray-700"
-          >
-            <span>{{ autoPlay ? '⏸️' : '▶️' }}</span>
-            <span>{{ autoPlay ? 'Pause' : 'Play' }}</span>
-          </button>
-          
           <!-- Color Dots -->
           <div class="flex space-x-2">
             <button
@@ -160,7 +151,7 @@
           
           <!-- Keyboard Hint -->
           <span class="text-xs text-gray-400 hidden md:block">
-            ← → Space
+            ← →
           </span>
           
         </div>
@@ -203,37 +194,11 @@ const colors = ref([
 ])
 
 // Active color state
-const activeColor = ref(0) // Default to first color
-const autoPlay = ref(true)
-const autoPlayInterval = ref(null)
+const activeColor = ref(0) // Default to first color (Lavender floral)
 
 // Set active color
 const setActiveColor = (index) => {
   activeColor.value = index
-  // Restart auto-play timer when manually selecting
-  if (autoPlay.value) {
-    startAutoPlay()
-  }
-}
-
-// Auto-play functionality
-const startAutoPlay = () => {
-  if (autoPlayInterval.value) {
-    clearInterval(autoPlayInterval.value)
-  }
-  
-  autoPlayInterval.value = setInterval(() => {
-    if (autoPlay.value) {
-      activeColor.value = (activeColor.value + 1) % colors.value.length
-    }
-  }, 4000) // Change every 4 seconds
-}
-
-const stopAutoPlay = () => {
-  if (autoPlayInterval.value) {
-    clearInterval(autoPlayInterval.value)
-    autoPlayInterval.value = null
-  }
 }
 
 // Keyboard navigation
@@ -246,15 +211,6 @@ const handleKeyDown = (event) => {
     case 'ArrowRight':
       event.preventDefault()
       activeColor.value = (activeColor.value + 1) % colors.value.length
-      break
-    case ' ':
-      event.preventDefault()
-      autoPlay.value = !autoPlay.value
-      if (autoPlay.value) {
-        startAutoPlay()
-      } else {
-        stopAutoPlay()
-      }
       break
   }
 }
@@ -273,17 +229,11 @@ const getTextColor = (bgColor, isSecondary = false) => {
 
 // Lifecycle hooks
 onMounted(() => {
-  // Start auto-play after initial animation
-  setTimeout(() => {
-    startAutoPlay()
-  }, 2000)
-  
   // Add keyboard event listener
   window.addEventListener('keydown', handleKeyDown)
 })
 
 onUnmounted(() => {
-  stopAutoPlay()
   window.removeEventListener('keydown', handleKeyDown)
 })
 </script>
