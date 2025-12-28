@@ -147,11 +147,11 @@ async function analyzePhotoMatching() {
         log('✅ Cloudinary connection successful!', 'success');
         
         // Get photos from both folders
-        const [generalPhotos, formalPhotos, students] = await Promise.all([
-            getPhotosFromFolder('T-25-nonFormal'),
-            getPhotosFromFolder('T-25-Formal'),
-            loadStudentData()
-        ]);
+            const [generalPhotos, formalPhotos, students] = await Promise.all([
+                getPhotosFromFolder('nonformal-T25'),
+                getPhotosFromFolder('formal-T25'),
+                loadStudentData()
+            ]);
         
         // Create student lookup by NIM
         const studentByNIM = {};
@@ -165,7 +165,7 @@ async function analyzePhotoMatching() {
         });
         
         // Analyze general photos
-        console.log(`\n${colors.cyan}=== ANALISIS GENERAL PHOTOS (T-25-nonFormal) ===${colors.reset}`);
+            console.log(`\n${colors.cyan}=== ANALISIS GENERAL PHOTOS (nonformal-T25) ===${colors.reset}`);
         
         const matchedGeneralNIMs = new Set();
         const unmatchedGeneralPhotos = [];
@@ -208,7 +208,7 @@ async function analyzePhotoMatching() {
         });
         
         // Analyze formal photos
-        console.log(`\n${colors.cyan}=== ANALISIS FORMAL PHOTOS (T-25-Formal) ===${colors.reset}`);
+            console.log(`\n${colors.cyan}=== ANALISIS FORMAL PHOTOS (formal-T25) ===${colors.reset}`);
         
         const matchedFormalNIMs = new Set();
         const unmatchedFormalPhotos = [];

@@ -270,8 +270,8 @@ async function main() {
         
         // Get photos from both folders
         const [generalPhotos, formalPhotos] = await Promise.all([
-            getPhotosFromFolder('T-25-nonFormal'),
-            getPhotosFromFolder('T-25-Formal')
+            getPhotosFromFolder('nonformal-T25'),
+            getPhotosFromFolder('formal-T25'),
         ]);
         
         if (generalPhotos.length === 0 && formalPhotos.length === 0) {

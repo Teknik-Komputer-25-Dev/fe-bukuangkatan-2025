@@ -56,27 +56,27 @@ function log(message, type = 'info') {
 
 async function getFormalPhotosFromCloudinary() {
     try {
-        log('🔍 Mengambil foto formal dari folder T-25-Formal...');
-        
+        log('🔍 Mengambil foto formal dari folder formal-T25...');
+
         // Use resources_by_asset_folder to get photos from specific folder
-        const folderName = 'T-25-Formal';
-        
+        const folderName = 'formal-T25';
+
         try {
-            // Get photos from T-25-Formal folder using resources_by_asset_folder
+            // Get photos from formal-T25 folder using resources_by_asset_folder
             const formalResult = await cloudinary.api.resources_by_asset_folder(folderName, {
                 max_results: 500
             });
-            
+
             const formalPhotos = formalResult.resources;
             log(`📁 ${folderName}: ${formalPhotos.length} photos ditemukan`, 'success');
-            
+
             if (formalPhotos.length === 0) {
                 log(`⚠️ Tidak ada foto ditemukan di folder ${folderName}`, 'warning');
                 return [];
             }
-            
+
             log(`✅ Berhasil mengambil ${formalPhotos.length} foto untuk formalphoto`, 'success');
-            
+
             return formalPhotos.map(resource => ({
                 public_id: resource.public_id,
                 url: resource.secure_url,
@@ -84,27 +84,27 @@ async function getFormalPhotosFromCloudinary() {
                 nim: extractNIMFromFilename(resource.public_id),
                 folder: folderName
             }));
-            
+
         } catch (err) {
             // Fallback: try using prefix method if folder API fails
             log(`⚠️ Error menggunakan resources_by_asset_folder: ${err.message}`, 'warning');
             log('🔄 Mencoba menggunakan prefix method sebagai fallback...');
-            
+
             const fallbackResult = await cloudinary.api.resources({
                 type: 'upload',
-                prefix: 'T-25-Formal/',
+                prefix: 'formal-T25/',
                 max_results: 500
             });
-            
+
             const fallbackPhotos = fallbackResult.resources;
-            log(`📁 T-25-Formal (fallback): ${fallbackPhotos.length} photos ditemukan`);
-            
+            log(`📁 formal-T25 (fallback): ${fallbackPhotos.length} photos ditemukan`);
+
             return fallbackPhotos.map(resource => ({
                 public_id: resource.public_id,
                 url: resource.secure_url,
                 filename: path.basename(resource.public_id),
                 nim: extractNIMFromFilename(resource.public_id),
-                folder: 'T-25-Formal'
+                folder: 'formal-T25'
             }));
         }
         
@@ -240,7 +240,7 @@ async function showSummary(matches) {
 }
 
 async function main() {
-    console.log(`${colors.green}🖼️  Formal Photos Updater (T-25-Formal)${colors.reset}`);
+    console.log(`${colors.green}🖼️  Formal Photos Updater (formal-T25)${colors.reset}`);
     console.log(`${colors.white}=========================================${colors.reset}\n`);
     
     try {
@@ -249,11 +249,11 @@ async function main() {
         await cloudinary.api.ping();
         log('✅ Cloudinary connection successful!', 'success');
         
-        // Get formal photos from T-25-Formal folder
+        // Get formal photos from formal-T25 folder
         const photos = await getFormalPhotosFromCloudinary();
-        
+
         if (photos.length === 0) {
-            log('❌ Tidak ada foto ditemukan di folder T-25-Formal', 'error');
+            log('❌ Tidak ada foto ditemukan di folder formal-T25', 'error');
             return;
         }
         
@@ -286,7 +286,7 @@ async function main() {
         
         if (confirm.toLowerCase() === 'y' || confirm.toLowerCase() === 'yes') {
             const updatedCount = await updateFormalPhotosInJSON(matches);
-            log(`🎉 Selesai! ${updatedCount} formalphoto berhasil diupdate dari folder T-25-Formal`, 'success');
+            log(`🎉 Selesai! ${updatedCount} formalphoto berhasil diupdate dari folder formal-T25`, 'success');
         } else {
             log('❌ Update dibatalkan', 'warning');
         }
@@ -299,4 +299,159 @@ async function main() {
 }
 
 // Run the script
-main();
+
+// --- INTERACTIVE RENAME FEATURE FOR FORMAL PHOTOS ---
+import readline from 'readline';
+
+async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
+    log('🖼️  Cloudinary Asset Renamer (formal-T25)', 'info');
+    // 1. Fetch assets
+    let assets;
+    try {
+        const result = await cloudinary.api.resources_by_asset_folder('formal-T25', { max_results: 500 });
+        assets = result.resources;
+    } catch (err) {
+        log(`Gagal mengambil assets: ${err.message}`, 'error');
+        return;
+    }
+    if (!assets.length) {
+        log('Tidak ada asset ditemukan di folder formal-T25', 'error');
+        return;
+    }
+    // 2. Display numbered list
+    console.log(`\n${colors.cyan}Daftar asset di formal-T25:${colors.reset}`);
+    assets.forEach((asset, i) => {
+        console.log(`${colors.white}${i + 1}. ${asset.public_id}${colors.reset}`);
+    });
+
+    // 3. Prompt for selection
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    const ask = q => new Promise(res => rl.question(q, res));
+    let selection;
+    while (true) {
+        selection = await ask(`\n${colors.yellow}Pilih nomor file yang ingin di-rename (misal: 1,3,5): ${colors.reset}`);
+        if (/^\d+(,\d+)*$/.test(selection.replace(/\s+/g, ''))) break;
+        log('Input tidak valid. Contoh: 1,3,5', 'warning');
+    }
+    const indices = selection.split(',').map(s => parseInt(s.trim(), 10) - 1);
+    const selectedAssets = indices.map(i => assets[i]).filter(Boolean);
+    if (!selectedAssets.length) {
+        log('Tidak ada file valid yang dipilih.', 'error');
+        rl.close();
+        return;
+    }
+
+    // 4. Prompt for new base names
+    let newNames = [];
+    if (selectedAssets.length === 1) {
+        let base = await ask(`Nama baru (tanpa folder, tanpa ekstensi): `);
+        base = base.trim();
+        if (!base) {
+            log('Nama baru tidak boleh kosong.', 'error');
+            rl.close();
+            return;
+        }
+        newNames = [base];
+    } else {
+        for (let i = 0; i < selectedAssets.length; ++i) {
+            let base = await ask(`Nama baru untuk [${selectedAssets[i].public_id}]: `);
+            base = base.trim();
+            if (!base) {
+                log('Nama baru tidak boleh kosong.', 'error');
+                rl.close();
+                return;
+            }
+            newNames.push(base);
+        }
+    }
+
+    // 5. Preview step
+    const preview = selectedAssets.map((asset, i) => {
+        const ext = path.extname(asset.public_id);
+        const newPublicId = `formal-T25/${newNames[i]}`;
+        return {
+            old: asset.public_id,
+            new: newPublicId,
+            asset
+        };
+    });
+    console.log(`\n${colors.magenta}PREVIEW RENAME:${colors.reset}`);
+    preview.forEach(({ old, new: n }, i) => {
+        console.log(`${colors.yellow}OLD:${colors.reset} ${old}`);
+        console.log(`${colors.green}NEW:${colors.reset} ${n}`);
+    });
+
+    // 6. Collision check
+    let collision = false;
+    for (const { new: newId } of preview) {
+        try {
+            const exists = await cloudinary.api.resource(newId)
+                .then(() => true)
+                .catch(e => {
+                    // Handle Cloudinary error structure: e.error.http_code
+                    if (e && (e.http_code === 404 || (e.error && e.error.http_code === 404))) return false;
+                    // Unexpected error, log details
+                    log(`Gagal cek public_id ${newId}: ${e && e.message ? e.message : JSON.stringify(e)}`, 'error');
+                    // Do NOT treat as collision, just skip this check
+                    return null;
+                });
+            if (exists === true) {
+                log(`ABORT: Target public_id sudah ada: ${newId}`, 'error');
+                collision = true;
+            } else if (exists === null) {
+                // Unexpected error, abort the whole process for safety
+                log('Rename dibatalkan karena error saat cek public_id.', 'error');
+                rl.close();
+                return;
+            }
+        } catch (e) {
+            log(`Gagal cek public_id ${newId}: ${e && e.message ? e.message : JSON.stringify(e)}`, 'error');
+            log('Rename dibatalkan karena error saat cek public_id.', 'error');
+            rl.close();
+            return;
+        }
+    }
+    if (collision) {
+        log('Rename dibatalkan karena ada public_id yang sudah ada.', 'error');
+        rl.close();
+        return;
+    }
+
+    // 7. Confirm
+    const confirm = await ask(`\n${colors.yellow}Lanjutkan rename? (y/N): ${colors.reset}`);
+    if (!/^y(es)?$/i.test(confirm.trim())) {
+        log('Rename dibatalkan.', 'warning');
+        rl.close();
+        return;
+    }
+
+    // 8. Dry run
+    if (dryRun) {
+        log('DRY RUN: Tidak ada perubahan dilakukan.', 'info');
+        rl.close();
+        return;
+    }
+
+    // 9. Execute rename
+    for (const { old, new: newId } of preview) {
+        try {
+             await cloudinary.uploader.rename(old, newId, {
+               invalidate: true,
+               resource_type: "image",
+             });
+            
+            log(`SUKSES: ${old} → ${newId}`, 'success');
+        } catch (e) {
+            log(`GAGAL: ${old} → ${newId} (${e.message})`, 'error');
+        }
+    }
+    rl.close();
+}
+
+// --- CLI ENTRY POINT ---
+const argv = process.argv.slice(2);
+if (argv.includes('--rename-formal')) {
+    interactiveRenameAssetsFormal({ dryRun: argv.includes('--dry-run') });
+} else {
+    main();
+}
