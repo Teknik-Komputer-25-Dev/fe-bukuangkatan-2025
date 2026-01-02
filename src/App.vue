@@ -1,10 +1,9 @@
 <template>
   <!-- Conditional Layout Based on Route -->
-  <DefaultLayout v-if="!isGameRoute">
+  <DefaultLayout v-if="!isStandaloneRoute">
     <RouterView />
   </DefaultLayout>
   
-  <!-- Games use their own layout -->
   <RouterView v-else />
 </template>
 
@@ -15,8 +14,8 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const route = useRoute()
 
-// Check if current route is games
-const isGameRoute = computed(() => {
-  return route.path === '/games'
+const isStandaloneRoute = computed(() => {
+  const path = route.path
+  return path === '/games' || path === '/login'
 })
 </script>
