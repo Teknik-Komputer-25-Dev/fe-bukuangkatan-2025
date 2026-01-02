@@ -8,8 +8,24 @@
         <p class="text-gray-300 mt-2">OUR GALLERY</p>
       </div>
 
+      <!-- Loading -->
+      <div v-if="loading" class="text-white text-center py-10">
+        Loading gallery...
+      </div>
+
+      <!-- Error -->
+      <div v-else-if="error" class="text-center py-10 text-white">
+        <p class="text-red-300 mb-4">{{ error }}</p>
+        <button
+          @click="loadGallery"
+          class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
+        >
+          Coba Lagi
+        </button>
+      </div>
+
       <!-- Layout -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
         <!-- Kiri -->
         <div class="flex flex-col gap-6 md:gap-12">
           <!-- Card Besar Kiri-->
@@ -164,114 +180,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Card from "./Card.vue";
+import { useGallery } from "@/composables/useGallery.js";
+
+const { galleryItems, loading, error, fetchGallery } = useGallery();
 
 const selectedCard = ref(null);
+const gallery = galleryItems;
 
-const gallery = ref([
-  {
-    title: "Foto Angkatan",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168884/foto-angkatan_lzfhqq.jpg",
-    description: [
-      "Hari itu menjadi salah satu momen yang paling berkesan bagi kami, Mahasiswa Teknik Komputer Angkatan 2025 Universitas Diponegoro. Bertempat di kawasan Widya Puraya, kami berkumpul untuk mengabadikan kebersamaan dalam sebuah foto angkatan. Di balik senyum dan canda yang terekam, tersimpan semangat baru untuk memulai perjalanan panjang sebagai bagian dari keluarga besar Teknik Komputer. Foto ini bukan sekadar dokumentasi, tetapi juga pengingat akan awal langkah kami menempuh kehidupan perkuliahan."
-    ],
-    aspect: "landscape",
-  },
-  {
-    title: "POR TEKKOM 25 - FUTSAL",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168631/por-tekkom-futsal_ihnhgc.jpg",
-    description: [
-      "Dalam ajang Pekan Olahraga Program Studi Teknik Komputer, tim futsal angkatan 2025 tampil dengan semangat dan kerja sama yang luar biasa. Setiap pertandingan dijalani dengan kompak dan penuh determinasi hingga berhasil melangkah ke partai final.",
-      "Meskipun harus puas di posisi juara 2 setelah kalah dari angkatan 2023, perjuangan tim menjadi bukti nyata semangat pantang menyerah dan sportivitas yang tinggi. Hasil ini menjadi motivasi untuk terus berlatih dan berprestasi lebih baik di kesempatan berikutnya."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "POR TEKKOM 25 - BADMINTON",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168628/por-tekkom-badminton_glmmed.jpg",
-    description: [
-      "Pada Pekan Olahraga Program Studi Teknik Komputer, cabang olahraga badminton menjadi salah satu ajang yang paling seru dan dinanti. Tim angkatan 2025 berpartisipasi dengan penuh semangat, menampilkan permainan yang solid dan kerja sama yang kompak di setiap pertandingan."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "POR TEKKOM 25 - BASKET",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168631/por-tekkom-basket_ozqbnn.jpg",
-    description: [
-      "Pada Pekan Olahraga Program Studi Teknik Komputer, angkatan 2025 ikut berpartisipasi dalam cabang olahraga bola basket. Tim kami tampil dengan penuh semangat, menunjukkan kekompakan dan kerja sama terbaik di setiap pertandingan.",
-      "Meskipun belum berhasil membawa pulang gelar juara, semangat pantang menyerah tetap menjadi kebanggaan tersendiri. Dari setiap pertandingan, kami belajar arti kebersamaan, sportivitas, dan tekad untuk terus berkembang."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "POR TEKKOM 25 - FIFA",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168634/por-tekkom-fifa_sbugg2.jpg",
-    description: [
-      "Dalam ajang Pekan Olahraga Program Studi Teknik Komputer, tim E-Sport angkatan 2025 turut berpartisipasi dalam kompetisi game FIFA. Dengan strategi yang matang dan kerja sama yang solid, tim kami berhasil menunjukkan performa terbaik di setiap pertandingan.",
-      "Usaha dan semangat yang konsisten akhirnya membuahkan hasil dengan diraihnya posisi juara 3. Walaupun belum mendapatkan hasil yang maksimal, perjuangan dan kerja keras tim tetap patut diapresiasi. Setiap pertandingan menjadi pengalaman berharga yang mengajarkan arti kerja sama, konsistensi, dan sportivitas."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "Foto Setelah PKKMB",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168629/foto-angkatan-1_jivta7.jpg",
-    description: [
-      "Keluarga besar Teknik Komputer Undip. Berbeda latar, satu tujuan, berkembang bersama sama. Momen ini bukan sekadar foto, tapi bukti awal perjalanan kami sebagai satu angkatan."
-    ],
-    aspect: "landscape",
-  },
-  {
-    title: "Kumpul Angkatan",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168656/kumpang_orrj2d.jpg",
-    description: [
-      "Hari itu menjadi salah satu momen yang paling berkesan bagi kami, Mahasiswa Teknik Komputer Angkatan 2025 Universitas Diponegoro. Bertempat di kawasan Widya Puraya, kami berkumpul untuk mengabadikan kebersamaan dalam sebuah foto angkatan. Di balik senyum dan canda yang terekam, tersimpan semangat baru untuk memulai perjalanan panjang sebagai bagian dari keluarga besar Teknik Komputer. Foto ini bukan sekadar dokumentasi, tetapi juga pengingat akan awal langkah kami menempuh kehidupan perkuliahan."
-    ],
-    aspect: "landscape",
-  },
-  {
-    title: "PKKMB DAY 3",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168805/pkkmb-day2-2_uixdxl.jpg",
-    description: [
-      "Sesi presentasi kelompok jadi salah satu bagian seru di hari ketiga PKKMB. Tiap kelompok maju ke depan buat ngenalin identitas dan makna dari elemen yang udah mereka buat bareng-bareng. Ada yang tampil percaya diri, ada juga yang masih keliatan gugup, tapi semuanya tetap kompak dan saling dukung. Dari sinilah mulai keliatan karakter tiap kelompok, sekaligus kekompakan yang pelan-pelan mulai kebentuk di antara anak Tekkom angkatan baru."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "Simulasi Kebakaran",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168665/simulasi-kebakaran_uio7zy.jpg",
-    description: [
-      "Suasana makin seru waktu simulasi kebakaran dimulai. Mahasiswa baru diajarin cara menghadapi keadaan darurat, dari pakai alat pemadam sampai kerja sama bareng tim. Awalnya banyak yang kikuk, tapi lama-lama suasananya jadi ramai dan penuh semangat. Di balik keseruannya, semua dapat pelajaran berharga tentang tanggung jawab dan kekompakan dalam situasi nyata."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "PKKMB DAY 1",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168841/mars-tekkom_foafmg.jpg",
-    description: [
-      "Hari pertama PKKMB Teknik Komputer jadi momen penuh semangat dan vibes positif dari para maba yang akhirnya resmi turun ke lapangan. Dengan outfit hitam putih dan atribut kebanggaan fakultas, mereka berdiri rapi sambil nyimak arahan panitia dengan antusias. Suasananya campur antara deg-degan, excited, dan rasa bangga bisa mulai perjalanan bareng keluarga baru di Tekkom."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "PKKMB DAY 2",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168801/pkkmb-day2-1_u9whqb.jpg",
-    description: [
-      "Hari kedua PKKMB suasananya udah mulai cair. Tiap kelompok dapet giliran buat ngenalin elemen yang mewakili identitas tim mereka, lengkap dengan cerita di balik simbol yang dibuat bareng-bareng. Nggak cuma serius, tapi juga banyak momen lucu dan spontan yang bikin suasana makin hidup. Semua orang keliatan lebih akrab, udah mulai lepas dari rasa canggung di hari pertama."
-    ],
-    aspect: "portrait",
-  },
-  {
-    title: "Study Group",
-    image: "https://res.cloudinary.com/dr5hcyo7i/image/upload/v1760168826/study-group_upegkg.jpg",
-    description: [
-      "Kegiatan diskusi kelompok berlangsung seru. Setiap mahasiswa tampak antusias menyampaikan pendapat, sementara yang lain menyimak dengan penuh perhatian. Suasana ruangan yang ramai tapi teratur menunjukkan semangat belajar dan kolaborasi yang kuat di antara mereka."
-    ],
-    aspect: "landscape",
-  },
-]);
+const loadGallery = async () => {
+  await fetchGallery();
+};
 
 function openCard(item) {
   selectedCard.value = item;
 }
+
+onMounted(() => {
+  loadGallery();
+});
 </script>
