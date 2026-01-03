@@ -17,15 +17,41 @@
 
           <form @submit.prevent="handleSubmit" class="space-y-5" aria-label="Form login buku angkatan">
             <div class="space-y-2">
-              <label for="password" class="block text-sm font-medium text-white">Password</label>
-              <input id="password" v-model="password" type="password" required autocomplete="current-password"
+              <label for="accessCode" class="block text-sm font-medium text-white">Access Code</label>
+              <input
+                id="accessCode"
+                v-model="accessCode"
+                type="password"
+                required
+                autocomplete="off"
                 class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
-                placeholder="Masukkan password" />
+                placeholder="Masukkan access code"
+              />
             </div>
+
+            <div class="space-y-2">
+              <label for="email" class="block text-sm font-medium text-white">Email </label>
+              <input
+                id="email"
+                v-model="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
+                placeholder="nama@students.undip.ac.id"
+              />
+            </div>
+
             <p v-if="error" class="text-sm text-red-100">{{ error }}</p>
-            <button type="submit"
-              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99]">
-              Masuk
+            <p v-if="success" class="text-sm text-emerald-100">{{ success }}</p>
+
+            <button
+              type="submit"
+              :disabled="loading"
+              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              <span v-if="loading">Mengirim magic link...</span>
+              <span v-else>Kirim Magic Link</span>
             </button>
           </form>
         </div>
@@ -44,27 +70,42 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useAuth } from '@/composables/useAuth.js'
 
-const router = useRouter()
-const password = ref('')
+const accessCode = ref('')
+const email = ref('')
 const error = ref('')
+const success = ref('')
+const loading = ref(false)
 
-const SITE_PASSWORD = import.meta.env.VITE_SITE_PASSWORD
+const { sendMagicLink } = useAuth()
 
-const handleSubmit = () => {
-  if (!SITE_PASSWORD) {
-    error.value = 'Konfigurasi password belum disetel.'
+const ACCESS_CODE = import.meta.env.VITE_ACCESS_CODE
+
+const handleSubmit = async () => {
+  error.value = ''
+  success.value = ''
+
+  if (!ACCESS_CODE) {
+    error.value = 'Konfigurasi access code belum disetel.'
     return
   }
 
-  if (password.value === SITE_PASSWORD) {
-    localStorage.setItem('auth', 'true')
-    error.value = ''
-    router.replace({ name: 'Home' })
+  if (accessCode.value.trim() !== ACCESS_CODE) {
+    error.value = 'Access code tidak valid.'
     return
   }
 
-  error.value = 'Password salah. Coba lagi.'
+  loading.value = true
+
+  try {
+    await sendMagicLink(email.value)
+
+    success.value = 'Magic link sudah dikirim ke email kamu. Cek inbox/spam.'
+  } catch (err) {
+    error.value = err?.message || 'Gagal mengirim magic link.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>

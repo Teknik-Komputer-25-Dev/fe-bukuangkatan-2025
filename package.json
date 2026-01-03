@@ -16,6 +16,7 @@
     "analyze-photos": "node scripts/analyze-photos.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
     "@vueuse/core": "^13.9.0",
     "@vueuse/motion": "^3.0.3",
     "cloudinary": "^2.7.0",

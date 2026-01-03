@@ -13,8 +13,8 @@ const shuffle = (array) => {
 const mapQuestion = (record) => ({
   id: record.id,
   gameType: record.game_type ?? record.gameType ?? '',
-  question: record.question ?? record.prompt ?? '',
-  answer: record.answer ?? '',
+  question: record.question_text ?? record.prompt ?? '',
+  answer: record.answer_text ?? '',
   hint: record.hint ?? '',
   explanation: record.explanation ?? '',
   metadata: record.metadata ?? null,

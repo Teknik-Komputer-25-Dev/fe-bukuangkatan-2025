@@ -151,7 +151,7 @@ import { computed, onMounted, ref } from 'vue'
 import { normalizeString } from '@/utils/gameHelpers.js'
 import { useGame } from '@/composables/useGame.js'
 
-const GAME_TYPE = 'scramble_word'
+const GAME_TYPE = 'scramble'
 
 const {
   questions,

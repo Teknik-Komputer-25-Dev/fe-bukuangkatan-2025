@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { supabase } from "@/utils/supabaseClient.js";
 
 // Import views (lazy loading untuk performa yang lebih baik)
 const HomeView = () => import("@/views/HomeView.vue");
@@ -56,19 +57,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem("auth") === "true";
-  const requiresAuth = to.matched.some(record => record.meta?.requiresAuth);
+router.beforeEach(async (to, from, next) => {
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (to.name === "Login" && isAuthenticated) {
-    return next({ name: "Home" });
+  if (to.meta.requiresAuth && !session) {
+    next('/login');
+  } else if (to.path === '/login' && session) {
+    next('/');
+  } else {
+    next();
   }
-
-  if (requiresAuth && !isAuthenticated) {
-    return next({ name: "Login" });
-  }
-
-  return next();
 });
 
 export default router;
