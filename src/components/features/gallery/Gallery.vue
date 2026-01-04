@@ -195,6 +195,7 @@ const loadGallery = async () => {
 
 function openCard(item) {
   selectedCard.value = item;
+  
 }
 
 onMounted(() => {

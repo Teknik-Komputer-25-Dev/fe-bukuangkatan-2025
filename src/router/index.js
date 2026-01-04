@@ -9,6 +9,8 @@ const GalleryView = () => import("@/views/GalleryView.vue");
 const GameView = () => import("@/views/GamesView.vue");
 const LoginView = () => import("@/views/Login.vue");
 const AdminDashboard = () => import("@/views/AdminDashboard.vue");
+const AdminProfiles = () => import("@/components/features/Admin/AdminProfiles.vue");
+const AdminGallery = () => import("@/components/features/Admin/AdminGallery.vue");
 
 const routes = [
   {
@@ -48,9 +50,23 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "AdminDashboard",
     component: AdminDashboard,
     meta: { requiresAuth: true, adminOnly: true },
+    children: [
+    
+      {
+        path: "profiles",
+        name: "AdminProfiles",
+        component: AdminProfiles,
+        meta: { requiresAuth: true, adminOnly: true },
+      },
+      {
+        path: "gallery",
+        name: "AdminGallery",
+        component: AdminGallery,
+        meta: { requiresAuth: true, adminOnly: true },
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",
