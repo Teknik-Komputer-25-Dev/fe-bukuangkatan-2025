@@ -13,12 +13,10 @@ export function useAuth() {
   const initAuth = async () => {
     loading.value = true;
 
-    // 1. Ambil session SEKALI
     const { data } = await supabase.auth.getSession();
     
     user.value = data.session?.user ?? null;
 
-    // 2. Pasang listener SEKALI
     if (!authListener) {
       authListener = supabase.auth.onAuthStateChange((_event, session) => {
         user.value = session?.user ?? null;
@@ -30,7 +28,6 @@ export function useAuth() {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    // routing biarkan router guard
   };
 
   const sendMagicLink = async (email) => {

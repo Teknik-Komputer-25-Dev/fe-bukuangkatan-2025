@@ -6,13 +6,10 @@ import { useNavigation } from '@/composables/useNavigation';
 import { useCarousel } from '@/composables/useCarousel';
 import { classPhotosData } from '@/data/classPhotos';
 
-// Use navigation composable for clean routing
 const { goToGallery } = useNavigation();
 
-// Use carousel configuration composable
 const { singleSlideConfig } = useCarousel();
 
-// Use centralized data instead of inline definition
 const classPhotos = classPhotosData;
 </script>
 

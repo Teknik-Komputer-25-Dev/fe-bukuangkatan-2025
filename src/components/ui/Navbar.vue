@@ -45,12 +45,10 @@ import {
 } from 'lucide-vue-next'
 import NavLink from './NavLink.vue'
 
-// Refs
 const navbarRef = ref(null)
 const mobileNavbarRef = ref(null)
 const route = useRoute()
 
-// Navigation items configuration
 const navigationItems = [
   {
     path: '/',
@@ -79,7 +77,6 @@ const navigationItems = [
   }
 ]
 
-// Composables
 const {
   isNavbarVisible,
   isAtTop
@@ -89,36 +86,32 @@ const {
   throttleDelay: 16
 })
 
-// Computed properties
 const isActive = (path) => route.path === path
 
-// Desktop navbar classes (top)
 const navbarClasses = computed(() => [
-  // Transform and visibility for desktop top navbar
+
   isNavbarVisible.value 
     ? 'translate-x-[-50%] translate-y-0 opacity-100 scale-100' 
     : 'translate-x-[-50%] -translate-y-20 opacity-0 scale-95',
   
-  // Background based on scroll position
+
   isAtTop.value 
     ? 'bg-[#C21807]' 
     : 'bg-[#C21807]/95 backdrop-blur-md'
 ])
 
-// Mobile navbar classes (bottom)
 const mobileNavbarClasses = computed(() => [
-  // Transform and visibility for mobile bottom navbar
+
   isNavbarVisible.value 
     ? 'translate-x-[-50%] translate-y-0 opacity-100 scale-100' 
     : 'translate-x-[-50%] translate-y-20 opacity-0 scale-95',
   
-  // Background based on scroll position
+
   isAtTop.value 
     ? 'bg-[#C21807]' 
     : 'bg-[#C21807]/95 backdrop-blur-md'
 ])
 
-// Expose navbar refs for external access (e.g., modal scrollbar compensation)
 defineExpose({
   navbarRef,
   mobileNavbarRef

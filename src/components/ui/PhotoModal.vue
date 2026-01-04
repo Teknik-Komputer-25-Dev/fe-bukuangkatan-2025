@@ -131,7 +131,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
-// Props
 const props = defineProps({
   isVisible: {
     type: Boolean,
@@ -143,18 +142,14 @@ const props = defineProps({
   }
 })
 
-// Emits
 const emit = defineEmits(['close'])
 
-// State
 const imageLoaded = ref(false)
 
-// Watch for profile changes to reset image loading state
 watch(() => props.profile, () => {
   imageLoaded.value = false
 })
 
-// Methods
 const closeModal = () => {
   emit('close')
 }
@@ -168,14 +163,12 @@ const getNameLength = (profile) => {
   return profile.fullName.replace(/\s/g, '').length
 }
 
-// Keyboard event listener for ESC key
 const handleKeydown = (event) => {
   if (event.key === 'Escape' && props.isVisible) {
     closeModal()
   }
 }
 
-// Add/remove keyboard listener
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
 })
@@ -186,7 +179,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Modal Transitions */
 .modal-enter-active, .modal-leave-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -201,7 +193,6 @@ onUnmounted(() => {
   transform: scale(1) translateY(0);
 }
 
-/* Backdrop blur effect */
 .backdrop-blur-sm {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);

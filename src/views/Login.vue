@@ -18,38 +18,23 @@
           <form @submit.prevent="handleSubmit" class="space-y-5" aria-label="Form login buku angkatan">
             <div class="space-y-2">
               <label for="accessCode" class="block text-sm font-medium text-white">Access Code</label>
-              <input
-                id="accessCode"
-                v-model="accessCode"
-                type="password"
-                required
-                autocomplete="off"
+              <input id="accessCode" v-model="accessCode" type="password" required autocomplete="off"
                 class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
-                placeholder="Masukkan access code"
-              />
+                placeholder="Masukkan access code" />
             </div>
 
             <div class="space-y-2">
               <label for="email" class="block text-sm font-medium text-white">Email </label>
-              <input
-                id="email"
-                v-model="email"
-                type="email"
-                required
-                autocomplete="email"
+              <input id="email" v-model="email" type="email" required autocomplete="email"
                 class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
-                placeholder="nama@students.undip.ac.id"
-              />
+                placeholder="nama@students.undip.ac.id" />
             </div>
 
             <p v-if="error" class="text-sm text-red-100">{{ error }}</p>
             <p v-if="success" class="text-sm text-emerald-100">{{ success }}</p>
 
-            <button
-              type="submit"
-              :disabled="loading"
-              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
-            >
+            <button type="submit" :disabled="loading"
+              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed">
               <span v-if="loading">Mengirim magic link...</span>
               <span v-else>Kirim Magic Link</span>
             </button>
@@ -102,7 +87,7 @@ const handleSubmit = async () => {
       let errorMessage = 'Gagal mengirim magic link.'
 
       if (supabaseError instanceof FunctionsHttpError) {
-        // Error dari Edge Function (misalnya 400/401/500)
+
         try {
           const errorDetails = await supabaseError.context.json()
           errorMessage = errorDetails.message || 'Error dari server.'
@@ -110,20 +95,18 @@ const handleSubmit = async () => {
           errorMessage = 'Error server tidak valid.'
         }
       } else if (supabaseError instanceof FunctionsRelayError) {
-        // Error relay (misalnya jaringan atau Supabase internal)
+
         errorMessage = `Relay error: ${supabaseError.message}`
       } else if (supabaseError instanceof FunctionsFetchError) {
-        // Error fetch (misalnya network failure)
+
         errorMessage = `Network error: ${supabaseError.message}`
       } else {
-        // Error lain
+
         errorMessage = supabaseError.message || errorMessage
       }
 
       throw new Error(errorMessage)
     }
-
-    // Success: Ambil message dari response JSON
     success.value = data?.message || 'Magic link sudah dikirim ke email kamu. Cek inbox/spam.'
     accessCode.value = ''
   } catch (err) {

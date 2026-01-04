@@ -134,11 +134,9 @@ import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
-// Composables
 import { useSwiper } from '@/composables/useSwiper'
 import { useCarouselHelpers } from '@/composables/useCarouselHelpers'
 
-// Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -146,15 +144,14 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/effect-cube'
 import 'swiper/css/effect-coverflow'
 
-// Props
 const props = defineProps({
-  // Data
+
   items: {
     type: Array,
     default: () => []
   },
 
-  // Swiper Configuration
+
   slidesPerView: {
     type: [Number, String],
     default: 1
@@ -185,13 +182,13 @@ const props = defineProps({
     default: true
   },
 
-  // Autoplay
+
   autoplay: {
     type: [Boolean, Object],
     default: false
   },
 
-  // Navigation
+
   navigation: {
     type: Boolean,
     default: true
@@ -202,7 +199,7 @@ const props = defineProps({
     default: false
   },
 
-  // Pagination
+
   pagination: {
     type: [Boolean, Object],
     default: true
@@ -213,26 +210,26 @@ const props = defineProps({
     default: false
   },
 
-  // Effects
+
   effect: {
     type: String,
     default: 'slide',
     validator: (value) => ['slide', 'fade', 'cube', 'coverflow'].includes(value)
   },
 
-  // Responsive breakpoints
+
   breakpoints: {
     type: Object,
     default: () => ({})
   },
 
-  // Styling
+
   height: {
     type: [String, Number],
     default: 'auto'
   },
 
-  // Classes
+
   containerClass: {
     type: String,
     default: ''
@@ -273,20 +270,19 @@ const props = defineProps({
     default: ''
   },
 
-  // States
+
   loading: {
     type: Boolean,
     default: false
   },
 
-  // Key function untuk v-for optimization
+
   keyField: {
     type: String,
     default: null
   }
 })
 
-// Emits
 const emit = defineEmits([
   'swiper',
   'slide-change',
@@ -297,7 +293,6 @@ const emit = defineEmits([
   'bullet-click'
 ])
 
-// Composables
 const { getSlideKey } = useCarouselHelpers()
 
 const {
@@ -335,7 +330,6 @@ defineExpose({
   activeIndex: computed(() => activeIndex.value)
 })
 
-// Watch for items changes sudah ada di useSwiper composable
 </script>
 
 <style scoped>

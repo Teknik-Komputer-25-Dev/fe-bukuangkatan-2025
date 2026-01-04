@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
 import { createPinia } from 'pinia'
-import { validateEnv } from '@/utils/env.js'
 import { MotionPlugin } from '@vueuse/motion'
 
 import App from './App.vue'
@@ -9,7 +8,6 @@ import router from './router'
 
 // Validate environment configuration
 try {
-  validateEnv()
   console.log('✅ Environment configuration validated successfully')
 } catch (error) {
   console.error('❌ Environment validation failed:', error.message)

@@ -63,7 +63,6 @@
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 
 const props = defineProps({
-  // Image props
   src: {
     type: String,
     required: true
@@ -74,13 +73,11 @@ const props = defineProps({
     default: ''
   },
   
-  // Lazy loading
   lazy: {
     type: Boolean,
     default: true
   },
   
-  // Placeholder/fallback
   placeholder: {
     type: String,
     default: ''
@@ -91,7 +88,6 @@ const props = defineProps({
     default: ''
   },
   
-  // Dimensions
   width: {
     type: [String, Number],
     default: 'auto'
@@ -102,7 +98,6 @@ const props = defineProps({
     default: 'auto'
   },
   
-  // Object fit
   objectFit: {
     type: String,
     default: 'cover',
@@ -114,7 +109,6 @@ const props = defineProps({
     default: 'center'
   },
   
-  // Styling
   rounded: {
     type: [String, Boolean],
     default: false
@@ -125,7 +119,6 @@ const props = defineProps({
     default: false
   },
   
-  // Classes
   containerClass: {
     type: String,
     default: ''
@@ -146,7 +139,6 @@ const props = defineProps({
     default: ''
   },
   
-  // Intersection Observer options
   rootMargin: {
     type: String,
     default: '50px'
@@ -157,13 +149,11 @@ const props = defineProps({
     default: 0.1
   },
   
-  // Transition
   transition: {
     type: Boolean,
     default: true
   },
   
-  // Click handler
   clickable: {
     type: Boolean,
     default: false
@@ -171,19 +161,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['load', 'error', 'click', 'intersect'])
-
-// Refs
 const imageContainer = ref(null)
 const imageElement = ref(null)
 const observer = ref(null)
-
-// State
 const isLoading = ref(true)
 const hasError = ref(false)
 const isIntersecting = ref(false)
 const currentSrc = ref('')
-
-// Computed
 const containerStyle = computed(() => {
   const style = {}
   
@@ -232,15 +216,12 @@ const imageStyle = computed(() => {
   
   return style
 })
-
-// Methods
 const loadImage = () => {
   if (!props.src) return
   
   isLoading.value = true
   hasError.value = false
   
-  // Use placeholder initially if provided
   if (props.placeholder && !currentSrc.value) {
     currentSrc.value = props.placeholder
   } else {
@@ -257,7 +238,6 @@ const handleError = (event) => {
   isLoading.value = false
   hasError.value = true
   
-  // Try fallback image
   if (props.fallback && currentSrc.value !== props.fallback) {
     currentSrc.value = props.fallback
     hasError.value = false
@@ -299,23 +279,17 @@ const retry = () => {
   hasError.value = false
   loadImage()
 }
-
-// Public methods
 defineExpose({
   retry,
   isLoading: computed(() => isLoading.value),
   hasError: computed(() => hasError.value),
   isIntersecting: computed(() => isIntersecting.value)
 })
-
-// Watch src changes
 watch(() => props.src, () => {
   if (!props.lazy || isIntersecting.value) {
     loadImage()
   }
 })
-
-// Lifecycle
 onMounted(async () => {
   await nextTick()
   

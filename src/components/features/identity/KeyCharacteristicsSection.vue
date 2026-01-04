@@ -46,36 +46,30 @@ import MobileLayout from './KeyCharacteristics/MobileLayout.vue'
 import CharacteristicModal from './KeyCharacteristics/CharacteristicModal.vue'
 import { keyCharacteristicsData } from '@/data/keyCharacteristics.js'
 
-// Composables
 const { isMobile } = useResponsive()
 
-// Data
 const characteristics = ref(keyCharacteristicsData)
 
-// Modal state
 const selectedCharacteristicIndex = ref(null)
 
-// Computed
 const selectedCharacteristic = computed(() => 
   selectedCharacteristicIndex.value !== null 
     ? characteristics.value[selectedCharacteristicIndex.value]
     : null
 )
 
-// Methods
 const showCharacteristicDetails = (index) => {
   selectedCharacteristicIndex.value = index
-  // Prevent body scroll when modal is open
+
   document.body.style.overflow = 'hidden'
 }
 
 const closeModal = () => {
   selectedCharacteristicIndex.value = null
-  // Restore body scroll
+
   document.body.style.overflow = 'unset'
 }
 
-// Cleanup on unmount
 onUnmounted(() => {
   if (selectedCharacteristicIndex.value !== null) {
     document.body.style.overflow = 'unset'
