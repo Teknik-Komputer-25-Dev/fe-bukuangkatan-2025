@@ -1,4 +1,4 @@
-import { ref, onMounted, computed } from "vue";
+import { ref, computed } from "vue";
 import { supabase } from "@/utils/supabaseClient.js";
 import { useRouter } from "vue-router";
 
@@ -41,8 +41,6 @@ export function useAuth() {
 
   const role = computed(() => user.value?.app_metadata?.role ?? null);
   const isAdmin = computed(() => role.value === "admin");
-  console.log('user role:', role.value, 'isAdmin:', isAdmin.value);
-  
 
   return {
     user,
