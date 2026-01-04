@@ -8,6 +8,7 @@ const ProfileView = () => import("@/views/ProfileView.vue");
 const GalleryView = () => import("@/views/GalleryView.vue");
 const GameView = () => import("@/views/GamesView.vue");
 const LoginView = () => import("@/views/Login.vue");
+const AdminDashboard = () => import("@/views/AdminDashboard.vue");
 
 const routes = [
   {
@@ -45,7 +46,12 @@ const routes = [
     name: "Login",
     component: LoginView,
   },
-  // Catch-all route untuk 404 (redirect ke home untuk sekarang)
+  {
+    path: "/admin",
+    name: "AdminDashboard",
+    component: AdminDashboard,
+    meta: { requiresAuth: true, adminOnly: true },
+  },
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",
@@ -59,14 +65,27 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const { data: { session } } = await supabase.auth.getSession();
+  const role = session?.user?.app_metadata?.role;
+  const requiresAuth = to.matched.some(record => record.meta?.requiresAuth);
+  const adminOnly = to.matched.some(record => record.meta?.adminOnly);
+  
 
-  if (to.meta.requiresAuth && !session) {
+  if (requiresAuth && !session) {
     next('/login');
-  } else if (to.path === '/login' && session) {
-    next('/');
-  } else {
-    next();
+    return;
   }
+
+  if (adminOnly && role !== 'admin') {
+    next('/');
+    return;
+  }
+
+  if (to.path === '/login' && session) {
+    next('/');
+    return;
+  }
+
+  next();
 });
 
 export default router;

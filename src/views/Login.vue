@@ -70,7 +70,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuth } from '@/composables/useAuth.js'
+import { supabase } from '@/utils/supabaseClient.js'
+import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from '@supabase/supabase-js'
 
 const accessCode = ref('')
 const email = ref('')
@@ -78,30 +79,53 @@ const error = ref('')
 const success = ref('')
 const loading = ref(false)
 
-const { sendMagicLink } = useAuth()
-
-const ACCESS_CODE = import.meta.env.VITE_ACCESS_CODE
-
 const handleSubmit = async () => {
   error.value = ''
   success.value = ''
 
-  if (!ACCESS_CODE) {
-    error.value = 'Konfigurasi access code belum disetel.'
-    return
-  }
+  const emailValue = email.value.trim().toLowerCase()
+  const codeValue = accessCode.value.trim()
 
-  if (accessCode.value.trim() !== ACCESS_CODE) {
-    error.value = 'Access code tidak valid.'
+  if (!emailValue || !codeValue) {
+    error.value = 'Email dan access code wajib diisi.'
     return
   }
 
   loading.value = true
 
   try {
-    await sendMagicLink(email.value)
+    const { data, error: supabaseError } = await supabase.functions.invoke('request-magic-link', {
+      body: { email: emailValue, accessCode: codeValue },
+    })
 
-    success.value = 'Magic link sudah dikirim ke email kamu. Cek inbox/spam.'
+    if (supabaseError) {
+      let errorMessage = 'Gagal mengirim magic link.'
+
+      if (supabaseError instanceof FunctionsHttpError) {
+        // Error dari Edge Function (misalnya 400/401/500)
+        try {
+          const errorDetails = await supabaseError.context.json()
+          errorMessage = errorDetails.message || 'Error dari server.'
+        } catch {
+          errorMessage = 'Error server tidak valid.'
+        }
+      } else if (supabaseError instanceof FunctionsRelayError) {
+        // Error relay (misalnya jaringan atau Supabase internal)
+        errorMessage = `Relay error: ${supabaseError.message}`
+      } else if (supabaseError instanceof FunctionsFetchError) {
+        // Error fetch (misalnya network failure)
+        errorMessage = `Network error: ${supabaseError.message}`
+      } else {
+        // Error lain
+        errorMessage = supabaseError.message || errorMessage
+      }
+
+      throw new Error(errorMessage)
+    }
+
+    // Success: Ambil message dari response JSON
+    success.value = data?.message || 'Magic link sudah dikirim ke email kamu. Cek inbox/spam.'
+    accessCode.value = ''
   } catch (err) {
     error.value = err?.message || 'Gagal mengirim magic link.'
   } finally {
