@@ -7,13 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "list-photos": "node scripts/list-photos.js",
-    "update-photos": "node scripts/update-photos.js",
-    "photo-updater": "node scripts/photo-updater-cli.js",
     "update-general-photos": "node scripts/update-general-photos.js",
-    "update-formal-photos": "node scripts/update-formal-photos.js",
-    "update-all-photos": "node scripts/update-all-photos.js",
-    "analyze-photos": "node scripts/analyze-photos.js"
+    "update-formal-photos": "node scripts/update-formal-photos.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
@@ -43,7 +38,6 @@
     "jsdom": "^26.1.0",
     "netlify-cli": "^23.9.1",
     "prettier": "^3.6.2",
-    "supabase": "^2.70.5",
     "tailwindcss": "^4.1.12",
     "vite": "^7.1.2",
     "vite-plugin-vue-devtools": "^8.0.1",
