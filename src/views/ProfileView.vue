@@ -7,6 +7,8 @@
         class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-900 shadow-lg hover:bg-emerald-400 transition">
         Admin Dashboard
       </router-link>
+      <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-red-400 transition" @click="logout">Logout</button>
+
      </div>
     <CardsSearch />
   </div>
@@ -15,6 +17,6 @@
 <script setup>
 import CardsSearch from "@/components/features/profile/CardsSearch.vue";
 import { useAuth } from "@/composables/useAuth.js";
-const { isAdmin } = useAuth();
+const { isAdmin, logout } = useAuth();
 
 </script>

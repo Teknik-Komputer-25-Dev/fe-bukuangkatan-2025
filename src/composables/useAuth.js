@@ -28,6 +28,7 @@ export function useAuth() {
 
   const logout = async () => {
     await supabase.auth.signOut();
+    window.location.reload();
   };
 
   const sendMagicLink = async (email) => {
