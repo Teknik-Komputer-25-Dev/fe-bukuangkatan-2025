@@ -25,7 +25,7 @@ export function useGallery() {
     error.value = null
 
     try {
-      let query = supabase.from('gallery').select('*').order('display_order', { ascending: true })
+      let query = supabase.from('gallery').select('*')
       if (category) {
         query = query.eq('category', category)
       }
