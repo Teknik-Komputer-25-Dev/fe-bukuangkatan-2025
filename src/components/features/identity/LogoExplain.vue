@@ -44,16 +44,13 @@ import CarouselNavigation from './LogoExplain/CarouselNavigation.vue'
 import CarouselPagination from './LogoExplain/CarouselPagination.vue'
 import { logoCharacteristics } from '@/data/logoCharacteristics.js'
 
-// Data
 const characteristics = ref(logoCharacteristics)
 
-// Carousel state
-const currentCharacteristic = ref(1) // Start at 1 due to duplicate
+const currentCharacteristic = ref(1)
 const isTransitioning = ref(false)
 const carouselContainer = ref(null)
 const duplicateCount = 1
 
-// Computed properties
 const extendedCharacteristics = computed(() => [
   ...characteristics.value.slice(-duplicateCount),
   ...characteristics.value,
@@ -64,7 +61,6 @@ const carouselTransform = computed(() => ({
   transform: `translateX(-${currentCharacteristic.value * 100}%)`
 }))
 
-// Helper function to get current characteristic index
 const getCurrentCharacteristicIndex = () => {
   const index = currentCharacteristic.value - duplicateCount
   if (index < 0) return characteristics.value.length - 1
@@ -72,7 +68,6 @@ const getCurrentCharacteristicIndex = () => {
   return index
 }
 
-// Navigation functions
 const nextCharacteristic = () => {
   if (isTransitioning.value) return
   
@@ -81,7 +76,7 @@ const nextCharacteristic = () => {
   
   setTimeout(() => {
     if (currentCharacteristic.value >= characteristics.value.length + duplicateCount) {
-      // Seamless loop to beginning
+    
       if (carouselContainer.value) {
         carouselContainer.value.style.transition = 'none'
         currentCharacteristic.value = duplicateCount
@@ -105,7 +100,7 @@ const prevCharacteristic = () => {
   
   setTimeout(() => {
     if (currentCharacteristic.value < duplicateCount) {
-      // Seamless loop to end
+    
       if (carouselContainer.value) {
         carouselContainer.value.style.transition = 'none'
         currentCharacteristic.value = characteristics.value.length + duplicateCount - 1
@@ -132,13 +127,11 @@ const goToCharacteristic = (index) => {
   }, 500)
 }
 
-// Keyboard navigation
 const { setupKeyboardNavigation, cleanupKeyboardNavigation } = useKeyboardNavigation({
   onLeft: prevCharacteristic,
   onRight: nextCharacteristic
 })
 
-// Lifecycle
 onMounted(() => {
   setupKeyboardNavigation()
 })

@@ -31,7 +31,6 @@ export function useCarouselDrag(nextSlide, prevSlide) {
     if (!isDragging.value) return
     isDragging.value = false
 
-    // Threshold for slide change
     if (currentX.value > carouselConfig.dragThreshold) {
       prevSlide()
     } else if (currentX.value < -carouselConfig.dragThreshold) {

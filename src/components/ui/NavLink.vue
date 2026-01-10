@@ -26,7 +26,6 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
-// Props
 const props = defineProps({
   to: {
     type: String,
@@ -46,14 +45,13 @@ const props = defineProps({
   }
 })
 
-// Computed classes
 const linkClasses = computed(() => [
-  // State classes
+
   props.isActive 
     ? 'bg-white/20 text-[#FFE787]' 
     : 'text-white hover:bg-white/20 hover:text-[#FFE787] hover:-translate-y-0.5',
   
-  // Font weight based on route
+
   props.to === '/' ? 'font-semibold' : 'font-medium'
 ])
 </script>

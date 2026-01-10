@@ -1,6 +1,9 @@
 <template>
     <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
-        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🎂 Tebak Ulang Tahun Teman!</h2>
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 flex items-center justify-center gap-2">
+            <Cake class="w-6 h-6 text-purple-500" />
+            Tebak Ulang Tahun Teman
+        </h2>
 
         <!-- Loading State -->
         <div v-if="loading" class="text-center py-12">
@@ -25,8 +28,11 @@
             <!-- Photo Display -->
             <div class="text-center mb-6">
                 <div class="mb-4">
-                    <p class="text-lg font-semibold text-gray-700 mb-2">🎂 Kapan ulang tahun orang ini?</p>
-                    <p class="text-sm text-gray-500">Tebak nama panggilan dan tanggal ulang tahunnya!</p>
+                    <p class="text-lg font-semibold text-gray-700 mb-2 flex items-center justify-center gap-2">
+                        <Cake class="w-5 h-5 text-purple-500" />
+                        Kapan ulang tahun orang ini?
+                    </p>
+                    <p class="text-sm text-gray-500">Coba tebak nama dan ulang tahunnya! Tau ga?</p>
                 </div>
                 <div
                     class="relative mx-auto w-48 h-48 rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
@@ -98,14 +104,18 @@
                     ? 'bg-green-100 border border-green-400 text-green-700'
                     : 'bg-red-100 border border-red-400 text-red-700'">
                     <div class="flex items-center justify-center space-x-2">
-                        <span class="text-2xl">{{ isCorrect ? '✅' : '❌' }}</span>
+                        <CheckCircle v-if="isCorrect" class="w-6 h-6 text-green-500" />
+                        <XCircle v-else class="w-6 h-6 text-red-500" />
                         <span class="font-semibold text-lg">
-                            {{ isCorrect ? 'Benar!' : 'Salah!' }}
+                            {{ isCorrect ? 'Horaayy!' : 'Tetoott!' }}
                         </span>
                     </div>
 
                     <div v-if="isCorrect && currentPerson" class="mt-2 text-sm">
-                        <p class="text-green-600 font-medium">🎉 Hebat! Kamu mengenal teman dengan baik!</p>
+                        <p class="text-green-600 font-medium flex items-center gap-2">
+                            <PartyPopper class="w-4 h-4" />
+                            Wuih bener! Crush mu atau bukan tuu?
+                        </p>
                         <p class="text-xs mt-1">{{ currentPerson.nickname }} ulang tahun {{ formatBirthday(currentPerson.birthdate) }}</p>
                     </div>
 
@@ -113,20 +123,27 @@
                         <p>Jawaban yang benar:</p>
                         <p><strong>Nama:</strong> {{ currentPerson.nickname }}</p>
                         <p><strong>Ulang Tahun:</strong> {{ formatBirthday(currentPerson.birthdate) }}</p>
-                        <p class="text-xs mt-2 italic">💡 Ingat tanggal ini untuk ucapan ulang tahun!</p>
+                        <p class="text-xs mt-2 italic flex items-center gap-1">
+                            <Lightbulb class="w-3 h-3" />
+                            Ingat tanggal ini untuk ucapan ulang tahun!
+                        </p>
                     </div>
                 </div>
 
                 <!-- Next Friend Button -->
                 <button @click="nextFriend"
-                    class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    🎂 Teman Selanjutnya
+                    class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center gap-2">
+                    <Cake class="w-4 h-4" />
+                    Teman Selanjutnya
                 </button>
             </div>
 
             <!-- Score Display -->
             <div class="mt-6 text-center text-sm text-gray-600">
-                <p>🏆 Skor Ulang Tahun: {{ score.correct }} benar dari {{ score.total }} pertanyaan</p>
+                <div class="flex items-center justify-center gap-2 mb-1">
+                    <Trophy class="w-4 h-4" />
+                    <span>Skor Ulang Tahun: {{ score.correct }} benar dari {{ score.total }} pertanyaan</span>
+                </div>
                 <p v-if="score.total > 0" class="text-xs mt-1">
                     Akurasi: {{ Math.round((score.correct / score.total) * 100) }}%
                 </p>
@@ -136,14 +153,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import {
-    handleImageError,
-    normalizeString,
-    getRandomElement
-} from '@/utils/gameHelpers.js'
+import { computed, onMounted, ref } from 'vue'
+import { handleImageError, normalizeString, getRandomElement } from '@/utils/gameHelpers.js'
+import { useProfiles } from '@/composables/useProfiles.js'
+import { useGame } from '@/composables/useGame.js'
+import { Cake, CheckCircle, XCircle, PartyPopper, Lightbulb, Trophy } from 'lucide-vue-next'
 
-// Data
+const GAME_TYPE = 'friend_birthday'
+
+const { allProfiles, isLoading, error, fetchProfiles } = useProfiles()
+const { submitScore } = useGame()
+
 const peopleData = ref([])
 const currentPerson = ref(null)
 const userNickname = ref('')
@@ -152,100 +172,89 @@ const userMonth = ref('')
 const showResult = ref(false)
 const isCorrect = ref(false)
 const score = ref({ correct: 0, total: 0 })
-const loading = ref(true)
-const error = ref('')
+const loading = computed(() => isLoading.value)
 
-// Months array for dropdown
 const months = [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 ]
 
-// Load people data
+const sessionId = typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}`
+
 const loadPeopleData = async () => {
     try {
-        loading.value = true
         error.value = ''
-        const response = await fetch('/data/people.json')
-
-        if (!response.ok) {
-            throw new Error('Failed to load people data')
-        }
-
-        const data = await response.json()
-        peopleData.value = data.filter(person =>
+        await fetchProfiles()
+        peopleData.value = allProfiles.value.filter((person) =>
             person.formalphoto &&
             person.nickname &&
-            person.birthdate &&
-            person.formalphoto.includes('cloudinary') // Pastikan link cloudinary valid
+            person.birthdate
         )
 
-        if (peopleData.value.length === 0) {
+        if (!peopleData.value.length) {
             throw new Error('No valid people data found')
         }
 
         selectRandomPerson()
     } catch (err) {
         console.error('Error loading people data:', err)
-        error.value = 'Gagal memuat data teman-teman. Silakan refresh halaman.'
-    } finally {
-        loading.value = false
+        error.value = err.message || 'Gagal memuat data teman-teman. Silakan refresh halaman.'
     }
 }
 
-// Select random person
 const selectRandomPerson = () => {
     if (peopleData.value.length > 0) {
         currentPerson.value = getRandomElement(peopleData.value)
     }
 }
 
-// Extract day and month from birthdate string
 const extractDayMonth = (birthdateString) => {
     if (!birthdateString) return { day: '', month: '' }
-    
-    // Handle different date formats
+
     let date
     if (birthdateString.includes('-')) {
-        // Format: YYYY-MM-DD or DD-MM-YYYY
         const parts = birthdateString.split('-')
         if (parts[0].length === 4) {
-            // YYYY-MM-DD
             date = new Date(birthdateString)
         } else {
-            // DD-MM-YYYY
             date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
         }
     } else if (birthdateString.includes('/')) {
-        // Format: DD/MM/YYYY or MM/DD/YYYY
         const parts = birthdateString.split('/')
-        // Assume DD/MM/YYYY format
         date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
     } else {
         date = new Date(birthdateString)
     }
-    
+
     if (isNaN(date.getTime())) {
         return { day: '', month: '' }
     }
-    
+
     return {
-        day: (date.getDate()).toString().padStart(2, '0'),
-        month: (date.getMonth() + 1).toString().padStart(2, '0')
+        day: date.getDate().toString().padStart(2, '0'),
+        month: (date.getMonth() + 1).toString().padStart(2, '0'),
     }
 }
 
-// Format birthday for display (DD/MM format)
 const formatBirthday = (birthdateString) => {
     const { day, month } = extractDayMonth(birthdateString)
     if (!day || !month) return 'Format tanggal tidak valid'
-    
-    const monthName = months[parseInt(month) - 1] || month
+
+    const monthName = months[parseInt(month, 10) - 1] || month
     return `${day} ${monthName}`
 }
 
-// Check answer
-const checkAnswer = () => {
+const persistScore = async () => {
+    try {
+        await submitScore(GAME_TYPE, score.value.correct, score.value.total, sessionId)
+    } catch (err) {
+        console.error('Error submitting score:', err)
+    }
+}
+
+const checkAnswer = async () => {
     if (!currentPerson.value) return
 
     const correctNickname = normalizeString(currentPerson.value.nickname)
@@ -267,9 +276,10 @@ const checkAnswer = () => {
     if (isCorrect.value) {
         score.value.correct++
     }
+
+    await persistScore()
 }
 
-// Next friend
 const nextFriend = () => {
     userNickname.value = ''
     userDay.value = ''
@@ -279,12 +289,10 @@ const nextFriend = () => {
     selectRandomPerson()
 }
 
-// Handle image error with helper
 const onImageError = (event) => {
     handleImageError(event, '/images/profiles/placeholder.jpg')
 }
 
-// Initialize
 onMounted(() => {
     loadPeopleData()
 })

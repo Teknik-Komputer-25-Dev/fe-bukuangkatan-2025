@@ -56,11 +56,9 @@ import { useInfiniteCarousel } from '@/composables/useInfiniteCarousel.js'
 import { useCarouselDrag } from '@/composables/useCarouselDrag.js'
 import { useKeyboardNavigation } from '@/composables/useKeyboardNavigation.js'
 
-// Data
 const slides = ref(vencoboltCarouselData)
 const slidesContainerComponent = ref(null)
 
-// Composables
 const {
   extendedSlides,
   currentSlide,
@@ -76,7 +74,6 @@ const {
   startDrag
 } = useCarouselDrag(nextSlide, prevSlide)
 
-// Helper functions
 const getTagDescription = (tag) => tagDescriptions[tag] || ""
 
 const getPrevImage = () => {
@@ -103,10 +100,8 @@ const getNextImageAlt = () => {
   return slides.value[nextIndex]?.imageAlt || ''
 }
 
-// Keyboard navigation
 useKeyboardNavigation(prevSlide, nextSlide)
 
-// Lifecycle
 onMounted(() => {
   initializeExtendedSlides()
 })

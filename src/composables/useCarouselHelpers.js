@@ -1,5 +1,5 @@
 export function useCarouselHelpers() {
-  // Helper untuk generate key pada v-for
+
   const getSlideKey = (item, index, keyField = null) => {
     if (keyField && item[keyField]) {
       return item[keyField]
@@ -7,7 +7,7 @@ export function useCarouselHelpers() {
     return index
   }
 
-  // Helper untuk responsive breakpoints
+
   const generateResponsiveBreakpoints = (slidesPerView, spaceBetween, customBreakpoints = {}) => {
     const defaultBreakpoints = {
       320: {
@@ -27,7 +27,7 @@ export function useCarouselHelpers() {
     return { ...defaultBreakpoints, ...customBreakpoints }
   }
 
-  // Helper untuk effect configurations
+
   const getEffectConfig = (effectType) => {
     const configs = {
       fade: { crossFade: true },
@@ -49,7 +49,7 @@ export function useCarouselHelpers() {
     return configs[effectType] || undefined
   }
 
-  // Helper untuk autoplay configuration
+
   const getAutoplayConfig = (autoplayProp) => {
     if (!autoplayProp) return false
     
@@ -66,7 +66,7 @@ export function useCarouselHelpers() {
     return { ...defaultConfig, ...autoplayProp }
   }
 
-  // Helper untuk pagination configuration
+
   const getPaginationConfig = (paginationProp, customPagination = false) => {
     if (!paginationProp || customPagination) return false
     
