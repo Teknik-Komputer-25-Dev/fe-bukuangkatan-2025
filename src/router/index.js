@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { supabase } from "@/utils/supabaseClient.js";
+import { authState } from "@/composables/useAuth.js";
 
 // Import views (lazy loading untuk performa yang lebih baik)
 const HomeView = () => import("@/views/HomeView.vue");
@@ -80,11 +81,24 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const { data: { session } } = await supabase.auth.getSession();
-  const role = session?.user?.app_metadata?.role;
+  if (!authState.initialized.value) {
+    await new Promise(resolve => {
+      const unwatch = () => {
+        if (authState.initialized.value) {
+          resolve();
+        } else {
+          setTimeout(unwatch, 50);
+        }
+      };
+      unwatch();
+    });
+  }
+
+  const session = authState.user.value;
+  const role = session?.app_metadata?.role;
   const requiresAuth = to.matched.some(record => record.meta?.requiresAuth);
   const adminOnly = to.matched.some(record => record.meta?.adminOnly);
-  
+
 
   if (requiresAuth && !session) {
     next('/login');
