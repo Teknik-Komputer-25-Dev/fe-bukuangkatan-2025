@@ -19,8 +19,5 @@
       </div>
     </div>
   </template>
-  
-  <script setup>
-  // no logic needed
-  </script>
+
   

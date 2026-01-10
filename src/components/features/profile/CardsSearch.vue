@@ -51,7 +51,7 @@
         </h3>
         <p class="text-sm md:text-base text-gray-600 mb-4">{{ error }}</p>
         <button
-          @click="loadProfiles"
+          @click="fetchProfiles"
           class="px-4 py-2 bg-blue-600     rounded-md hover:bg-blue-700 transition-colors text-sm md:text-base"
         >
           Try Again
@@ -223,7 +223,7 @@ import SearchBar from "./SearchBar.vue";
 import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
 import ProfileModal from "@/components/ui/ProfileModal.vue";
-import { useProfileData } from "@/composables/useProfileData.js";
+import { useProfiles } from "@/composables/useProfiles.js";
 
 const {
   isLoading,
@@ -238,7 +238,7 @@ const {
   totalPages,
   totalResults,
   paginationInfo,
-  loadProfiles,
+  fetchProfiles,
   setSearchQuery,
   clearSearch,
   setSorting,
@@ -246,7 +246,7 @@ const {
   goToPage,
   nextPage,
   prevPage,
-} = useProfileData();
+} = useProfiles();
 
 const isModalVisible = ref(false);
 const selectedProfile = ref(null);
@@ -296,6 +296,6 @@ const handleImageError = (profile, event) => {
 };
 
 onMounted(() => {
-  loadProfiles();
+  fetchProfiles();
 });
 </script>

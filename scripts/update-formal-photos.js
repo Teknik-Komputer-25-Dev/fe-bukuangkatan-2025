@@ -8,7 +8,6 @@ const require = createRequire(import.meta.url);
 const { v2: cloudinary } = require('cloudinary');
 require('dotenv').config({ path: path.join(process.cwd(), '.env') });
 
-// Colors for console output
 const colors = {
     reset: '\x1b[0m',
     red: '\x1b[31m',
@@ -20,7 +19,6 @@ const colors = {
     white: '\x1b[37m'
 };
 
-// Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME,
     api_key: process.env.VITE_CLOUDINARY_API_KEY,
@@ -58,11 +56,11 @@ async function getFormalPhotosFromCloudinary() {
     try {
         log('🔍 Mengambil foto formal dari folder formal-T25...');
 
-        // Use resources_by_asset_folder to get photos from specific folder
+    
         const folderName = 'formal-T25';
 
         try {
-            // Get photos from formal-T25 folder using resources_by_asset_folder
+        
             const formalResult = await cloudinary.api.resources_by_asset_folder(folderName, {
                 max_results: 500
             });
@@ -86,7 +84,7 @@ async function getFormalPhotosFromCloudinary() {
             }));
 
         } catch (err) {
-            // Fallback: try using prefix method if folder API fails
+        
             log(`⚠️ Error menggunakan resources_by_asset_folder: ${err.message}`, 'warning');
             log('🔄 Mencoba menggunakan prefix method sebagai fallback...');
 
@@ -115,16 +113,16 @@ async function getFormalPhotosFromCloudinary() {
 }
 
 function extractNIMFromFilename(publicId) {
-    // Extract filename from public_id
+
     const filename = path.basename(publicId);
     
-    // Try to find NIM pattern (21120125XXXXXX)
+
     const nimMatch = filename.match(/21120125\d{6}/);
     if (nimMatch) {
         return nimMatch[0];
     }
     
-    // Alternative patterns if needed
+
     const altMatch = filename.match(/\d{12}/);
     if (altMatch) {
         return altMatch[0];
@@ -155,7 +153,7 @@ async function matchPhotosWithStudents(photos, students) {
     const matches = {};
     let matchedCount = 0;
     
-    // Create a mapping from NIM to student for faster lookup
+
     const studentByNIM = {};
     students.forEach(student => {
         const nim = student.nim || student.studentId;
@@ -164,7 +162,7 @@ async function matchPhotosWithStudents(photos, students) {
         }
     });
     
-    // Match photos with students
+
     photos.forEach(photo => {
         if (photo.nim && studentByNIM[photo.nim]) {
             matches[photo.nim] = {
@@ -178,7 +176,7 @@ async function matchPhotosWithStudents(photos, students) {
     
     log(`✅ Berhasil mencocokkan ${matchedCount} foto dari ${photos.length} foto yang tersedia`, 'success');
     
-    // Show unmatched photos for debugging
+
     const unmatchedPhotos = photos.filter(photo => !photo.nim || !studentByNIM[photo.nim]);
     if (unmatchedPhotos.length > 0) {
         log(`⚠️ ${unmatchedPhotos.length} foto tidak cocok dengan data mahasiswa:`, 'warning');
@@ -211,7 +209,7 @@ async function updateFormalPhotosInJSON(matches) {
             return student;
         });
         
-        // Write back to file
+    
         await fs.writeFile(dataPath, JSON.stringify(updatedData, null, 2));
         
         log(`✅ Berhasil mengupdate ${updatedCount} properti formalphoto`, 'success');
@@ -244,12 +242,12 @@ async function main() {
     console.log(`${colors.white}=========================================${colors.reset}\n`);
     
     try {
-        // Test Cloudinary connection
+    
         log('🔌 Testing Cloudinary connection...');
         await cloudinary.api.ping();
         log('✅ Cloudinary connection successful!', 'success');
         
-        // Get formal photos from formal-T25 folder
+    
         const photos = await getFormalPhotosFromCloudinary();
 
         if (photos.length === 0) {
@@ -257,10 +255,10 @@ async function main() {
             return;
         }
         
-        // Load student data
+    
         const students = await loadStudentData();
         
-        // Match photos with students
+    
         const matches = await matchPhotosWithStudents(photos, students);
         
         if (Object.keys(matches).length === 0) {
@@ -268,10 +266,10 @@ async function main() {
             return;
         }
         
-        // Show preview
+    
         await showSummary(matches);
         
-        // Confirm before updating
+    
         const readline = await import('readline');
         const rl = readline.createInterface({
             input: process.stdin,
@@ -298,14 +296,12 @@ async function main() {
     }
 }
 
-// Run the script
 
-// --- INTERACTIVE RENAME FEATURE FOR FORMAL PHOTOS ---
 import readline from 'readline';
 
 async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
     log('🖼️  Cloudinary Asset Renamer (formal-T25)', 'info');
-    // 1. Fetch assets
+
     let assets;
     try {
         const result = await cloudinary.api.resources_by_asset_folder('formal-T25', { max_results: 500 });
@@ -318,13 +314,13 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         log('Tidak ada asset ditemukan di folder formal-T25', 'error');
         return;
     }
-    // 2. Display numbered list
+
     console.log(`\n${colors.cyan}Daftar asset di formal-T25:${colors.reset}`);
     assets.forEach((asset, i) => {
         console.log(`${colors.white}${i + 1}. ${asset.public_id}${colors.reset}`);
     });
 
-    // 3. Prompt for selection
+
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     const ask = q => new Promise(res => rl.question(q, res));
     let selection;
@@ -341,7 +337,7 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         return;
     }
 
-    // 4. Prompt for new base names
+
     let newNames = [];
     if (selectedAssets.length === 1) {
         let base = await ask(`Nama baru (tanpa folder, tanpa ekstensi): `);
@@ -365,7 +361,7 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         }
     }
 
-    // 5. Preview step
+
     const preview = selectedAssets.map((asset, i) => {
         const ext = path.extname(asset.public_id);
         const newPublicId = `formal-T25/${newNames[i]}`;
@@ -381,25 +377,25 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         console.log(`${colors.green}NEW:${colors.reset} ${n}`);
     });
 
-    // 6. Collision check
+
     let collision = false;
     for (const { new: newId } of preview) {
         try {
             const exists = await cloudinary.api.resource(newId)
                 .then(() => true)
                 .catch(e => {
-                    // Handle Cloudinary error structure: e.error.http_code
+                
                     if (e && (e.http_code === 404 || (e.error && e.error.http_code === 404))) return false;
-                    // Unexpected error, log details
+                
                     log(`Gagal cek public_id ${newId}: ${e && e.message ? e.message : JSON.stringify(e)}`, 'error');
-                    // Do NOT treat as collision, just skip this check
+                
                     return null;
                 });
             if (exists === true) {
                 log(`ABORT: Target public_id sudah ada: ${newId}`, 'error');
                 collision = true;
             } else if (exists === null) {
-                // Unexpected error, abort the whole process for safety
+            
                 log('Rename dibatalkan karena error saat cek public_id.', 'error');
                 rl.close();
                 return;
@@ -417,7 +413,7 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         return;
     }
 
-    // 7. Confirm
+
     const confirm = await ask(`\n${colors.yellow}Lanjutkan rename? (y/N): ${colors.reset}`);
     if (!/^y(es)?$/i.test(confirm.trim())) {
         log('Rename dibatalkan.', 'warning');
@@ -425,14 +421,14 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
         return;
     }
 
-    // 8. Dry run
+
     if (dryRun) {
         log('DRY RUN: Tidak ada perubahan dilakukan.', 'info');
         rl.close();
         return;
     }
 
-    // 9. Execute rename
+
     for (const { old, new: newId } of preview) {
         try {
              await cloudinary.uploader.rename(old, newId, {
@@ -448,7 +444,6 @@ async function interactiveRenameAssetsFormal({ dryRun = false } = {}) {
     rl.close();
 }
 
-// --- CLI ENTRY POINT ---
 const argv = process.argv.slice(2);
 if (argv.includes('--rename-formal')) {
     interactiveRenameAssetsFormal({ dryRun: argv.includes('--dry-run') });

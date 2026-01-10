@@ -58,7 +58,7 @@ const props = defineProps({
   
   direction: {
     type: Number,
-    default: 1, // 1 = forward, -1 = reverse
+    default: 1,
     validator: (value) => [1, -1].includes(value)
   },
   
@@ -87,10 +87,9 @@ const containerStyle = computed(() => ({
   display: 'inline-block'
 }))
 
-// Load Lottie library dynamically
 const loadLottie = async () => {
   try {
-    // Try to load lottie-web
+  
     const lottie = await import('lottie-web')
     return lottie.default
   } catch (error) {
@@ -106,12 +105,12 @@ const initLottie = async () => {
   if (!lottie) return
   
   try {
-    // Destroy previous instance
+  
     if (lottieInstance.value) {
       lottieInstance.value.destroy()
     }
     
-    // Create new instance
+  
     lottieInstance.value = lottie.loadAnimation({
       container: lottieContainer.value,
       renderer: props.renderer,
@@ -123,11 +122,11 @@ const initLottie = async () => {
       }
     })
     
-    // Set speed and direction
+  
     lottieInstance.value.setSpeed(props.speed)
     lottieInstance.value.setDirection(props.direction)
     
-    // Event listeners
+  
     lottieInstance.value.addEventListener('data_ready', () => {
       isLoaded.value = true
       emit('ready', lottieInstance.value)
@@ -152,7 +151,6 @@ const initLottie = async () => {
   }
 }
 
-// Public methods
 const play = () => {
   if (lottieInstance.value) {
     lottieInstance.value.play()
@@ -200,7 +198,6 @@ const setDirection = (direction) => {
   }
 }
 
-// Hover handlers
 const handleMouseEnter = () => {
   if (props.hover && !isPlaying.value) {
     play()
@@ -213,7 +210,6 @@ const handleMouseLeave = () => {
   }
 }
 
-// Expose methods
 defineExpose({
   play,
   pause,
@@ -227,7 +223,6 @@ defineExpose({
   isLoaded: computed(() => isLoaded.value)
 })
 
-// Watch for prop changes
 watch(() => props.animationData, () => {
   initLottie()
 }, { immediate: false })

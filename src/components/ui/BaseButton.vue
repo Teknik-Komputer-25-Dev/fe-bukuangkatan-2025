@@ -60,9 +60,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// Props definition
 const props = defineProps({
-  // Variant styling
+
   variant: {
     type: String,
     default: 'primary',
@@ -81,21 +80,21 @@ const props = defineProps({
     ].includes(value)
   },
   
-  // Size variants
+
   size: {
     type: String,
     default: 'md',
     validator: (value) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
   },
   
-  // Button behavior
+
   type: {
     type: String,
     default: 'button',
     validator: (value) => ['button', 'submit', 'reset'].includes(value)
   },
   
-  // Navigation props
+
   to: {
     type: [String, Object],
     default: null
@@ -106,7 +105,7 @@ const props = defineProps({
     default: null
   },
   
-  // State props
+
   disabled: {
     type: Boolean,
     default: false
@@ -122,7 +121,7 @@ const props = defineProps({
     default: 'Loading...'
   },
   
-  // Style props
+
   rounded: {
     type: String,
     default: 'md',
@@ -140,17 +139,15 @@ const props = defineProps({
     default: false
   },
   
-  // Custom classes
+
   customClass: {
     type: String,
     default: ''
   }
 })
 
-// Emits
 const emit = defineEmits(['click'])
 
-// Computed properties
 const tag = computed(() => {
   if (props.to) return 'router-link'
   if (props.href) return 'a'
@@ -159,27 +156,27 @@ const tag = computed(() => {
 
 const buttonClasses = computed(() => {
   const classes = [
-    // Base styles
+  
     'inline-flex items-center justify-center font-semibold transition-all duration-200 ease-in-out',
     'focus:outline-none focus:ring-2 focus:ring-offset-2',
     'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
     
-    // Size variants
+  
     sizeClasses.value,
     
-    // Variant styles
+  
     variantClasses.value,
     
-    // Rounded corners
+  
     roundedClasses.value,
     
-    // Shadow
+  
     shadowClasses.value,
     
-    // Block width
+  
     props.block ? 'w-full' : '',
     
-    // Custom classes
+  
     props.customClass
   ]
   
@@ -239,13 +236,12 @@ const shadowClasses = computed(() => {
   return shadows[props.shadow]
 })
 
-// Methods
 const handleClick = (event) => {
   if (props.disabled || props.loading) return
   
   emit('click', event)
   
-  // Handle router navigation if 'to' prop is provided
+
   if (props.to && !event.defaultPrevented) {
     router.push(props.to)
   }

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { watch } from "vue";
+import { authState } from "@/composables/useAuth.js";
 
 // Import views (lazy loading untuk performa yang lebih baik)
 const HomeView = () => import("@/views/HomeView.vue");
@@ -7,6 +9,9 @@ const ProfileView = () => import("@/views/ProfileView.vue");
 const GalleryView = () => import("@/views/GalleryView.vue");
 const GameView = () => import("@/views/GamesView.vue");
 const LoginView = () => import("@/views/Login.vue");
+const AdminDashboard = () => import("@/views/AdminDashboard.vue");
+const AdminProfiles = () => import("@/components/features/Admin/AdminProfiles.vue");
+const AdminGallery = () => import("@/components/features/Admin/AdminGallery.vue");
 
 const routes = [
   {
@@ -44,7 +49,26 @@ const routes = [
     name: "Login",
     component: LoginView,
   },
-  // Catch-all route untuk 404 (redirect ke home untuk sekarang)
+  {
+    path: "/admin",
+    component: AdminDashboard,
+    meta: { requiresAuth: true, adminOnly: true },
+    children: [
+    
+      {
+        path: "profiles",
+        name: "AdminProfiles",
+        component: AdminProfiles,
+        meta: { requiresAuth: true, adminOnly: true },
+      },
+      {
+        path: "gallery",
+        name: "AdminGallery",
+        component: AdminGallery,
+        meta: { requiresAuth: true, adminOnly: true },
+      },
+    ],
+  },
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",
@@ -56,19 +80,63 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem("auth") === "true";
+/**
+ * Wait for auth initialization with a timeout to prevent infinite loops
+ * @param {number} timeoutMs - Maximum time to wait for auth initialization (default: 10000ms)
+ * @returns {Promise<void>} Resolves when authState is initialized or timeout is reached
+ */
+const waitForAuthInitialization = (timeoutMs = 10000) => {
+  return new Promise((resolve) => {
+    if (authState.initialized.value) {
+      resolve();
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      console.warn('Auth initialization timeout after', timeoutMs, 'ms');
+      resolve();
+    }, timeoutMs);
+
+    const unwatch = watch(
+      () => authState.initialized.value,
+      (isInitialized) => {
+        if (isInitialized) {
+          clearTimeout(timeoutId);
+          unwatch();
+          resolve();
+        }
+      }
+    );
+  });
+};
+
+router.beforeEach(async (to, from, next) => {
+  if (!authState.initialized.value) {
+    await waitForAuthInitialization();
+  }
+
+  const session = authState.user.value;
+  const role = session?.app_metadata?.role;
   const requiresAuth = to.matched.some(record => record.meta?.requiresAuth);
+  const adminOnly = to.matched.some(record => record.meta?.adminOnly);
 
-  if (to.name === "Login" && isAuthenticated) {
-    return next({ name: "Home" });
+
+  if (requiresAuth && !session) {
+    next('/login');
+    return;
   }
 
-  if (requiresAuth && !isAuthenticated) {
-    return next({ name: "Login" });
+  if (adminOnly && role !== 'admin') {
+    next('/');
+    return;
   }
 
-  return next();
+  if (to.path === '/login' && session) {
+    next('/');
+    return;
+  }
+
+  next();
 });
 
 export default router;

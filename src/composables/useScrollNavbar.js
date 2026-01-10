@@ -7,21 +7,21 @@ export function useScrollNavbar(options = {}) {
     throttleDelay = 16
   } = options
 
-  // State
+
   const isNavbarVisible = ref(true)
   const isAtTop = ref(true)
   const isScrollingDown = ref(false)
   const lastScrollY = ref(0)
   const scrollDirection = ref('up')
 
-  // Scroll handler
+
   const handleScroll = () => {
     const currentScrollY = window.scrollY
     
-    // Check if we're at the top of the page
+  
     isAtTop.value = currentScrollY < topThreshold
     
-    // If at top, always show navbar
+  
     if (isAtTop.value) {
       isNavbarVisible.value = true
       isScrollingDown.value = false
@@ -30,20 +30,20 @@ export function useScrollNavbar(options = {}) {
       return
     }
     
-    // Calculate scroll direction
+  
     const scrollDifference = Math.abs(currentScrollY - lastScrollY.value)
     
-    // Only act if scroll difference is significant enough
+  
     if (scrollDifference > scrollThreshold) {
       const scrollingDown = currentScrollY > lastScrollY.value
       isScrollingDown.value = scrollingDown
       scrollDirection.value = scrollingDown ? 'down' : 'up'
       
       if (scrollingDown) {
-        // Scrolling down - hide navbar
+      
         isNavbarVisible.value = false
       } else {
-        // Scrolling up - show navbar
+      
         isNavbarVisible.value = true
       }
       
@@ -51,7 +51,7 @@ export function useScrollNavbar(options = {}) {
     }
   }
 
-  // Throttle scroll events for better performance
+
   let scrollTimeout = null
   const throttledScrollHandler = () => {
     if (scrollTimeout === null) {
@@ -62,7 +62,7 @@ export function useScrollNavbar(options = {}) {
     }
   }
 
-  // Force show/hide navbar
+
   const showNavbar = () => {
     isNavbarVisible.value = true
   }
@@ -71,7 +71,7 @@ export function useScrollNavbar(options = {}) {
     isNavbarVisible.value = false
   }
 
-  // Reset navbar state
+
   const resetNavbar = () => {
     isNavbarVisible.value = true
     isAtTop.value = true
@@ -80,12 +80,12 @@ export function useScrollNavbar(options = {}) {
     scrollDirection.value = 'up'
   }
 
-  // Lifecycle hooks
+
   onMounted(() => {
     window.addEventListener('scroll', throttledScrollHandler, { passive: true })
-    // Set initial scroll position
+  
     lastScrollY.value = window.scrollY
-    handleScroll() // Initial check
+    handleScroll()
   })
 
   onUnmounted(() => {
@@ -96,7 +96,7 @@ export function useScrollNavbar(options = {}) {
   })
 
   return {
-    // State
+  
     isNavbarVisible,
     isAtTop,
     
@@ -104,7 +104,7 @@ export function useScrollNavbar(options = {}) {
     scrollDirection,
     lastScrollY,
     
-    // Methods
+  
     showNavbar,
     hideNavbar,
     resetNavbar,

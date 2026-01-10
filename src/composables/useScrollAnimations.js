@@ -7,20 +7,20 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
  */
 export function useScrollAnimations(options = {}) {
   const {
-    throttle = 16, // ~60fps
+    throttle = 16, 
     offset = 0,
     smooth = true
   } = options
 
-  // Reactive values
+  
   const scrollY = ref(0)
   const scrollX = ref(0)
   const isScrolling = ref(false)
-  const scrollDirection = ref('down') // 'up' | 'down' | 'left' | 'right'
+  const scrollDirection = ref('down') 
   const previousScrollY = ref(0)
   const previousScrollX = ref(0)
 
-  // Scroll state
+  
   const isAtTop = computed(() => scrollY.value <= offset)
   const isAtBottom = computed(() => {
     const windowHeight = window.innerHeight
@@ -28,7 +28,7 @@ export function useScrollAnimations(options = {}) {
     return scrollY.value + windowHeight >= documentHeight - offset
   })
 
-  // Throttling
+  
   let ticking = false
   let scrollTimeout = null
 
@@ -39,7 +39,7 @@ export function useScrollAnimations(options = {}) {
     const newScrollY = window.pageYOffset || document.documentElement.scrollTop
     const newScrollX = window.pageXOffset || document.documentElement.scrollLeft
 
-    // Determine scroll direction
+    
     if (newScrollY > previousScrollY.value) {
       scrollDirection.value = 'down'
     } else if (newScrollY < previousScrollY.value) {
@@ -52,21 +52,21 @@ export function useScrollAnimations(options = {}) {
       scrollDirection.value = 'left'
     }
 
-    // Update values
+    
     previousScrollY.value = scrollY.value
     previousScrollX.value = scrollX.value
     scrollY.value = newScrollY
     scrollX.value = newScrollX
 
-    // Set scrolling state
+    
     isScrolling.value = true
     
-    // Clear previous timeout
+    
     if (scrollTimeout) {
       clearTimeout(scrollTimeout)
     }
 
-    // Set scroll end detection
+    
     scrollTimeout = setTimeout(() => {
       isScrolling.value = false
     }, 150)
@@ -161,13 +161,13 @@ export function useScrollAnimations(options = {}) {
     const windowHeight = window.innerHeight
     const elementHeight = rect.height
 
-    // Element completely above viewport
+    
     if (rect.bottom < 0) return 1
 
-    // Element completely below viewport
+    
     if (rect.top > windowHeight) return 0
 
-    // Element in viewport
+    
     const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0)
     return visibleHeight / Math.min(elementHeight, windowHeight)
   }
@@ -204,22 +204,22 @@ export function useScrollAnimations(options = {}) {
    * Debounced resize handler
    */
   const handleResize = () => {
-    // Update scroll values on resize
+    
     updateScrollValues()
   }
 
-  // Lifecycle
+  
   onMounted(() => {
-    // Initial values
+    
     updateScrollValues()
 
-    // Event listeners
+    
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', handleResize, { passive: true })
   })
 
   onUnmounted(() => {
-    // Cleanup
+    
     window.removeEventListener('scroll', handleScroll)
     window.removeEventListener('resize', handleResize)
     
@@ -229,7 +229,7 @@ export function useScrollAnimations(options = {}) {
   })
 
   return {
-    // Reactive values
+    
     scrollY,
     scrollX,
     isScrolling,
@@ -238,7 +238,7 @@ export function useScrollAnimations(options = {}) {
     isAtBottom,
     getScrollProgress,
 
-    // Methods
+    
     scrollTo,
     scrollToElement,
     scrollToTop,
@@ -247,7 +247,7 @@ export function useScrollAnimations(options = {}) {
     getParallaxOffset,
     isElementInViewport,
 
-    // Utils
+    
     updateScrollValues
   }
 }

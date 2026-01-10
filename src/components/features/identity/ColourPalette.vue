@@ -164,7 +164,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-// Color data with meanings
 const colors = ref([
   {
     hex: '#B47EDE',
@@ -193,15 +192,12 @@ const colors = ref([
   }
 ])
 
-// Active color state
-const activeColor = ref(0) // Default to first color (Lavender floral)
+const activeColor = ref(0)
 
-// Set active color
 const setActiveColor = (index) => {
   activeColor.value = index
 }
 
-// Keyboard navigation
 const handleKeyDown = (event) => {
   switch (event.key) {
     case 'ArrowLeft':
@@ -215,7 +211,6 @@ const handleKeyDown = (event) => {
   }
 }
 
-// Get text color based on background
 const getTextColor = (bgColor, isSecondary = false) => {
   const darkColors = ['#3F0368', '#C21807']
   const isDark = darkColors.includes(bgColor)
@@ -227,9 +222,8 @@ const getTextColor = (bgColor, isSecondary = false) => {
   return isDark ? 'text-white' : 'text-black'
 }
 
-// Lifecycle hooks
 onMounted(() => {
-  // Add keyboard event listener
+
   window.addEventListener('keydown', handleKeyDown)
 })
 

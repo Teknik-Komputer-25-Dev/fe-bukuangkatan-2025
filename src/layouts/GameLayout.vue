@@ -13,13 +13,13 @@
         <div class="flex justify-between items-center mb-6">
           <RouterLink to="/"
             class="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full font-semibold hover:bg-white transform hover:scale-105 transition-all duration-200 shadow-lg">
-            <span>🏠</span>
+            <HomeIcon class="w-5 h-5" />
             <span>Home</span>
           </RouterLink>
 
           <button @click="toggleStats"
             class="inline-flex items-center space-x-1 bg-white/20 backdrop-blur-sm text-white px-3 py-2 rounded-full font-medium hover:bg-white/30 transition-all duration-200">
-            <span>📊</span>
+            <ChartColumn class="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -53,6 +53,8 @@ import GameHeader from '@/components/ui/GameHeader.vue'
 import FloatingIcons from '@/components/ui/FloatingIcons.vue'
 import BackToTopButton from '@/components/ui/BackToTopButton.vue'
 import GameFooter from '@/components/ui/GameFooter.vue'
+import { HomeIcon } from 'lucide-vue-next'
+import { ChartColumn } from 'lucide-vue-next'
 
 const showStats = ref(false)
 

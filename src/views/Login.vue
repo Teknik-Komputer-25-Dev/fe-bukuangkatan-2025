@@ -17,15 +17,26 @@
 
           <form @submit.prevent="handleSubmit" class="space-y-5" aria-label="Form login buku angkatan">
             <div class="space-y-2">
-              <label for="password" class="block text-sm font-medium text-white">Password</label>
-              <input id="password" v-model="password" type="password" required autocomplete="current-password"
+              <label for="accessCode" class="block text-sm font-medium text-white">Access Code</label>
+              <input id="accessCode" v-model="accessCode" type="password" required autocomplete="off"
                 class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
-                placeholder="Masukkan password" />
+                placeholder="Masukkan access code" />
             </div>
+
+            <div class="space-y-2">
+              <label for="email" class="block text-sm font-medium text-white">Email </label>
+              <input id="email" v-model="email" type="email" required autocomplete="email"
+                class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
+                placeholder="nama@students.undip.ac.id" />
+            </div>
+
             <p v-if="error" class="text-sm text-red-100">{{ error }}</p>
-            <button type="submit"
-              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99]">
-              Masuk
+            <p v-if="success" class="text-sm text-emerald-100">{{ success }}</p>
+
+            <button type="submit" :disabled="loading"
+              class="w-full rounded-xl bg-[#EE7A13] text-primary-700 font-semibold py-3.5 transition hover:bg-primary-50 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed">
+              <span v-if="loading">Mengirim magic link...</span>
+              <span v-else>Kirim Magic Link</span>
             </button>
           </form>
         </div>
@@ -44,27 +55,64 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { supabase } from '@/utils/supabaseClient.js'
+import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from '@supabase/supabase-js'
 
-const router = useRouter()
-const password = ref('')
+const accessCode = ref('')
+const email = ref('')
 const error = ref('')
+const success = ref('')
+const loading = ref(false)
 
-const SITE_PASSWORD = import.meta.env.VITE_SITE_PASSWORD
+const handleSubmit = async () => {
+  error.value = ''
+  success.value = ''
 
-const handleSubmit = () => {
-  if (!SITE_PASSWORD) {
-    error.value = 'Konfigurasi password belum disetel.'
+  const emailValue = email.value.trim().toLowerCase()
+  const codeValue = accessCode.value.trim()
+
+  if (!emailValue || !codeValue) {
+    error.value = 'Email dan access code wajib diisi.'
     return
   }
 
-  if (password.value === SITE_PASSWORD) {
-    localStorage.setItem('auth', 'true')
-    error.value = ''
-    router.replace({ name: 'Home' })
-    return
-  }
+  loading.value = true
 
-  error.value = 'Password salah. Coba lagi.'
+  try {
+    const { data, error: supabaseError } = await supabase.functions.invoke('request-magic-link', {
+      body: { email: emailValue, accessCode: codeValue },
+    })
+
+    if (supabaseError) {
+      let errorMessage = 'Gagal mengirim magic link.'
+
+      if (supabaseError instanceof FunctionsHttpError) {
+
+        try {
+          const errorDetails = await supabaseError.context.json()
+          errorMessage = errorDetails.message || 'Error dari server.'
+        } catch {
+          errorMessage = 'Error server tidak valid.'
+        }
+      } else if (supabaseError instanceof FunctionsRelayError) {
+
+        errorMessage = `Relay error: ${supabaseError.message}`
+      } else if (supabaseError instanceof FunctionsFetchError) {
+
+        errorMessage = `Network error: ${supabaseError.message}`
+      } else {
+
+        errorMessage = supabaseError.message || errorMessage
+      }
+
+      throw new Error(errorMessage)
+    }
+    success.value = data?.message || 'Magic link sudah dikirim ke email kamu. Cek inbox/spam.'
+    accessCode.value = ''
+  } catch (err) {
+    error.value = err?.message || 'Gagal mengirim magic link.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
