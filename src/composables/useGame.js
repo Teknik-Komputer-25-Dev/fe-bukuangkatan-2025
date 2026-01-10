@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { supabase } from '@/utils/supabaseClient.js'
+import { authState } from './useAuth.js'
 
 const shuffle = (array) => {
   const result = [...array]
@@ -63,6 +64,10 @@ export function useGame() {
   }
 
   const submitScore = async (gameType, score, totalQuestions, sessionId) => {
+    // Extract player name from email (before @)
+    const playerEmail = authState.user.value?.email || ''
+    const playerName = playerEmail.split('@')[0] || 'Anonymous'
+
     const accuracy = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0
     const payload = {
       game_type: gameType,
@@ -70,6 +75,7 @@ export function useGame() {
       total_questions: totalQuestions,
       accuracy,
       session_id: sessionId,
+      player_name: playerName,
     }
 
     const { error: supabaseError } = await supabase.from('game_attempts').insert(payload)

@@ -1,6 +1,9 @@
 <template>
   <div class="bg-white p-4 md:p-6 rounded-2xl shadow-lg max-w-4xl mx-auto">
-    <h2 class="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6 text-gray-800">🔤 Kata Acak!</h2>
+    <h2 class="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6 text-gray-800 flex items-center justify-center gap-2">
+      <Shuffle class="w-6 h-6 text-orange-500" />
+      Kata Acak
+    </h2>
     
     <!-- Loading State -->
     <div v-if="loading" class="text-center py-12">
@@ -10,12 +13,13 @@
 
     <!-- Error State -->
     <div v-else-if="error" class="text-center py-12">
-      <div class="text-red-500 text-4xl mb-4">⚠️</div>
+      <AlertTriangle class="w-12 h-12 text-red-500 mx-auto mb-4" />
       <p class="text-red-600 mb-4">{{ error }}</p>
       <button
         @click="loadWordsData"
-        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 mx-auto"
       >
+        <RotateCcw class="w-4 h-4" />
         Coba Lagi
       </button>
     </div>
@@ -39,11 +43,12 @@
           
           <!-- Result overlay -->
           <div v-if="showResult" class="mt-4 flex items-center justify-center">
-            <div 
+            <div
               class="text-4xl animate-bounce"
               :class="isCorrect ? 'text-green-500' : 'text-red-500'"
             >
-              {{ isCorrect ? '✅' : '❌' }}
+              <CheckCircle v-if="isCorrect" class="w-12 h-12" />
+              <XCircle v-else class="w-12 h-12" />
             </div>
           </div>
         </div>
@@ -53,9 +58,7 @@
       <div v-if="currentWord?.hint && showHint" class="mb-4 md:mb-6">
         <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
           <div class="flex items-start">
-            <div class="flex-shrink-0">
-              <span class="text-blue-400 text-xl">💡</span>
-            </div>
+            <Lightbulb class="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
             <div class="ml-3">
               <p class="text-sm font-medium text-blue-800">Petunjuk:</p>
               <p class="text-sm text-blue-700 mt-1 leading-relaxed">{{ currentWord.hint }}</p>
@@ -68,9 +71,10 @@
       <div v-if="currentWord?.hint && !showHint && !showResult" class="text-center mb-4">
         <button
           @click="showHint = true"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105 flex items-center gap-2 mx-auto"
         >
-          🔍 Lihat Petunjuk
+          <Lightbulb class="w-4 h-4" />
+          Lihat Petunjuk
         </button>
       </div>
 
@@ -95,9 +99,10 @@
         <button
           v-if="!showResult"
           type="submit"
-          class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
           :disabled="!userAnswer.trim()"
         >
+          <Send class="w-4 h-4" />
           Submit Jawaban
         </button>
       </form>
@@ -111,7 +116,8 @@
             : 'bg-red-100 border border-red-400 text-red-700'"
         >
           <div class="flex items-center justify-center space-x-2">
-            <span class="text-2xl">{{ isCorrect ? '✅' : '❌' }}</span>
+            <CheckCircle v-if="isCorrect" class="w-6 h-6 text-green-500" />
+            <XCircle v-else class="w-6 h-6 text-red-500" />
             <span class="font-semibold text-lg">
               {{ isCorrect ? 'Benar!' : 'Salah!' }}
             </span>
@@ -132,15 +138,22 @@
         <!-- Next Word Button -->
         <button
           @click="nextWord"
-          class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+          class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
         >
-          Soal Selanjutnya 🎯
+          <ArrowRight class="w-4 h-4" />
+          Soal Selanjutnya
         </button>
       </div>
 
       <!-- Score Display -->
       <div class="mt-6 text-center text-sm text-gray-600">
-        <p>Skor Kata Acak: {{ wordScore.correct }} benar dari {{ wordScore.total }} pertanyaan</p>
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <Trophy class="w-4 h-4" />
+          <span>Skor Kata Acak: {{ wordScore.correct }} benar dari {{ wordScore.total }} pertanyaan</span>
+        </div>
+        <p v-if="wordScore.total > 0" class="text-xs">
+          Akurasi: {{ Math.round((wordScore.correct / wordScore.total) * 100) }}%
+        </p>
       </div>
     </template>
   </div>
@@ -150,6 +163,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { normalizeString } from '@/utils/gameHelpers.js'
 import { useGame } from '@/composables/useGame.js'
+import { Shuffle, AlertTriangle, RotateCcw, CheckCircle, XCircle, Lightbulb, Send, ArrowRight, Trophy } from 'lucide-vue-next'
 
 const GAME_TYPE = 'scramble'
 

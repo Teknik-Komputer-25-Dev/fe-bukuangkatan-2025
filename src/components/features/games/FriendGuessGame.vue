@@ -1,6 +1,9 @@
 <template>
     <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
-        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🎂 Tebak Ulang Tahun Teman!</h2>
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 flex items-center justify-center gap-2">
+            <Cake class="w-6 h-6 text-purple-500" />
+            Tebak Ulang Tahun Teman
+        </h2>
 
         <!-- Loading State -->
         <div v-if="loading" class="text-center py-12">
@@ -25,8 +28,11 @@
             <!-- Photo Display -->
             <div class="text-center mb-6">
                 <div class="mb-4">
-                    <p class="text-lg font-semibold text-gray-700 mb-2">🎂 Kapan ulang tahun orang ini?</p>
-                    <p class="text-sm text-gray-500">Tebak nama panggilan dan tanggal ulang tahunnya!</p>
+                    <p class="text-lg font-semibold text-gray-700 mb-2 flex items-center justify-center gap-2">
+                        <Cake class="w-5 h-5 text-purple-500" />
+                        Kapan ulang tahun orang ini?
+                    </p>
+                    <p class="text-sm text-gray-500">Coba tebak nama dan ulang tahunnya! Tau ga?</p>
                 </div>
                 <div
                     class="relative mx-auto w-48 h-48 rounded-2xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
@@ -98,14 +104,18 @@
                     ? 'bg-green-100 border border-green-400 text-green-700'
                     : 'bg-red-100 border border-red-400 text-red-700'">
                     <div class="flex items-center justify-center space-x-2">
-                        <span class="text-2xl">{{ isCorrect ? '✅' : '❌' }}</span>
+                        <CheckCircle v-if="isCorrect" class="w-6 h-6 text-green-500" />
+                        <XCircle v-else class="w-6 h-6 text-red-500" />
                         <span class="font-semibold text-lg">
-                            {{ isCorrect ? 'Benar!' : 'Salah!' }}
+                            {{ isCorrect ? 'Horaayy!' : 'Tetoott!' }}
                         </span>
                     </div>
 
                     <div v-if="isCorrect && currentPerson" class="mt-2 text-sm">
-                        <p class="text-green-600 font-medium">🎉 Hebat! Kamu mengenal teman dengan baik!</p>
+                        <p class="text-green-600 font-medium flex items-center gap-2">
+                            <PartyPopper class="w-4 h-4" />
+                            Wuih bener! Crush mu atau bukan tuu?
+                        </p>
                         <p class="text-xs mt-1">{{ currentPerson.nickname }} ulang tahun {{ formatBirthday(currentPerson.birthdate) }}</p>
                     </div>
 
@@ -113,20 +123,27 @@
                         <p>Jawaban yang benar:</p>
                         <p><strong>Nama:</strong> {{ currentPerson.nickname }}</p>
                         <p><strong>Ulang Tahun:</strong> {{ formatBirthday(currentPerson.birthdate) }}</p>
-                        <p class="text-xs mt-2 italic">💡 Ingat tanggal ini untuk ucapan ulang tahun!</p>
+                        <p class="text-xs mt-2 italic flex items-center gap-1">
+                            <Lightbulb class="w-3 h-3" />
+                            Ingat tanggal ini untuk ucapan ulang tahun!
+                        </p>
                     </div>
                 </div>
 
                 <!-- Next Friend Button -->
                 <button @click="nextFriend"
-                    class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    🎂 Teman Selanjutnya
+                    class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center gap-2">
+                    <Cake class="w-4 h-4" />
+                    Teman Selanjutnya
                 </button>
             </div>
 
             <!-- Score Display -->
             <div class="mt-6 text-center text-sm text-gray-600">
-                <p>🏆 Skor Ulang Tahun: {{ score.correct }} benar dari {{ score.total }} pertanyaan</p>
+                <div class="flex items-center justify-center gap-2 mb-1">
+                    <Trophy class="w-4 h-4" />
+                    <span>Skor Ulang Tahun: {{ score.correct }} benar dari {{ score.total }} pertanyaan</span>
+                </div>
                 <p v-if="score.total > 0" class="text-xs mt-1">
                     Akurasi: {{ Math.round((score.correct / score.total) * 100) }}%
                 </p>
@@ -140,6 +157,7 @@ import { computed, onMounted, ref } from 'vue'
 import { handleImageError, normalizeString, getRandomElement } from '@/utils/gameHelpers.js'
 import { useProfiles } from '@/composables/useProfiles.js'
 import { useGame } from '@/composables/useGame.js'
+import { Cake, CheckCircle, XCircle, PartyPopper, Lightbulb, Trophy } from 'lucide-vue-next'
 
 const GAME_TYPE = 'friend_birthday'
 
