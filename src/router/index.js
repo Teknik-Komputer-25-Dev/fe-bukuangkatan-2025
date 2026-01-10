@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { supabase } from "@/utils/supabaseClient.js";
+import { watch } from "vue";
 import { authState } from "@/composables/useAuth.js";
 
 // Import views (lazy loading untuk performa yang lebih baik)
@@ -80,18 +80,39 @@ const router = createRouter({
   routes,
 });
 
+/**
+ * Wait for auth initialization with a timeout to prevent infinite loops
+ * @param {number} timeoutMs - Maximum time to wait for auth initialization (default: 10000ms)
+ * @returns {Promise<void>} Resolves when authState is initialized or timeout is reached
+ */
+const waitForAuthInitialization = (timeoutMs = 10000) => {
+  return new Promise((resolve) => {
+    if (authState.initialized.value) {
+      resolve();
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      console.warn('Auth initialization timeout after', timeoutMs, 'ms');
+      resolve();
+    }, timeoutMs);
+
+    const unwatch = watch(
+      () => authState.initialized.value,
+      (isInitialized) => {
+        if (isInitialized) {
+          clearTimeout(timeoutId);
+          unwatch();
+          resolve();
+        }
+      }
+    );
+  });
+};
+
 router.beforeEach(async (to, from, next) => {
   if (!authState.initialized.value) {
-    await new Promise(resolve => {
-      const unwatch = () => {
-        if (authState.initialized.value) {
-          resolve();
-        } else {
-          setTimeout(unwatch, 50);
-        }
-      };
-      unwatch();
-    });
+    await waitForAuthInitialization();
   }
 
   const session = authState.user.value;
