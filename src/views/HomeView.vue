@@ -1,6 +1,7 @@
 <template>
     <div class="home-view">
         <HeroSection />
+        <YouTubeEmbed video-id="w1u8W7lK0RY" />
         <WelcomeSection />
         <AboutUs />
         <MascottPreview />
@@ -14,6 +15,7 @@ import PhotoCarousel from '@/components/features/home/PhotoCarousel.vue';
 import WelcomeSection from '../components/features/home/WelcomeSection.vue';
 import AboutUs from '../components/features/home/AboutUs.vue';
 import MascottPreview from '../components/features/home/MascottPreview.vue';
+import YouTubeEmbed from '@/components/common/YouTubeEmbed.vue';
 </script>
 
 <style scoped>
