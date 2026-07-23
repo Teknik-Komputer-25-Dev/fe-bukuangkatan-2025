@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "update-general-photos": "node scripts/update-general-photos.js",
     "update-formal-photos": "node scripts/update-formal-photos.js"
   },

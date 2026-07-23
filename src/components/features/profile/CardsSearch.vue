@@ -3,7 +3,47 @@
     class="min-h-screen bg-cover bg-center bg-no-repeat"
     style="background-image: url('/images/Desktop - 8.png');"
   >
-    <SearchBar
+    <!-- Checking verification loading state -->
+    <div v-if="isCheckingVerification" class="flex items-center justify-center min-h-screen pb-20">
+       <div class="p-6 bg-white/20 backdrop-blur-md rounded-xl text-white font-medium">
+         Memeriksa akses...
+       </div>
+    </div>
+    
+    <!-- Verification Form -->
+    <div v-else-if="!isVerified" class="flex items-center justify-center min-h-screen px-4 pb-20">
+      <div class="w-full max-w-md bg-white/10 border border-white/20 rounded-2xl shadow-xl backdrop-blur-lg p-8">
+        <h2 class="text-2xl font-bold text-white mb-2 text-center">Verifikasi Keamanan</h2>
+        <p class="text-white/80 text-center mb-6 text-sm">Silakan masukkan kode keamanan angkatan untuk mengakses data.</p>
+        
+        <form @submit.prevent="submitSecurityCode" class="space-y-4">
+          <div>
+            <input 
+              v-model="securityCode" 
+              type="password" 
+              placeholder="Masukkan kode rahasia" 
+              class="w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3 text-white placeholder-white/70 focus:border-white focus:ring-2 focus:ring-white/70 outline-none transition"
+              required
+            />
+          </div>
+          
+          <p v-if="verifyError" class="text-sm text-red-300 text-center">{{ verifyError }}</p>
+          
+          <button 
+            type="submit" 
+            :disabled="verifyLoading"
+            class="w-full rounded-xl bg-[#EE7A13] text-white font-semibold py-3 transition hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            <span v-if="verifyLoading">Memverifikasi...</span>
+            <span v-else>Verifikasi Akses</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <template v-else>
+      <SearchBar
       v-model="searchQuery"
       :current-sort="sortBy"
       :current-sort-order="sortOrder"
@@ -214,6 +254,7 @@
       :profile="selectedProfile"
       @close="closeProfileModal"
     />
+    </template>
   </div>
 </template>
 
@@ -224,6 +265,7 @@ import ProfileCardSkeleton from "@/components/ui/ProfileCardSkeleton.vue";
 import PaginationControls from "@/components/ui/PaginationControls.vue";
 import ProfileModal from "@/components/ui/ProfileModal.vue";
 import { useProfiles } from "@/composables/useProfiles.js";
+import { supabase } from "@/utils/supabaseClient.js";
 
 const {
   isLoading,
@@ -250,6 +292,68 @@ const {
 
 const isModalVisible = ref(false);
 const selectedProfile = ref(null);
+
+const isVerified = ref(false);
+const isCheckingVerification = ref(true);
+const securityCode = ref("");
+const verifyError = ref("");
+const verifyLoading = ref(false);
+
+const checkVerification = async () => {
+  const { data: sessionData } = await supabase.auth.getSession();
+  const user = sessionData?.session?.user;
+  
+  if (!user) {
+    isCheckingVerification.value = false;
+    return;
+  }
+  
+  try {
+    // Mengecek status is_verified langsung dari metadata user bawaan Supabase
+    if (user.user_metadata?.is_verified === true) {
+      isVerified.value = true;
+      fetchProfiles();
+    }
+  } catch (err) {
+    console.error("Error checking verification:", err);
+  } finally {
+    isCheckingVerification.value = false;
+  }
+};
+
+const submitSecurityCode = async () => {
+  verifyError.value = "";
+  if (!securityCode.value) return;
+  
+  verifyLoading.value = true;
+  
+  try {
+    // Memanggil fungsi RPC di Supabase yang akan mengecek kode
+    // sekaligus melakukan update 'is_verified = true' jika kode benar.
+    const { data: isValid, error } = await supabase.rpc('verify_security_code', {
+      input_code: securityCode.value
+    });
+
+
+    if (error) throw error;
+    
+    if (isValid === true) {
+      // Perbarui session di client agar metadata terbaru (is_verified: true) tersinkronisasi
+      await supabase.auth.refreshSession();
+      isVerified.value = true;
+      fetchProfiles();
+    } else {
+    console.log("RPC Result:", { isValid, error });
+
+      verifyError.value = "Kode keamanan salah.";
+    }
+  } catch (err) {
+    console.error("Detailed Verification Error:", err);
+    verifyError.value = "Gagal verifikasi: " + (err.message || err.details || JSON.stringify(err));
+  } finally {
+    verifyLoading.value = false;
+  }
+};
 
 const openProfileModal = (profile) => {
   selectedProfile.value = profile;
@@ -296,6 +400,6 @@ const handleImageError = (profile, event) => {
 };
 
 onMounted(() => {
-  fetchProfiles();
+  checkVerification();
 });
 </script>
