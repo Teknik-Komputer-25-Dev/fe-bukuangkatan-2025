@@ -45,15 +45,6 @@ export function useAuth() {
     }
   };
 
-  const sendMagicLink = async (email) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { redirectTo: window.location.origin },
-    });
-    if (error) throw error;
-    return true;
-  };
-
   const role = computed(() => authState.user.value?.app_metadata?.role ?? null);
   const isAdmin = computed(() => role.value === "admin");
 
@@ -62,7 +53,6 @@ export function useAuth() {
     loading: authState.loading,
     initAuth,
     logout,
-    sendMagicLink,
     role,
     isAdmin,
   };
