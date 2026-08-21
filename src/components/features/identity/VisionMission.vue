@@ -7,9 +7,9 @@
         <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-8 text-center lg:text-left text-white">Visi</h2>
         <p class="text-base md:text-lg lg:text-xl text-left lg:max-w-4xl leading-relaxed text-gray-200">
           Menjadi angkatan yang saling mengeratkan dan berkembang bersama, baik di
-          bidang akademik maupun non-akademik sekaligus menjadi wadah untuk
-          meningkatkan rasa ingin tahu serta tempat menemukan informasi, dan solusi.
-          Nilai - nilai ini membangun rasa gigih dan pantang menyerah di angkatan 25.
+          bidang akademik maupun nonakademik, sekaligus menjadi wadah untuk
+          meningkatkan rasa ingin tahu serta tempat menemukan informasi dan solusi.
+          Nilai-nilai ini membangun rasa gigih dan pantang menyerah di angkatan 2025.
         </p>
       </div>
       <!-- Misi -->
@@ -26,10 +26,11 @@
               <span class="text-white font-bold text-base lg:text-lg">1</span>
             </div>
             <div class="flex-1 min-w-0">
-              <div class="font-bold text-base lg:text-xl mb-2 text-white">Kekeluargaan & Pengembangan</div>
+              <div class="font-bold text-base lg:text-xl mb-2 text-white">Ruang Kebersamaan yang Aktif</div>
               <div class="text-sm lg:text-base leading-relaxed text-gray-300">
-                Membangun budaya kolaboratif melalui setiap kegiatan untuk menumbuhkan
-                semangat kekeluargaan, dukungan, dan sinergi antar anggota.
+                Menciptakan ruang kebersamaan yang aktif melalui kegiatan sehari-hari
+                dan media komunikasi sebagai tempat berinteraksi, berbagi, dan saling
+                membantu.
               </div>
             </div>
           </div>
@@ -46,7 +47,8 @@
               <div class="font-bold text-base lg:text-xl mb-2 text-white">Motivasi Untuk Berkembang</div>
               <div class="text-sm lg:text-base leading-relaxed text-gray-300">
                 Menggunakan setiap langkah sebagai motivasi untuk berkembang menjadi
-                lebih baik kedepannya</div>
+                lebih baik kedepannya.
+              </div>
             </div>
           </div>
 
@@ -59,10 +61,10 @@
               <span class="text-white font-bold text-base lg:text-lg">3</span>
             </div>
             <div class="flex-1 min-w-0">
-              <div class="font-bold text-base lg:text-xl mb-2 text-white">Ruang untuk Berbagi Pengetahuan dan Informasi</div>
+              <div class="font-bold text-base lg:text-xl mb-2 text-white">Profesionalisme, Disiplin, dan Tanggung Jawab</div>
               <div class="text-sm lg:text-base leading-relaxed text-gray-300">
-                Menyediakan ruang diskusi untuk berbagi pengetahuan, informasi, dan solusi
-                terhadap tantangan yang sedang dihadapi.
+                Menumbuhkan sikap profesional, disiplin, dan bertanggung jawab dalam
+                ranah akademik, riset, penelitian, dan organisasi.
               </div>
             </div>
           </div>
